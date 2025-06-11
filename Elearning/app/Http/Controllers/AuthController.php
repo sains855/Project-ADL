@@ -23,10 +23,10 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // Redirect berdasarkan role
-            if (Auth::user()->role === 'teacher') {
-                return redirect()->intended('/teacher/dashboard');
+            if (Auth::user()->role === 'Dosen') {
+                return redirect()->intended('/dosen/dashboard');
             } else {
-                return redirect()->intended('/student/dashboard');
+                return redirect()->intended('/mahasiswa/dashboard');
             }
         }
 

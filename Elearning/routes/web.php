@@ -14,10 +14,10 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Dummy route dashboard (bisa Anda ganti dengan controller asli nantinya)
-Route::get('/teacher/dashboard', function () {
-    return 'Halaman Dashboard Guru';
+Route::get('/dosen/dashboard', function () {
+    return 'Dashboard Dosen';
 })->middleware('auth');
 
-Route::get('/student/dashboard', function () {
-    return 'Halaman Dashboard Siswa';
+Route::get('/mahasiswa/dashboard', function () {
+    return 'Dashboard Mahasiswa';
 })->middleware('auth');
