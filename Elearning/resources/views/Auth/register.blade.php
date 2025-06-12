@@ -50,35 +50,20 @@
 
                 <form method="POST" action="{{ route('register') }}" class="space-y-4">
                     @csrf
-                    
+
                     <!-- Nama Depan & Belakang -->
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Depan</label>
-                            <input 
-                                type="text" 
-                                name="nama_depan" 
-                                value="{{ old('nama_depan') }}"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('nama_depan') border-red-500 @enderror"
-                                placeholder="Nama depan"
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama</label>
+                            <input
+                                type="text"
+                                name="name"
+                                value="{{ old('name') }}"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('name') border-red-500 @enderror"
+                                placeholder="Name"
                                 required
                             >
-                            @error('nama_depan')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Belakang</label>
-                            <input 
-                                type="text" 
-                                name="nama_belakang" 
-                                value="{{ old('nama_belakang') }}"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('nama_belakang') border-red-500 @enderror"
-                                placeholder="Nama belakang"
-                                required
-                            >
-                            @error('nama_belakang')
+                            @error('name')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
@@ -87,9 +72,9 @@
                     <!-- Email -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                        <input 
-                            type="email" 
-                            name="email" 
+                        <input
+                            type="email"
+                            name="email"
                             value="{{ old('email') }}"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('email') border-red-500 @enderror"
                             placeholder="email@example.com"
@@ -100,43 +85,27 @@
                         @enderror
                     </div>
 
-                    <!-- Nomor Telepon -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
-                        <input 
-                            type="tel" 
-                            name="nomor_telepon" 
-                            value="{{ old('nomor_telepon') }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('nomor_telepon') border-red-500 @enderror"
-                            placeholder="08123456789"
-                            required
-                        >
-                        @error('nomor_telepon')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
                     <!-- Kata Sandi & Konfirmasi -->
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Kata Sandi</label>
-                            <input 
-                                type="password" 
-                                name="kata_sandi"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('kata_sandi') border-red-500 @enderror"
+                            <input
+                                type="password"
+                                name="password"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('password') border-red-500 @enderror"
                                 placeholder="Minimal 8 karakter"
                                 required
                             >
-                            @error('kata_sandi')
+                            @error('password')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-                        
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Kata Sandi</label>
-                            <input 
-                                type="password" 
-                                name="kata_sandi_confirmation"
+                            <input
+                                type="password"
+                                name="password_confirmation"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Ulangi kata sandi"
                                 required
@@ -147,33 +116,32 @@
                     <!-- Daftar Sebagai -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Daftar Sebagai</label>
-                        <select 
-                            name="daftar_sebagai"
+                        <select
+                            name="role"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('daftar_sebagai') border-red-500 @enderror"
                             required
                         >
                             <option value="">Pilih Peran</option>
-                            <option value="siswa" {{ old('daftar_sebagai') == 'siswa' ? 'selected' : '' }}>Siswa</option>
-                            <option value="guru" {{ old('daftar_sebagai') == 'guru' ? 'selected' : '' }}>Guru</option>
-                            <option value="orang_tua" {{ old('daftar_sebagai') == 'orang_tua' ? 'selected' : '' }}>Orang Tua</option>
+                            <option value="mahasiswa" {{ old('role') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                            <option value="dosen" {{ old('role') == 'dosen' ? 'selected' : '' }}>Dosen</option>
                         </select>
-                        @error('daftar_sebagai')
+                        @error('role')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Syarat & Ketentuan -->
                     <div class="flex items-start">
-                        <input 
-                            type="checkbox" 
-                            name="syarat_ketentuan" 
+                        <input
+                            type="checkbox"
+                            name="syarat_ketentuan"
                             id="syarat_ketentuan"
                             class="mt-1 mr-2 @error('syarat_ketentuan') border-red-500 @enderror"
                             {{ old('syarat_ketentuan') ? 'checked' : '' }}
                             required
                         >
                         <label for="syarat_ketentuan" class="text-sm text-gray-600">
-                            Saya setuju dengan <a href="#" class="text-blue-600 hover:underline">Syarat & Ketentuan</a> dan 
+                            Saya setuju dengan <a href="#" class="text-blue-600 hover:underline">Syarat & Ketentuan</a> dan
                             <a href="#" class="text-blue-600 hover:underline">Kebijakan Privasi</a>
                         </label>
                     </div>
@@ -182,7 +150,7 @@
                     @enderror
 
                     <!-- Submit Button -->
-                    <button 
+                    <button
                         type="submit"
                         class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200 font-medium"
                     >
@@ -192,7 +160,7 @@
 
                 <!-- Login Link -->
                 <p class="text-center text-sm text-gray-600 mt-4">
-                    Sudah memiliki akun? 
+                    Sudah memiliki akun?
                     <a href="{{ route('login') }}" class="text-blue-600 hover:underline font-medium">Masuk di sini</a>
                 </p>
             </div>

@@ -28,7 +28,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // Redirect berdasarkan role
-            if (Auth::user()->role === 'Dosen') {
+            if (Auth::user()->role === 'dosen') {
                 return redirect()->intended('/dosen/dashboard');
             } else {
                 return redirect()->intended('/mahasiswa/dashboard');
@@ -60,12 +60,10 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama_depan' => 'required|string|max:255',
-            'nama_belakang' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'nomor_telepon' => 'required|string|max:20',
-            'kata_sandi' => 'required|string|min:8|confirmed',
-            'daftar_sebagai' => 'required|in:Dosen,Mahasiswa',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:dosen,mahasiswa',
             'syarat_ketentuan' => 'required|accepted',
         ]);
 
@@ -76,18 +74,16 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'nama_depan' => $request->nama_depan,
-            'nama_belakang' => $request->nama_belakang,
+            'name' => $request->name,
             'email' => $request->email,
-            'nomor_telepon' => $request->nomor_telepon,
-            'password' => Hash::make($request->kata_sandi),
-            'role' => $request->daftar_sebagai,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
         ]);
 
         Auth::login($user);
 
         // Redirect sesuai role
-        if ($user->role === 'Dosen') {
+        if ($user->role === 'dosen') {
             return redirect('/dosen/dashboard')->with('success', 'Selamat datang, Dosen!');
         } else {
             return redirect('/mahasiswa/dashboard')->with('success', 'Selamat datang, Mahasiswa!');

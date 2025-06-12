@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +23,7 @@
         .main-container {
             background: white;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             margin: 40px auto;
             max-width: 900px;
@@ -53,8 +54,13 @@
         }
 
         @keyframes float {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-50px, -50px); }
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(-50px, -50px);
+            }
         }
 
         .welcome-title {
@@ -84,7 +90,7 @@
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transform: rotate(-5deg);
             position: relative;
         }
@@ -195,7 +201,7 @@
         }
 
         .form-control::placeholder {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             font-weight: normal;
         }
 
@@ -246,7 +252,8 @@
                 margin: 20px;
             }
 
-            .left-panel, .right-panel {
+            .left-panel,
+            .right-panel {
                 padding: 40px 30px;
             }
 
@@ -256,6 +263,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="header-bar"></div>
 
@@ -270,18 +278,20 @@
                         <div class="illustration">
                             <div class="chart-container">
                                 <svg width="120" height="80" viewBox="0 0 120 80">
-                                    <path d="M10 70 Q30 40 50 50 T90 30 L110 20" stroke="#4a5acf" stroke-width="3" fill="none"/>
-                                    <circle cx="90" cy="30" r="4" fill="#ff6b9d"/>
-                                    <circle cx="50" cy="50" r="3" fill="#2ed573"/>
-                                    <circle cx="110" cy="20" r="3" fill="#ffa502"/>
+                                    <path d="M10 70 Q30 40 50 50 T90 30 L110 20" stroke="#4a5acf" stroke-width="3"
+                                        fill="none" />
+                                    <circle cx="90" cy="30" r="4" fill="#ff6b9d" />
+                                    <circle cx="50" cy="50" r="3" fill="#2ed573" />
+                                    <circle cx="110" cy="20" r="3" fill="#ffa502" />
                                 </svg>
                             </div>
                             <div class="chart-orange">
                                 <svg width="100" height="60" viewBox="0 0 100 60">
-                                    <path d="M10 50 L30 30 L50 40 L70 20 L90 25" stroke="white" stroke-width="2" fill="none"/>
-                                    <rect x="10" y="45" width="4" height="10" fill="white" opacity="0.7"/>
-                                    <rect x="25" y="35" width="4" height="20" fill="white" opacity="0.7"/>
-                                    <rect x="45" y="40" width="4" height="15" fill="white" opacity="0.7"/>
+                                    <path d="M10 50 L30 30 L50 40 L70 20 L90 25" stroke="white" stroke-width="2"
+                                        fill="none" />
+                                    <rect x="10" y="45" width="4" height="10" fill="white" opacity="0.7" />
+                                    <rect x="25" y="35" width="4" height="20" fill="white" opacity="0.7" />
+                                    <rect x="45" y="40" width="4" height="15" fill="white" opacity="0.7" />
                                 </svg>
                             </div>
                             <div class="person-illustration"></div>
@@ -299,33 +309,43 @@
                     <div class="right-panel">
                         <h2 class="login-title">LOGIN</h2>
 
-                        <form>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                {{ $errors->first() }}
+                            </div>
+                        @endif
+
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        <form method="POST" action="{{ route('login') }}">
+                            @csrf
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Username" required>
+                                <input type="email" class="form-control" name="email" placeholder="Email"
+                                    value="{{ old('email') }}" required autofocus>
                             </div>
 
                             <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Password" required>
-                            </div>
-
-                            <div class="form-group">
-                                <select class="form-control" required>
-                                    <option value="">Profesi</option>
-                                    <option value="dosen">Dosen</option>
-                                    <option value="mahasiswa">Mahasiswa</option>
-                                </select>
+                                <input type="password" class="form-control" name="password" placeholder="Password"
+                                    required>
                             </div>
 
                             <button type="submit" class="btn btn-login">Login</button>
                         </form>
 
                         <div class="signup-link">
-                            Belum punya akun? <a href="#">Sign Up</a>
+                            Belum punya akun? <a href="{{ route('register') }}">Daftar Sekarang</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
