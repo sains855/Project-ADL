@@ -73,6 +73,7 @@
             align-items: center;
             color: white;
             gap: 10px;
+            position: relative;
         }
 
         .notification {
@@ -97,6 +98,138 @@
             justify-content: center;
             color: #4A6FA5;
             font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Profile Dropdown */
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            padding: 8px 0;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            right: 20px;
+            width: 12px;
+            height: 12px;
+            background: white;
+            transform: rotate(45deg);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-left: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 4px;
+        }
+
+        .dropdown-user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown-avatar {
+            width: 32px;
+            height: 32px;
+            background: #4A6FA5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .dropdown-user-details {
+            flex: 1;
+        }
+
+        .dropdown-user-name {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .dropdown-user-role {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .dropdown-menu {
+            list-style: none;
+        }
+
+        .dropdown-item {
+            margin: 0;
+        }
+
+        .dropdown-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            color: #374151;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .dropdown-link:hover {
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .dropdown-link.logout {
+            color: #ef4444;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 4px;
+        }
+
+        .dropdown-link.logout:hover {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .dropdown-icon {
+            font-size: 16px;
+            width: 16px;
+            text-align: center;
         }
 
         /* Main Container */
@@ -341,6 +474,11 @@
             .classes-grid {
                 grid-template-columns: 1fr;
             }
+
+            .profile-dropdown {
+                right: -10px;
+                min-width: 180px;
+            }
         }
     </style>
 </head>
@@ -367,8 +505,46 @@
                     <div style="font-size: 12px; opacity: 0.8;">{{ Auth::user()->name }}</div>
                     <div style="font-size: 10px; opacity: 0.6;">Dosen</div>
                 </div>
-                <div class="avatar">
+                <div class="avatar" onclick="toggleProfileDropdown()">
                     {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                </div>
+
+                <!-- Profile Dropdown -->
+                <div class="profile-dropdown" id="profileDropdown">
+                    <div class="dropdown-header">
+                        <div class="dropdown-user-info">
+                            <div class="dropdown-avatar">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                            </div>
+                            <div class="dropdown-user-details">
+                                <div class="dropdown-user-name">{{ Auth::user()->name }}</div>
+                                <div class="dropdown-user-role">Dosen</div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item">
+                            <a href="#" class="dropdown-link">
+                                <span class="dropdown-icon">👤</span>
+                                <span>Profil Saya</span>
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="/notifications" class="dropdown-link">
+                                <span class="dropdown-icon">🔔</span>
+                                <span>Notifikasi</span>
+                            </a>
+                        </li>
+                        <li class="dropdown-item">
+                            <button class="dropdown-link logout" action="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                                <span class="dropdown-icon">🚪</span>
+                                <span>Keluar</span>
+                            </button>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -466,6 +642,22 @@
     </div>
 
     <script>
+        // Profile dropdown functionality
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('profileDropdown');
+            const avatar = document.querySelector('.avatar');
+
+            if (!dropdown.contains(event.target) && !avatar.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
         function confirmDelete(classId) {
             if (confirm('Apakah Anda yakin ingin menghapus kelas ini?')) {
                 // Implementasi delete via AJAX atau form
@@ -480,6 +672,13 @@
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
             });
+        });
+
+        // Close dropdown when pressing Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                document.getElementById('profileDropdown').classList.remove('show');
+            }
         });
     </script>
 </body>
