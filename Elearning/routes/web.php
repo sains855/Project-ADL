@@ -1,10 +1,10 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationController;
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -28,11 +28,13 @@ Route::get('/mahasiswa/dashboard', function () {
     return 'Dashboard Mahasiswa';
 })->middleware('auth');
 
-Route::get('/', [NotificationController::class, 'index']);
 
-Route::prefix('notifications')->group(function () {
-    Route::get('/tugas', [NotificationController::class, 'tugasBaru']);
-    Route::get('/pesan', [NotificationController::class, 'pesanMasuk']);
-    Route::get('/nilai', [NotificationController::class, 'nilaiTersedia']);
-    Route::get('/pengingat', [NotificationController::class, 'pengingatKelas']);
+Route::middleware('auth')->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notification');
+    Route::get('/notifications/create', [NotificationController::class, 'create'])->middleware('can:create-notification')->name('notifications.create');
+    Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
+    Route::post('/notifications/read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::get('/notifications/user', [NotificationController::class, 'getByUser'])->name('notifications.by_user');
+    Route::get('/notifications/demo', [NotificationController::class, 'demo'])->middleware('can:create-notification')->name('notifications.demo');
 });
+

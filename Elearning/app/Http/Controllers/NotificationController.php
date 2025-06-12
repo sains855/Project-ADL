@@ -1,118 +1,95 @@
 <?php
 
-class NotificationController {
-    private $db;
-    
-    public function __construct($database) {
-        $this->db = $database;
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
+class NotificationController extends Controller
+{
+    // Menampilkan semua notifikasi user yang login (misalnya siswa)
+    public function index()
+    {
+        $userId = Auth::id();
+
+        $notifications = DB::table('notifications')
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $unreadCount = DB::table('notifications')
+            ->where('user_id', $userId)
+            ->whereNull('read_at')
+            ->count();
+
+        return view('notification', compact('notifications', 'unreadCount'));
     }
-    
-    // Menampilkan halaman utama notifikasi
-    public function index() {
-        $notifications = $this->getAllNotifications();
-        $stats = $this->getNotificationStats();
-        
-        include 'views/notifications/index.php';
+
+    // Admin/guru membuat notifikasi ke user tertentu (misalnya siswa)
+    public function create()
+    {
+        return view('notifications.create');
     }
-    
-    // Mendapatkan semua notifikasi
-    private function getAllNotifications() {
-        $query = "SELECT * FROM notifications ORDER BY created_at DESC LIMIT 20";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|integer|exists:users,id',
+            'content' => 'required|string',
+        ]);
+
+        DB::table('notifications')->insert([
+            'user_id'    => $request->user_id,
+            'content'    => $request->content,
+            'created_at' => now(),
+        ]);
+
+        return redirect()->route('notification')->with('success', 'Notifikasi berhasil dikirim.');
     }
-    
-    // Mendapatkan statistik notifikasi berdasarkan kategori
-    private function getNotificationStats() {
-        $categories = ['tugas_baru', 'pesan_masuk', 'nilai_tersedia', 'pengingat_kelas'];
-        $stats = [];
-        
-        foreach ($categories as $category) {
-            $query = "SELECT COUNT(*) as count FROM notifications WHERE category = ? AND is_read = 0";
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([$category]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            $stats[$category] = $result['count'];
-        }
-        
-        return $stats;
+
+    // Siswa menandai notifikasi sebagai dibaca
+    public function markAsRead($id)
+    {
+        $updated = DB::table('notifications')
+            ->where('id', $id)
+            ->where('user_id', $userId = Auth::id())
+            ->update(['read_at' => now()]);
+
+        return response()->json(['success' => $updated]);
     }
-    
-    // Menampilkan notifikasi berdasarkan kategori
-    public function getByCategory($category) {
-        $query = "SELECT * FROM notifications WHERE category = ? ORDER BY created_at DESC";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute([$category]);
-        $notifications = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        header('Content-Type: application/json');
-        echo json_encode($notifications);
+
+    // API untuk siswa melihat notifikasi
+    public function getByUser()
+    {
+        $userId = Auth::id();
+
+        $notifications = DB::table('notifications')
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($notifications);
     }
-    
-    // Menandai notifikasi sebagai dibaca
-    public function markAsRead($id) {
-        $query = "UPDATE notifications SET is_read = 1, read_at = NOW() WHERE id = ?";
-        $stmt = $this->db->prepare($query);
-        $result = $stmt->execute([$id]);
-        
-        header('Content-Type: application/json');
-        echo json_encode(['success' => $result]);
-    }
-    
-    // Membuat notifikasi baru
-    public function create() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $title = $_POST['title'] ?? '';
-            $message = $_POST['message'] ?? '';
-            $category = $_POST['category'] ?? '';
-            $user_id = $_POST['user_id'] ?? 1;
-            
-            $query = "INSERT INTO notifications (title, message, category, user_id, created_at) VALUES (?, ?, ?, ?, NOW())";
-            $stmt = $this->db->prepare($query);
-            $result = $stmt->execute([$title, $message, $category, $user_id]);
-            
-            if ($result) {
-                header('Location: /notifications');
-                exit;
-            }
-        }
-        
-        include 'views/notifications/create.php';
-    }
-    
-    // Demo untuk menambahkan notifikasi contoh
-    public function demo() {
+
+    // Demo notifikasi oleh admin/guru
+    public function demo()
+    {
         $demoNotifications = [
-            [
-                'title' => 'Tugas Matematika Baru',
-                'message' => 'Tugas baru telah ditambahkan untuk mata pelajaran Matematika. Deadline: 15 Juni 2025',
-                'category' => 'tugas_baru'
-            ],
-            [
-                'title' => 'Pesan dari Guru',
-                'message' => 'Anda memiliki pesan baru dari Bapak Ahmad mengenai jadwal ujian',
-                'category' => 'pesan_masuk'
-            ],
-            [
-                'title' => 'Nilai Ujian Tersedia',
-                'message' => 'Nilai ujian Bahasa Indonesia telah tersedia untuk dilihat',
-                'category' => 'nilai_tersedia'
-            ],
-            [
-                'title' => 'Pengingat Kelas',
-                'message' => 'Kelas Fisika akan dimulai dalam 30 menit',
-                'category' => 'pengingat_kelas'
-            ]
+            'Tugas baru dari Matematika telah tersedia. Deadline: 20 Juni.',
+            'Anda mendapat pesan dari Ibu Rina.',
+            'Nilai UTS Bahasa Inggris telah keluar.',
+            'Pengingat: Kelas Fisika akan dimulai 30 menit lagi.',
         ];
-        
-        foreach ($demoNotifications as $notification) {
-            $query = "INSERT INTO notifications (title, message, category, user_id, created_at) VALUES (?, ?, ?, 1, NOW())";
-            $stmt = $this->db->prepare($query);
-            $stmt->execute([$notification['title'], $notification['message'], $notification['category']]);
+
+        foreach ($demoNotifications as $content) {
+            DB::table('notifications')->insert([
+                'user_id'    => 1, // ganti sesuai siswa
+                'content'    => $content,
+                'created_at' => now(),
+            ]);
         }
-        
-        header('Location: /notifications');
-        exit;
+
+        return redirect()->route('notifications.index')->with('success', 'Demo notifikasi berhasil dikirim.');
     }
 }
