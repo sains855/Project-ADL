@@ -26,3 +26,4 @@ Route::get('/dosen/dashboard', [DashboardController::class, 'index'])->name('dos
 Route::get('/mahasiswa/dashboard', function () {
     return 'Dashboard Mahasiswa';
 })->middleware('auth');
+//
