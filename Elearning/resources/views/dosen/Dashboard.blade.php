@@ -9,6 +9,13 @@
     <style>
         /* Custom CSS untuk halaman Manajemen Kelas - EduManage Style */
 
+        /* Reset dan Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         /* Background dan Layout Utama */
         body {
             background: linear-gradient(135deg, #4A6FA5 0%, #2E4A75 100%);
@@ -16,316 +23,177 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            color: #333;
         }
 
+        /* Container */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        /* Header Section */
-        .header-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px 30px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
+        .py-4 {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
         }
 
-        .header-section h2 {
-            color: #2E4A75;
-            font-size: 24px;
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-6 {
+            margin-bottom: 1.5rem;
+        }
+
+        .mb-3 {
+            margin-bottom: 0.75rem;
+        }
+
+        .mt-2 {
+            margin-top: 0.5rem;
+        }
+
+        .mt-3 {
+            margin-top: 0.75rem;
+        }
+
+        /* Typography */
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+
+        .text-xl {
+            font-size: 1.25rem;
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .font-bold {
             font-weight: 700;
-            margin: 0 0 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        .header-section p {
-            color: #6B7280;
-            font-size: 14px;
-            margin: 0;
-        }
-
-        /* Navigation Tabs */
-        .nav-tabs {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 12px;
-            padding: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            gap: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-tab {
-            padding: 12px 24px;
-            border-radius: 8px;
-            border: none;
-            background: transparent;
-            color: #6B7280;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-
-        .nav-tab.active {
-            background: #4A6FA5;
-            color: white;
-            box-shadow: 0 2px 8px rgba(74, 111, 165, 0.3);
-        }
-
-        .nav-tab:hover:not(.active) {
-            background: rgba(74, 111, 165, 0.1);
-            color: #4A6FA5;
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px 20px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .stat-number {
-            font-size: 36px;
-            font-weight: 700;
-            color: #2E4A75;
-            margin: 0 0 8px 0;
-            line-height: 1;
-        }
-
-        .stat-label {
-            color: #6B7280;
-            font-size: 14px;
-            font-weight: 500;
-            margin: 0;
-        }
-
-        /* Main Content Section */
-        .main-content {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .section-title {
-            color: #2E4A75;
-            font-size: 18px;
+        .font-semibold {
             font-weight: 600;
-            margin: 0 0 20px 0;
         }
 
-        /* Class Cards Grid */
-        .classes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-        }
-
-        .class-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(74, 111, 165, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .class-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-            border-color: rgba(74, 111, 165, 0.2);
-        }
-
-        .class-title {
-            color: #2E4A75;
-            font-size: 16px;
-            font-weight: 600;
-            margin: 0 0 5px 0;
-        }
-
-        .class-code {
+        .text-gray-600 {
             color: #6B7280;
-            font-size: 12px;
-            margin: 0 0 15px 0;
-            font-weight: 500;
         }
 
-        .class-details {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 20px 0;
+        .text-gray-500 {
+            color: #6B7280;
         }
 
-        .class-details li {
+        .text-gray-700 {
             color: #374151;
-            font-size: 13px;
-            margin: 0 0 6px 0;
+        }
+
+        .text-blue-600 {
+            color: #3B82F6;
+        }
+
+        .text-yellow-600 {
+            color: #F59E0B;
+        }
+
+        .text-white {
+            color: white;
+        }
+
+        /* Layout */
+        .flex {
             display: flex;
-            align-items: flex-start;
-            gap: 8px;
         }
 
-        .class-details li:last-child {
-            margin-bottom: 0;
+        .space-x-4>*+* {
+            margin-left: 1rem;
         }
 
-        /* Status Badges */
-        .status-aktif {
-            color: #3B82F6 !important;
-            font-weight: 600;
+        .space-x-2>*+* {
+            margin-left: 0.5rem;
         }
 
-        .status-selesai {
-            color: #F59E0B !important;
-            font-weight: 600;
-        }
-
-        /* Action Buttons */
-        .action-buttons {
-            display: flex;
+        .justify-end {
             justify-content: flex-end;
-            gap: 8px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #F3F4F6;
         }
 
-        .btn {
-            padding: 8px 16px;
-            border-radius: 6px;
-            border: none;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
+        .w-1\/4 {
+            width: 25%;
+        }
+
+        .text-center {
             text-align: center;
         }
 
-        .btn-edit {
-            background: #3B82F6;
-            color: white;
+        .grid {
+            display: grid;
         }
 
-        .btn-edit:hover {
-            background: #2563EB;
-            transform: translateY(-1px);
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, 1fr);
         }
 
-        .btn-delete {
-            background: #EF4444;
-            color: white;
+        .gap-4 {
+            gap: 1rem;
         }
 
-        .btn-delete:hover {
-            background: #DC2626;
-            transform: translateY(-1px);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-
-            .classes-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-tabs {
-                flex-direction: column;
-                gap: 2px;
-            }
-
-            .nav-tab {
-                text-align: left;
-            }
-
-            .container {
-                padding: 15px;
-            }
-
-            .header-section,
-            .main-content {
-                padding: 20px;
-            }
-
-            .stat-number {
-                font-size: 28px;
+        @media (min-width: 768px) {
+            .md\:grid-cols-3 {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
+        /* Cards and Shadows */
+        .bg-white {
+            background-color: white;
         }
 
-        /* Additional Enhancements */
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .rounded {
+            border-radius: 0.375rem;
         }
 
-        .gradient-text {
-            background: linear-gradient(135deg, #4A6FA5 0%, #2E4A75 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .shadow {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .p-4 {
+            padding: 1rem;
         }
 
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+        /* Buttons */
+        .px-3 {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: rgba(74, 111, 165, 0.5);
-            border-radius: 4px;
+        .py-1 {
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(74, 111, 165, 0.7);
+        .bg-blue-500 {
+            background-color: #3B82F6;
+        }
+
+        .bg-red-500 {
+            background-color: #EF4444;
+        }
+
+        /* List */
+        ul {
+            list-style: none;
+        }
+
+        /* Utility Classes */
+        .rounded {
+            border-radius: 0.375rem;
         }
     </style>
 </head>
@@ -357,29 +225,28 @@
         <h4 class="text-lg font-semibold mb-3">Kelas Terbaru</h4>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             @foreach ($classes as $class)
-                <div class="bg-white p-4 rounded shadow">
-                    <h5 class="font-bold">{{ $class->name }}</h5>
-                    <p class="text-sm text-gray-500">{{ $class->code ?? 'KODE-KELAS' }}</p>
-                    <ul class="text-sm mt-2 text-gray-700">
-                        <li>👨‍🏫 {{ $class->teacher->name }}</li>
-                        <li>📘 {{ $class->subjects->count() }} Mata Kuliah</li>
-                        <li>📅 Jadwal: {{ $class->schedule ?? 'Belum ditentukan' }}</li>
-                        <li>🏫 Ruangan: {{ $class->room ?? '-' }}</li>
-                        <li>👥 {{ $class->student_count }} mahasiswa</li>
-                        <li>Status:
-                            <span class="{{ $class->status == 'Aktif' ? 'text-blue-600' : 'text-yellow-600' }}">
-                                {{ $class->status }}
-                            </span>
-                        </li>
-                    </ul>
-                    <div class="flex justify-end space-x-2 mt-3">
-                        <a href="#" class="px-3 py-1 text-sm bg-blue-500 text-white rounded">Edit</a>
-                        <a href="#" class="px-3 py-1 text-sm bg-red-500 text-white rounded">Hapus</a>
-                    </div>
+            <div class="bg-white p-4 rounded shadow">
+                <h5 class="font-bold">{{ $class->name }}</h5>
+                <p class="text-sm text-gray-500">{{ $class->code ?? 'KODE-KELAS' }}</p>
+                <ul class="text-sm mt-2 text-gray-700">
+                    <li>👨‍🏫 {{ $class->teacher->name }}</li>
+                    <li>📘 {{ $class->subjects->count() }} Mata Kuliah</li>
+                    <li>📅 Jadwal: {{ $class->schedule ?? 'Belum ditentukan' }}</li>
+                    <li>🏫 Ruangan: {{ $class->room ?? '-' }}</li>
+                    <li>👥 {{ $class->student_count }} mahasiswa</li>
+                    <li>Status:
+                        <span class="{{ $class->status == 'Aktif' ? 'text-blue-600' : 'text-yellow-600' }}">
+                            {{ $class->status }}
+                        </span>
+                    </li>
+                </ul>
+                <div class="flex justify-end space-x-2 mt-3">
+                    <a href="#" class="px-3 py-1 text-sm bg-blue-500 text-white rounded">Edit</a>
+                    <a href="#" class="px-3 py-1 text-sm bg-red-500 text-white rounded">Hapus</a>
                 </div>
+            </div>
             @endforeach
         </div>
     </div>
 </body>
-
 </html>
