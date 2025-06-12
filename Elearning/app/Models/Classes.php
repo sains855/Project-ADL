@@ -11,8 +11,13 @@ class Classes extends Model
     protected $table = 'classes';
     protected $fillable = ['name', 'teacher_id'];
 
-    public function user(): BelongsTo
+    public function subjects()
     {
-        return $this->belongsTo(user::class);
+        return $this->hasMany(Subject::class, 'class_id');
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
     }
 }

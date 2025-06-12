@@ -14,7 +14,7 @@ class Subject extends Model
     // Relasi ke kelas (asumsi model-nya bernama SchoolClass)
     public function class()
     {
-        return $this->belongsTo(SchoolClass::class);
+        return $this->belongsTo(Classes::class);
     }
 
     // Relasi ke modul
