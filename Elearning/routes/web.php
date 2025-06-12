@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,8 +27,6 @@ Route::get('/dosen/dashboard', [DashboardController::class, 'index'])->name('dos
 Route::get('/mahasiswa/dashboard', function () {
     return 'Dashboard Mahasiswa';
 })->middleware('auth');
-
-use App\Http\Controllers\NotificationController;
 
 Route::get('/', [NotificationController::class, 'index']);
 
