@@ -293,6 +293,15 @@
             color: white;
         }
 
+        /* Hidden sections */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
         /* Stats Cards */
         .stats-grid {
             display: grid;
@@ -396,15 +405,7 @@
             gap: 8px;
         }
 
-        .status-aktif {
-            color: #3B82F6;
-            font-weight: 500;
-        }
 
-        .status-selesai {
-            color: #F59E0B;
-            font-weight: 500;
-        }
 
         .class-actions {
             display: flex;
@@ -450,6 +451,25 @@
             background: #059669;
         }
 
+        .btn-cancel {
+            background: #6B7280;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background: #4B5563;
+        }
+
+        .btn-save {
+            background: #10B981;
+            color: white;
+            padding: 8px 16px;
+        }
+
+        .btn-save:hover {
+            background: #059669;
+        }
+
         .empty-state {
             text-align: center;
             padding: 40px;
@@ -459,6 +479,100 @@
         .empty-state h3 {
             margin-bottom: 10px;
             color: #4B5563;
+        }
+
+        /* Form Styles */
+        .form-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: white;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #4A6FA5;
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding-top: 20px;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        /* All Classes List Styles */
+        .classes-list {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-input {
+            padding: 8px 12px;
+            border: 2px solid #E5E7EB;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 250px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4A6FA5;
         }
 
         /* Responsive Design */
@@ -478,6 +592,14 @@
             .profile-dropdown {
                 right: -10px;
                 min-width: 180px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-buttons {
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -553,95 +675,161 @@
     <div class="container">
         <!-- Page Header -->
         <div class="page-header">
-            <h1 class="page-title">
+            <h1 class="page-title" id="pageTitle">
                 📚 Dashboard Dosen
             </h1>
-            <p class="page-subtitle">Kelola mata kuliah dan kelas dengan mudah dan efisien</p>
+            <p class="page-subtitle" id="pageSubtitle">Kelola mata kuliah dan kelas dengan mudah dan efisien</p>
         </div>
 
         <!-- Tab Navigation -->
         <div class="tab-nav">
             <div class="tab-buttons">
-                <button class="tab-btn active">Dashboard</button>
-                <button class="tab-btn">Daftar Kelas</button>
-                <button class="tab-btn">Tambah Kelas</button>
+                <button class="tab-btn active" onclick="showSection('dashboard')">Dashboard</button>
+                <button class="tab-btn" onclick="showSection('daftar-kelas')">Daftar Kelas</button>
+                <button class="tab-btn" onclick="showSection('tambah-kelas')">Tambah Kelas</button>
             </div>
         </div>
 
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number">{{ $totalKelas }}</div>
-                <div class="stat-label">Total Kelas</div>
+        <!-- Dashboard Section -->
+        <div id="dashboard-section" class="section active">
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">{{ $totalKelas }}</div>
+                    <div class="stat-label">Total Kelas</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ $kelasAktif }}</div>
-                <div class="stat-label">Kelas Aktif</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ $totalMahasiswa }}</div>
-                <div class="stat-label">Total Mahasiswa</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">{{ $kelasSelesai }}</div>
-                <div class="stat-label">Kelas Selesai</div>
+
+            <!-- Classes Section -->
+            <div class="classes-section">
+                <div class="section-title">Kelas Terbaru</div>
+
+                @if($totalKelas> 0)
+                    <div class="classes-grid">
+                        @foreach($totalKelas->take(6) as $class)
+                            <div class="class-card">
+                                <div class="class-header">
+                                    <div class="class-name">{{ $class->subjects->name ?? 'Mata Kuliah Tidak Tersedia' }}</div>
+                                    <span class="class-code">{{ $class->class_code }}</span>
+                                </div>
+                                <ul class="class-details">
+                                    <li>
+                                        <span>📅</span>
+                                        <span>{{ $class->schedule ?? 'Jadwal belum ditentukan' }}</span>
+                                    </li>
+                                </ul>
+                                <div class="class-actions">
+                                    <a href="#" class="btn btn-view">Lihat</a>
+                                    <button class="btn btn-edit" onclick="editClass({{ $class->id }}, '{{ $class->subjects->name ?? '' }}', '{{ $class->class_code }}', '{{ $class->schedule ?? '' }}', '{{ $class->semester ?? '' }}')">Edit</button>
+                                    <button class="btn btn-delete" onclick="confirmDelete({{ $class->id }})">Hapus</button>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="empty-state">
+                        <h3>Belum Ada Kelas</h3>
+                        <p>Anda belum memiliki kelas yang diampu. Silakan tambah kelas baru.</p>
+                        <br>
+                        <button class="btn btn-edit" onclick="showSection('tambah-kelas')">Tambah Kelas Baru</button>
+                    </div>
+                @endif
             </div>
         </div>
 
-        <!-- Classes Section -->
-        <div class="classes-section">
-            <div class="section-title">Kelas Terbaru</div>
+        <!-- Daftar Kelas Section -->
+        <div id="daftar-kelas-section" class="section">
+            <div class="classes-list">
+                <div class="list-header">
+                    <div class="section-title">Semua Kelas</div>
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="Cari kelas..." id="searchInput">
+                        <button class="btn btn-edit" onclick="showSection('tambah-kelas')">Tambah Kelas</button>
+                    </div>
+                </div>
 
-            @if($classes->count() > 0)
-                <div class="classes-grid">
-                    @foreach($classes->take(6) as $class)
-                        <div class="class-card">
-                            <div class="class-header">
-                                <div class="class-name">{{ $class->subjects->name ?? 'Mata Kuliah Tidak Tersedia' }}</div>
-                                <span class="class-code">{{ $class->class_code }}</span>
+                @if($totalKelas > 0)
+                    <div class="classes-grid" id="allClassesGrid">
+                        @foreach($classes as $class)
+                            <div class="class-card" data-class-name="{{ strtolower($class->subjects->name ?? '') }}" data-class-code="{{ strtolower($class->class_code) }}">
+                                <div class="class-header">
+                                    <div class="class-name">{{ $class->subjects->name ?? 'Mata Kuliah Tidak Tersedia' }}</div>
+                                    <span class="class-code">{{ $class->class_code }}</span>
+                                </div>
+                                <ul class="class-details">
+                                    <li>
+                                        <span>📅</span>
+                                        <span>{{ $class->schedule ?? 'Jadwal belum ditentukan' }}</span>
+                                    </li>
+                                </ul>
+                                <div class="class-actions">
+                                    <a href="#" class="btn btn-view">Lihat</a>
+                                    <button class="btn btn-edit" onclick="editClass({{ $class->id }}, '{{ $class->subjects->name ?? '' }}', '{{ $class->class_code }}', '{{ $class->schedule ?? '' }}')">Edit</button>
+                                    <button class="btn btn-delete" onclick="confirmDelete({{ $class->id }})">Hapus</button>
+                                </div>
                             </div>
-                            <ul class="class-details">
-                                <li>
-                                    <span>📅</span>
-                                    <span>{{ $class->schedule ?? 'Jadwal belum ditentukan' }}</span>
-                                </li>
-                                <li>
-                                    <span>👥</span>
-                                    <span>{{ $class->student_count }} Mahasiswa</span>
-                                </li>
-                                <li>
-                                    <span>📍</span>
-                                    <span>{{ $class->room ?? 'Ruangan belum ditentukan' }}</span>
-                                </li>
-                                <li>
-                                    <span>🎯</span>
-                                    <span class="status-{{ strtolower($class->status) }}">{{ $class->status }}</span>
-                                </li>
-                                <li>
-                                    <span>📊</span>
-                                    <span>{{ $class->semester ?? 'Semester tidak tersedia' }}</span>
-                                </li>
-                            </ul>
-                            <div class="class-actions">
-                                <a href="#" class="btn btn-view">Lihat</a>
-                                <a href="#" class="btn btn-edit">Edit</a>
-                                <button class="btn btn-delete" onclick="confirmDelete({{ $class->id }})">Hapus</button>
-                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="empty-state">
+                        <h3>Belum Ada Kelas</h3>
+                        <p>Anda belum memiliki kelas yang diampu. Silakan tambah kelas baru.</p>
+                        <br>
+                        <button class="btn btn-edit" onclick="showSection('tambah-kelas')">Tambah Kelas Baru</button>
+                    </div>
+                @endif
+            </div>
+        </div>
+
+        <!-- Tambah/Edit Kelas Section -->
+        <div id="tambah-kelas-section" class="section">
+            <div class="form-section">
+                <div class="section-title" id="formTitle">Tambah Kelas Baru</div>
+
+                <form id="classForm">
+                    <input type="hidden" id="classId" name="class_id">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="name">Nama Mata Kuliah</label>
+                            <input type="text" id="name" name="name" class="form-input" placeholder="Masukkan nama mata kuliah" required>
                         </div>
-                    @endforeach
-                </div>
-            @else
-                <div class="empty-state">
-                    <h3>Belum Ada Kelas</h3>
-                    <p>Anda belum memiliki kelas yang diampu. Silakan tambah kelas baru.</p>
-                    <br>
-                    <a href="#" class="btn btn-edit">Tambah Kelas Baru</a>
-                </div>
-            @endif
+
+                        <div class="form-group">
+                            <label class="form-label" for="hari">Hari</label>
+                            <select name="hari" id="hari" class="form-select">
+                                <option value="senin">senin</option>
+                                <option value="selasa">selasa</option>
+                                <option value="rabu">rabu</option>
+                                <option value="kamis">kamis</option>
+                                <option value="jumat">jumat</option>
+                                <option value="sabtu">sabtu</option>
+                                <option value="minggu">minggu</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="waktu_mulai">Dari Jam</label>
+                            <input type="time" id="waktu_mulai" name="waktu_mulai" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="waktu_selesai">Sampai Jam</label>
+                            <input type="time" id="waktu_selesai" name="waktu_selesai" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-cancel" onclick="cancelForm()">Batal</button>
+                        <button type="submit" class="btn btn-save" id="saveBtn">Simpan Kelas</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
     <script>
+        // Global variables
+        let currentEditingClassId = null;
+        let isEditMode = false;
+
         // Profile dropdown functionality
         function toggleProfileDropdown() {
             const dropdown = document.getElementById('profileDropdown');
@@ -658,27 +846,165 @@
             }
         });
 
-        function confirmDelete(classId) {
-            if (confirm('Apakah Anda yakin ingin menghapus kelas ini?')) {
-                // Implementasi delete via AJAX atau form
-                console.log('Deleting class with ID:', classId);
-                // window.location.href = '/dosen/classes/' + classId + '/delete';
+        // Section switching functionality
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected section and activate corresponding tab
+            const targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Update page title and subtitle based on section
+            const pageTitle = document.getElementById('pageTitle');
+            const pageSubtitle = document.getElementById('pageSubtitle');
+
+            switch(sectionName) {
+                case 'dashboard':
+                    pageTitle.innerHTML = '📚 Dashboard Dosen';
+                    pageSubtitle.textContent = 'Kelola mata kuliah dan kelas dengan mudah dan efisien';
+                    document.querySelector('.tab-btn[onclick="showSection(\'dashboard\')"]').classList.add('active');
+                    break;
+                case 'daftar-kelas':
+                    pageTitle.innerHTML = '📋 Daftar Kelas';
+                    pageSubtitle.textContent = 'Lihat dan kelola semua kelas yang Anda ampu';
+                    document.querySelector('.tab-btn[onclick="showSection(\'daftar-kelas\')"]').classList.add('active');
+                    break;
+                case 'tambah-kelas':
+                    if (isEditMode) {
+                        pageTitle.innerHTML = '✏️ Edit Kelas';
+                        pageSubtitle.textContent = 'Perbarui informasi kelas yang sudah ada';
+                    } else {
+                        pageTitle.innerHTML = '➕ Tambah Kelas';
+                        pageSubtitle.textContent = 'Buat kelas baru untuk mata kuliah yang Anda ampu';
+                    }
+                    document.querySelector('.tab-btn[onclick="showSection(\'tambah-kelas\')"]').classList.add('active');
+                    break;
+            }
+
+            // Reset form if switching away from add/edit section
+            if (sectionName !== 'tambah-kelas') {
+                resetForm();
             }
         }
 
-        // Tab functionality
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
+        // Search functionality for class list
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const classCards = document.querySelectorAll('#allClassesGrid .class-card');
+
+            classCards.forEach(card => {
+                const className = card.getAttribute('data-class-name');
+                const classCode = card.getAttribute('data-class-code');
+
+                if (className.includes(searchTerm) || classCode.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
             });
         });
+
+        // Edit class functionality
+        function editClass(id, subjectName, classCode, schedule, room, semester) {
+            isEditMode = true;
+            currentEditingClassId = id;
+
+            // Fill form with existing data
+            document.getElementById('classId').value = id;
+            document.getElementById('subjectName').value = subjectName;
+            document.getElementById('classCode').value = classCode;
+            document.getElementById('schedule').value = schedule;
+            document.getElementById('room').value = room;
+            document.getElementById('semester').value = semester;
+
+            // Update form title and button text
+            document.getElementById('formTitle').textContent = 'Edit Kelas';
+            document.getElementById('saveBtn').textContent = 'Update Kelas';
+
+            // Show the form section
+            showSection('tambah-kelas');
+        }
+
+        // Reset form to add mode
+        function resetForm() {
+            isEditMode = false;
+            currentEditingClassId = null;
+
+            // Clear form
+            document.getElementById('classForm').reset();
+            document.getElementById('classId').value = '';
+
+            // Reset form title and button text
+            document.getElementById('formTitle').textContent = 'Tambah Kelas Baru';
+            document.getElementById('saveBtn').textContent = 'Simpan Kelas';
+        }
+
+        // Cancel form
+        function cancelForm() {
+            resetForm();
+            showSection('dashboard');
+        }
+
+        // Form submission
+        document.getElementById('classForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const classData = {
+                id: formData.get('class_id'),
+                subject_name: formData.get('subject_name'),
+                class_code: formData.get('class_code'),
+                schedule: formData.get('schedule'),
+                room: formData.get('room'),
+
+                semester: formData.get('semester'),
+                description: formData.get('description')
+            };
+
+            if (isEditMode) {
+                // Handle edit submission
+                console.log('Updating class:', classData);
+                alert('Kelas berhasil diperbarui! (Implementasi backend diperlukan)');
+            } else {
+                // Handle add submission
+                console.log('Adding new class:', classData);
+                alert('Kelas baru berhasil ditambahkan! (Implementasi backend diperlukan)');
+            }
+
+            // Reset form and return to dashboard
+            resetForm();
+            showSection('dashboard');
+        });
+
+        // Delete confirmation
+        function confirmDelete(classId) {
+            if (confirm('Apakah Anda yakin ingin menghapus kelas ini?')) {
+                console.log('Deleting class with ID:', classId);
+                alert('Kelas berhasil dihapus! (Implementasi backend diperlukan)');
+                // Implement actual deletion logic here
+                // window.location.href = '/dosen/classes/' + classId + '/delete';
+            }
+        }
 
         // Close dropdown when pressing Escape key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 document.getElementById('profileDropdown').classList.remove('show');
             }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default section
+            showSection('dashboard');
         });
     </script>
 </body>

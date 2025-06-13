@@ -2,27 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Classes;
+use App\Models\Subject;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        // Hitung statistik untuk dashboard
+        $totalKelas = Classes::where('teacher_id', Auth::user()->id)->count();
+        // Hitung total mahasiswa dari semua kelas yang diajar dosen ini
 
-        $teacherId = Auth::user()->id; // user yang login adalah dosen
 
-        // Ambil semua kelas milik dosen
-        $classes = Classes::with('subjects')
-            ->where('teacher_id', $teacherId)
-            ->get();
+        // Ambil 6 kelas terbaru
 
-        $totalKelas = $classes->count();
-        $kelasAktif = $classes->where('status', 'Aktif')->count();
-        $kelasSelesai = $classes->where('status', 'Selesai')->count();
-        $totalMahasiswa = $classes->sum('student_count');
-
-        return view('dosen.dashboard', compact('classes', 'totalKelas', 'kelasAktif', 'kelasSelesai', 'totalMahasiswa'));
+        return view('dosen.dashboard', [
+            'totalKelas' => $totalKelas,
+        ]);
     }
 }

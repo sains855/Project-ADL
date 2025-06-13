@@ -3,6 +3,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClassController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationController;
 
@@ -18,8 +19,19 @@ Route::post('/register', [AuthController::class, 'register']);
 // Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Dashboard Dosen
-Route::get('/dosen', [DashboardController::class, 'index'])->name('dosen.dashboard')->middleware('auth');
+Route::middleware(['auth'])->prefix('dosen')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dosen.dashboard');
+
+    // Kelas
+    Route::prefix('kelas')->group(function () {
+        Route::get('/dosen', [ClassController::class, 'index'])->name('dosen.kelas.index');
+        Route::post('/dosen', [ClassController::class, 'store'])->name('dosen.kelas.store');
+        Route::get('/dosen', [ClassController::class, 'show'])->name('dosen.kelas.show');
+        Route::put('/dosen', [ClassController::class, 'update'])->name('dosen.kelas.update');
+        Route::delete('/dosen', [ClassController::class, 'destroy'])->name('dosen.kelas.destroy');
+    });
+});
 
 // Dashboard Mahasiswa
 Route::get('/mahasiswa/dashboard', function () {
@@ -36,3 +48,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications/demo', [NotificationController::class, 'demo'])->middleware('can:create-notification')->name('notifications.demo');
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/classes', [ClassController::class, 'index'])->name('dosen.daftar');
+    Route::get('/classes/create', [ClassController::class, 'create'])->name('dosen.create');
+    Route::post('/classes', [ClassController::class, 'store'])->name('classes.store');
+    Route::get('/classes/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
+    Route::put('/classes/{id}', [ClassController::class, 'update'])->name('classes.update');
+    Route::delete('/classes/{id}', [ClassController::class, 'destroy'])->name('classes.destroy');
+});

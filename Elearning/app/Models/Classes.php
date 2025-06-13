@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Classes extends Model
 {
     protected $table = 'classes';
-    protected $fillable = ['name', 'teacher_id'];
+    protected $fillable = ['name', 'teacher_id', 'hari', 'jam_mulai', 'jam_selesai'];
 
     public function subjects()
     {
