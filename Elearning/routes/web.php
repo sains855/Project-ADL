@@ -2,13 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClassController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationController;
 
 
 // Halaman login
-Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/', [AuthController::class, 'login']);
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
 
 // Halaman registrasi
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
@@ -18,7 +19,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Dashboard Dosen
-Route::get('/dosen', [DashboardController::class, 'index'])->name('dosen.dashboard')->middleware('auth');
+Route::get('/dosen', [DashboardController::class, 'dashboard'])->name('dosen.dashboard')->middleware('auth');
 
 // Dashboard Mahasiswa
 Route::get('/mahasiswa/dashboard', function () {
@@ -43,7 +44,7 @@ Route::middleware('auth')->group(function () {
     });
 
 // Route utama untuk halaman notifikasi
-Route::get('/', [NotificationController::class, 'index'])->name('notifications.index');
+Route::get('/', [NotificationController::class, 'index'])->name('auth.notification');
 
 // Route untuk mengambil notifikasi berdasarkan tipe via AJAX
 Route::get('/notifications/{type}', [NotificationController::class, 'getByType'])->name('notifications.by_type');
@@ -55,38 +56,6 @@ Route::post('/notifications/mark-read/{id}', [NotificationController::class, 'ma
 Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark_all_read');
 
 // Route untuk menghapus notifikasi
-Route::delete('/notifications/{id}', [NotificationController::class, 'deleteNotification'])->name('notifications.delete');
-
-    Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('mahasiswa.dashboard');
-        })->name('dashboard');
-    });
-
-
-    Route::prefix('dosen')->name('dosen.')->middleware('role:dosen')->group(function () {
-
-        // Dashboard
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/dashboard', [DashboardController::class, 'index']); // Alias
-
-
-        Route::prefix('kelas')->name('kelas.')->group(function () {
-            // Dashboard view with stats
-            Route::get('/dashboard', [ClassController::class, 'dashboard'])->name('dashboard');
-
-            // CRUD Operations
-            Route::get('/', [ClassController::class, 'index'])->name('index');
-            Route::get('/create', [ClassController::class, 'create'])->name('create');
-            Route::post('/', [ClassController::class, 'store'])->name('store');
-            Route::get('/{id}', [ClassController::class, 'show'])->name('show');
-            Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('edit');
-            Route::put('/{id}', [ClassController::class, 'update'])->name('update');
-            Route::delete('/{id}', [ClassController::class, 'destroy'])->name('destroy');
-
-            // Additional class routes can be added here
-        });
-    });
 });
 
 Route::middleware(['auth'])->group(function () {
