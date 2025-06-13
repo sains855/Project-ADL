@@ -1,27 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dosen;
 
-use App\Models\User;
 use App\Models\Classes;
-use App\Models\Subject;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class DashboardController extends Controller
+class ClassController extends Controller
 {
-    public function index()
+    public function dashboard()
     {
-        // Hitung statistik untuk dashboard
-        $totalKelas = Classes::where('teacher_id', Auth::user()->id)->count();
-        // Hitung total mahasiswa dari semua kelas yang diajar dosen ini
 
+        $teacherId = Auth::user()->id; // user yang login adalah dosen
 
-        // Ambil 6 kelas terbaru
+        // Ambil semua kelas milik dosen
+        $classes = Classes::with('subjects')
+            ->where('teacher_id', $teacherId)
+            ->get();
 
-        return view('dosen.dashboard', [
-            'totalKelas' => $totalKelas,
-        ]);
+        $totalKelas = $classes->count();
+        $kelasAktif = $classes->where('status', 'Aktif')->count();
+        $kelasSelesai = $classes->where('status', 'Selesai')->count();
+        $totalMahasiswa = $classes->sum('student_count');
+
+        return view('dosen.dashboard', compact('classes', 'totalKelas', 'kelasAktif', 'kelasSelesai', 'totalMahasiswa'));
     }
 }
