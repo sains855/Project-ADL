@@ -320,4 +320,187 @@
             fetch(`/notifications/mark-read/${id}`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type':
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('Notifikasi ditandai sebagai dibaca', 'success');
+                    // Refresh the current modal if open
+                    const modal = document.getElementById('notification-modal');
+                    if (!modal.classList.contains('hidden')) {
+                        // Reload modal content
+                        location.reload();
+                    }
+                } else {
+                    showToast('Gagal menandai notifikasi', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Terjadi kesalahan', 'error');
+            });
+        }
+        
+        function markAllAsRead() {
+            fetch('/notifications/mark-all-read', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('Semua notifikasi ditandai sebagai dibaca', 'success');
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    showToast('Gagal menandai semua notifikasi', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Terjadi kesalahan', 'error');
+            });
+        }
+        
+        function markAllInModalAsRead() {
+            markAllAsRead();
+        }
+        
+        function deleteNotification(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus notifikasi ini?')) {
+                fetch(`/notifications/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast('Notifikasi berhasil dihapus', 'success');
+                        setTimeout(() => location.reload(), 1000);
+                    } else {
+                        showToast('Gagal menghapus notifikasi', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showToast('Terjadi kesalahan', 'error');
+                });
+            }
+        }
+        
+        function refreshNotifications() {
+            showToast('Memperbarui notifikasi...', 'info');
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        }
+        
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            // Set colors based on type
+            toast.className = 'fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg transform transition-transform duration-300 z-50';
+            
+            if (type === 'success') {
+                toast.classList.add('bg-green-500', 'text-white');
+                toastMessage.innerHTML = `<span class="mr-2">✅</span>${message}`;
+            } else if (type === 'error') {
+                toast.classList.add('bg-red-500', 'text-white');
+                toastMessage.innerHTML = `<span class="mr-2">❌</span>${message}`;
+            } else if (type === 'info') {
+                toast.classList.add('bg-blue-500', 'text-white');
+                toastMessage.innerHTML = `<span class="mr-2">ℹ️</span>${message}`;
+            }
+            
+            // Show toast
+            toast.classList.remove('translate-x-full');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+            }, 3000);
+        }
+        
+        function getPriorityColor(priority) {
+            switch(priority) {
+                case 'high': return 'bg-red-100 text-red-800';
+                case 'medium': return 'bg-yellow-100 text-yellow-800';
+                case 'low': return 'bg-green-100 text-green-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+        
+        function getPriorityText(priority) {
+            switch(priority) {
+                case 'high': return 'Tinggi';
+                case 'medium': return 'Sedang';
+                case 'low': return 'Rendah';
+                default: return 'Normal';
+            }
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        // Auto-refresh notifications every 5 minutes
+        setInterval(() => {
+            const container = document.getElementById('notification-container');
+            const cards = container.querySelectorAll('.notification-card');
+            cards.forEach(card => {
+                card.classList.add('pulse-animation');
+                setTimeout(() => {
+                    card.classList.remove('pulse-animation');
+                }, 2000);
+            });
+        }, 300000); // 5 minutes
+        
+        // Close modal when clicking outside
+        document.getElementById('notification-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // ESC to close modal
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+            // Ctrl+R to refresh
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                refreshNotifications();
+            }
+        });
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add entrance animation to notification cards
+            const cards = document.querySelectorAll('.notification-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('slide-animation');
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
