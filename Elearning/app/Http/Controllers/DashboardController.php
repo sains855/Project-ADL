@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Dosen;
+namespace App\Http\Controllers;
 
 use App\Models\Classes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ClassController extends Controller
+class DashboardController extends Controller
 {
     public function dashboard()
     {
