@@ -120,27 +120,6 @@
                     </div>
                 </div>
 
-                <!-- Statistics -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-xl text-center">
-                        <div class="text-2xl font-bold" id="total-notifications">{{ array_sum(array_column($notifications, 'count')) }}</div>
-                        <div class="text-sm opacity-90">Total</div>
-                    </div>
-                    <div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-xl text-center">
-                        <div class="text-2xl font-bold" id="unread-notifications">{{ array_sum(array_column($notifications, 'count')) }}</div>
-                        <div class="text-sm opacity-90">Belum Dibaca</div>
-                    </div>
-                    <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white p-4 rounded-xl text-center">
-                        <div class="text-2xl font-bold">4</div>
-                        <div class="text-sm opacity-90">Hari Ini</div>
-                    </div>
-                    <div class="bg-gradient-to-r from-red-500 to-red-600 text-white p-4 rounded-xl text-center">
-                        <div class="text-2xl font-bold">2</div>
-                        <div class="text-sm opacity-90">Prioritas Tinggi</div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Demo Notifications -->
             <div class="bg-white rounded-3xl shadow-2xl p-6">
                 <div class="flex items-center mb-6">
