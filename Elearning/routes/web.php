@@ -36,3 +36,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications/demo', [NotificationController::class, 'demo'])->middleware('can:create-notification')->name('notifications.demo');
 });
 
+// Route utama untuk halaman notifikasi
+Route::get('/', [NotificationController::class, 'index'])->name('notifications.index');
+
+// Route untuk mengambil notifikasi berdasarkan tipe via AJAX
+Route::get('/notifications/{type}', [NotificationController::class, 'getByType'])->name('notifications.by_type');
+
+// Route untuk menandai notifikasi sebagai dibaca
+Route::post('/notifications/mark-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.mark_read');
+
+// Route untuk menandai semua notifikasi sebagai dibaca
+Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark_all_read');
+
+// Route untuk menghapus notifikasi
+Route::delete('/notifications/{id}', [NotificationController::class, 'deleteNotification'])->name('notifications.delete');

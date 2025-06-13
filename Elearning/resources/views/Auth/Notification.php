@@ -3,388 +3,321 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>E-Learning Desktop - Sistem Notifikasi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Styles -->
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .header h1 {
-            color: white;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .header p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
-        }
-        
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 30px;
-        }
-        
-        .notification-center {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .notification-center h2 {
-            color: #4a5568;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .features {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .features h3 {
-            color: #2d3748;
-            margin-bottom: 15px;
-        }
-        
-        .features ul {
-            list-style: none;
-            color: #4a5568;
-        }
-        
-        .features li {
-            padding: 5px 0;
-            padding-left: 20px;
-            position: relative;
-        }
-        
-        .features li:before {
-            content: "•";
-            position: absolute;
-            left: 0;
-            color: #667eea;
-            font-weight: bold;
-        }
-        
-        .demo-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        .demo-panel h3 {
-            color: #4a5568;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
         .notification-card {
-            background: white;
-            border-radius: 12px;
-            padding: 18px;
-            margin-bottom: 15px;
-            border-left: 4px solid;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
-        
         .notification-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        
-        .notification-card.tugas_baru {
-            border-left-color: #48bb78;
+        .slide-animation {
+            animation: slideIn 0.5s ease-out;
         }
-        
-        .notification-card.pesan_masuk {
-            border-left-color: #4299e1;
-        }
-        
-        .notification-card.nilai_tersedia {
-            border-left-color: #ed8936;
-        }
-        
-        .notification-card.pengingat_kelas {
-            border-left-color: #9f7aea;
-        }
-        
-        .notification-card h4 {
-            color: #2d3748;
-            margin-bottom: 8px;
-            font-size: 1.1rem;
-        }
-        
-        .notification-card p {
-            color: #718096;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        .notification-card small {
-            color: #a0aec0;
-            font-size: 0.8rem;
-        }
-        
-        .category-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .category-btn {
-            background: white;
-            border: none;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .category-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        }
-        
-        .category-btn h4 {
-            color: #2d3748;
-            margin-bottom: 5px;
-        }
-        
-        .category-btn p {
-            color: #718096;
-            font-size: 0.85rem;
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .notification-icon {
-            width: 24px;
-            height: 24px;
-            display: inline-block;
-        }
-        
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
             }
-            
-            .category-buttons {
-                grid-template-columns: 1fr;
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .modal-enter {
+            animation: modalEnter 0.3s ease-out;
+        }
+        @keyframes modalEnter {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, #3B82F6, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>
-                <span class="notification-icon">🎓</span>
-                E-Learning Desktop
-            </h1>
-            <p>Sistem Notifikasi Interaktif untuk Pembelajaran Online</p>
+<body class="bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="flex items-center justify-center mb-4">
+                <div class="bg-white rounded-full p-4 mr-4 shadow-lg">
+                    <span class="text-4xl">🎓</span>
+                </div>
+                <h1 class="text-5xl font-bold text-white gradient-text">E-Learning Desktop</h1>
+            </div>
+            <p class="text-xl text-blue-200">Sistem Notifikasi Interaktif untuk Pembelajaran Online</p>
         </div>
-        
-        <div class="main-content">
-            <div class="notification-center">
-                <h2>
-                    <span class="notification-icon">🔔</span>
-                    Pusat Notifikasi E-Learning
-                </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Notification Center -->
+            <div class="lg:col-span-2 bg-white rounded-3xl shadow-2xl p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center">
+                        <span class="text-3xl mr-3">🔔</span>
+                        <h2 class="text-3xl font-bold text-gray-800">Pusat Notifikasi E-Learning</h2>
+                    </div>
+                    <button onclick="markAllAsRead()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                        Tandai Semua Dibaca
+                    </button>
+                </div>
                 
-                <p style="color: #718096; margin-bottom: 20px;">
+                <p class="text-gray-600 mb-8 leading-relaxed">
                     Sistem notifikasi yang dirancang khusus untuk aplikasi e-learning desktop dengan antarmuka yang 
                     modern dan interaktif. Setiap notifikasi dilengkapi dengan animasi yang halus dan tombol aksi yang 
                     memudahkan interaksi pengguna.
                 </p>
-                
-                <div class="features">
-                    <h3>Fitur Utama:</h3>
-                    <ul>
-                        <li>Notifikasi real-time dengan animasi slide</li>
-                        <li>Kategorisasi berdasarkan jenis aktivitas</li>
-                        <li>Tombol aksi cepat untuk respons langsung</li>
-                        <li>Desain responsif untuk berbagai ukuran layar</li>
-                        <li>Tema navy blue dan putih yang profesional</li>
-                    </ul>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg mb-8">
+                    <h3 class="text-xl font-semibold text-blue-800 mb-4">Fitur Utama:</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
+                        <div class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                            Notifikasi real-time dengan animasi slide
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                            Kategorisasi berdasarkan jenis aktivitas
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                            Tombol aksi cepat untuk respons langsung
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                            Desain responsif untuk berbagai ukuran layar
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                            Tema navy blue dan putih yang profesional
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                            Sistem prioritas untuk notifikasi penting
+                        </div>
+                    </div>
                 </div>
-                
-                <div id="notifications-list">
-                    <?php if (empty($notifications)): ?>
-                        <p style="text-align: center; color: #718096; padding: 40px;">
-                            Belum ada notifikasi. Klik "Demo Notifikasi" untuk melihat contoh.
-                        </p>
-                    <?php else: ?>
-                        <?php foreach ($notifications as $notification): ?>
-                            <div class="notification-card <?php echo htmlspecialchars($notification['category']); ?>" 
-                                 data-id="<?php echo $notification['id']; ?>">
-                                <h4><?php echo htmlspecialchars($notification['title']); ?></h4>
-                                <p><?php echo htmlspecialchars($notification['message']); ?></p>
-                                <small><?php echo date('d M Y H:i', strtotime($notification['created_at'])); ?></small>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+
+                <!-- Statistics -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-xl text-center">
+                        <div class="text-2xl font-bold" id="total-notifications">{{ array_sum(array_column($notifications, 'count')) }}</div>
+                        <div class="text-sm opacity-90">Total</div>
+                    </div>
+                    <div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-xl text-center">
+                        <div class="text-2xl font-bold" id="unread-notifications">{{ array_sum(array_column($notifications, 'count')) }}</div>
+                        <div class="text-sm opacity-90">Belum Dibaca</div>
+                    </div>
+                    <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white p-4 rounded-xl text-center">
+                        <div class="text-2xl font-bold">4</div>
+                        <div class="text-sm opacity-90">Hari Ini</div>
+                    </div>
+                    <div class="bg-gradient-to-r from-red-500 to-red-600 text-white p-4 rounded-xl text-center">
+                        <div class="text-2xl font-bold">2</div>
+                        <div class="text-sm opacity-90">Prioritas Tinggi</div>
+                    </div>
                 </div>
             </div>
-            
-            <div class="demo-panel">
-                <h3>
-                    <span class="notification-icon">▶️</span>
-                    Demo Notifikasi
-                </h3>
-                
-                <div class="category-buttons">
-                    <button class="category-btn" onclick="loadCategory('tugas_baru')">
-                        <h4>Tugas Baru</h4>
-                        <p>Klik untuk melihat notifikasi tugas</p>
-                    </button>
-                    
-                    <button class="category-btn" onclick="loadCategory('pesan_masuk')">
-                        <h4>Pesan Masuk</h4>
-                        <p>Klik untuk melihat notifikasi pesan</p>
-                    </button>
-                    
-                    <button class="category-btn" onclick="loadCategory('nilai_tersedia')">
-                        <h4>Nilai Tersedia</h4>
-                        <p>Klik untuk melihat notifikasi nilai</p>
-                    </button>
-                    
-                    <button class="category-btn" onclick="loadCategory('pengingat_kelas')">
-                        <h4>Pengingat Kelas</h4>
-                        <p>Klik untuk melihat pengingat</p>
+
+            <!-- Demo Notifications -->
+            <div class="bg-white rounded-3xl shadow-2xl p-6">
+                <div class="flex items-center mb-6">
+                    <span class="text-2xl mr-2">▶️</span>
+                    <h3 class="text-2xl font-bold text-gray-800">Demo Notifikasi</h3>
+                </div>
+
+                <div class="space-y-4" id="notification-container">
+                    @foreach($notifications as $key => $notification)
+                    <div class="notification-card bg-gradient-to-r from-blue-50 to-white border border-blue-200 rounded-xl p-4 slide-animation hover:shadow-lg"
+                         onclick="showNotificationDetails('{{ $key }}')">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-semibold text-gray-800 flex items-center">
+                                <span class="mr-2 text-lg">{{ $notification['icon'] }}</span>
+                                {{ $notification['title'] }}
+                            </h4>
+                            @if($notification['count'] > 0)
+                            <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full pulse-animation min-w-[20px] text-center">
+                                {{ $notification['count'] }}
+                            </span>
+                            @endif
+                        </div>
+                        <p class="text-sm text-gray-600">{{ $notification['description'] }}</p>
+                        <div class="mt-2 flex justify-between items-center">
+                            <span class="text-xs text-gray-400">Klik untuk detail</span>
+                            <span class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">
+                                {{ ucfirst(str_replace('_', ' ', $key)) }}
+                            </span>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+                <!-- Refresh Button -->
+                <div class="mt-6 text-center">
+                    <button onclick="refreshNotifications()" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all transform hover:scale-105">
+                        🔄 Refresh Notifikasi
                     </button>
                 </div>
-                
-                <a href="/notifications/demo" class="btn" style="width: 100%; text-align: center; margin-top: 15px;">
-                    Buat Demo Notifikasi
-                </a>
             </div>
         </div>
     </div>
-    
+
+    <!-- Modal for Notification Details -->
+    <div id="notification-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto modal-enter">
+                <div class="sticky top-0 bg-white border-b p-6 rounded-t-2xl">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-2xl font-bold text-gray-800" id="modal-title">Detail Notifikasi</h3>
+                        <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 p-2 hover:bg-gray-100 rounded-full transition-colors">
+                            <span class="text-2xl">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <div id="modal-content" class="space-y-4">
+                        <!-- Content will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="sticky bottom-0 bg-gray-50 p-6 rounded-b-2xl border-t">
+                    <div class="flex justify-end space-x-3">
+                        <button onclick="closeModal()" class="px-6 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">
+                            Tutup
+                        </button>
+                        <button onclick="markAllInModalAsRead()" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            Tandai Semua Dibaca
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center">
+            <span class="mr-2">✅</span>
+            <span id="toast-message">Berhasil!</span>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="bg-white p-6 rounded-lg flex items-center space-x-3">
+                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                <span class="text-gray-700">Memuat...</span>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Load notifikasi berdasarkan kategori
-        function loadCategory(category) {
-            fetch(`/notifications/category/${category}`)
-                .then(response => response.json())
-                .then(data => {
-                    const container = document.getElementById('notifications-list');
-                    container.innerHTML = '';
-                    
-                    if (data.length === 0) {
-                        container.innerHTML = '<p style="text-align: center; color: #718096; padding: 40px;">Tidak ada notifikasi untuk kategori ini.</p>';
-                        return;
-                    }
-                    
-                    data.forEach(notification => {
-                        const card = document.createElement('div');
-                        card.className = `notification-card ${notification.category}`;
-                        card.dataset.id = notification.id;
-                        card.innerHTML = `
-                            <h4>${notification.title}</h4>
-                            <p>${notification.message}</p>
-                            <small>${new Date(notification.created_at).toLocaleString('id-ID')}</small>
-                        `;
-                        card.addEventListener('click', () => markAsRead(notification.id));
-                        container.appendChild(card);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
+        // Setup CSRF token for AJAX requests
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         
-        // Tandai notifikasi sebagai dibaca
-        function markAsRead(id) {
-            fetch(`/notifications/read/${id}`, {
-                method: 'POST'
+        function showNotificationDetails(type) {
+            const modal = document.getElementById('notification-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContent = document.getElementById('modal-content');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            
+            // Show loading
+            loadingOverlay.classList.remove('hidden');
+            modalContent.innerHTML = '<div class="text-center py-8"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div><p class="mt-4 text-gray-600">Memuat notifikasi...</p></div>';
+            modal.classList.remove('hidden');
+            
+            // Fetch notifications by type
+            fetch(`/notifications/${type}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken
+                }
             })
             .then(response => response.json())
             .then(data => {
+                loadingOverlay.classList.add('hidden');
+                
                 if (data.success) {
-                    const card = document.querySelector(`[data-id="${id}"]`);
-                    if (card) {
-                        card.style.opacity = '0.6';
-                        card.style.transform = 'scale(0.98)';
+                    const notifications = data.data;
+                    modalTitle.textContent = `Detail ${type.replace('_', ' ').toUpperCase()} (${data.total} item)`;
+                    
+                    let content = '';
+                    if (notifications.length > 0) {
+                        notifications.forEach(notification => {
+                            const readStatus = notification.read ? 'bg-gray-50 border-gray-200' : 'bg-blue-50 border-blue-200';
+                            const readIcon = notification.read ? '✅' : '🔴';
+                            const priorityBadge = notification.priority ? `<span class="text-xs px-2 py-1 rounded-full ${getPriorityColor(notification.priority)}">${getPriorityText(notification.priority)}</span>` : '';
+                            
+                            content += `
+                                <div class="${readStatus} p-4 rounded-xl border-2 hover:shadow-md transition-shadow">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h4 class="font-semibold text-gray-800 flex-1">${notification.title}</h4>
+                                        <div class="flex items-center space-x-2 ml-3">
+                                            ${priorityBadge}
+                                            <span class="text-lg">${readIcon}</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-600 mb-3">${notification.message}</p>
+                                    <div class="flex justify-between items-center text-sm text-gray-500">
+                                        <span>⏰ ${notification.time}</span>
+                                        ${notification.subject ? `<span class="bg-gray-200 px-2 py-1 rounded">${notification.subject}</span>` : ''}
+                                    </div>
+                                    ${notification.deadline ? `<div class="mt-2 text-sm text-red-600">📅 Deadline: ${formatDate(notification.deadline)}</div>` : ''}
+                                    ${notification.score ? `<div class="mt-2 text-sm text-green-600">📊 Nilai: ${notification.score} (${notification.grade})</div>` : ''}
+                                    <div class="mt-3 flex space-x-2">
+                                        ${!notification.read ? `<button onclick="markAsRead(${notification.id})" class="text-xs bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition-colors">Tandai Dibaca</button>` : ''}
+                                        <button onclick="deleteNotification(${notification.id})" class="text-xs bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors">Hapus</button>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        content = '<div class="text-center py-8 text-gray-500"><span class="text-4xl mb-4 block">📭</span><p>Tidak ada notifikasi</p></div>';
                     }
+                    
+                    modalContent.innerHTML = content;
+                } else {
+                    modalContent.innerHTML = '<div class="text-center py-8 text-red-500"><span class="text-4xl mb-4 block">❌</span><p>Gagal memuat notifikasi</p></div>';
                 }
             })
             .catch(error => {
+                loadingOverlay.classList.add('hidden');
                 console.error('Error:', error);
+                modalContent.innerHTML = '<div class="text-center py-8 text-red-500"><span class="text-4xl mb-4 block">❌</span><p>Terjadi kesalahan saat memuat notifikasi</p></div>';
             });
         }
         
-        // Event listener untuk kartu notifikasi
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.notification-card')) {
-                const card = e.target.closest('.notification-card');
-                const id = card.dataset.id;
-                if (id) {
-                    markAsRead(id);
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+        function closeModal() {
+            document.getElementById('notification-modal').classList.add('hidden');
+        }
+        
+        function markAsRead(id) {
+            fetch(`/notifications/mark-read/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type':
