@@ -1,38 +1,66 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Dosen\DashboardController;
+use App\Http\Controllers\Dosen\ClassController;
 use App\Http\Controllers\NotificationController;
 
 
-// Halaman login
-Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/', [AuthController::class, 'login']);
-
-// Halaman registrasi
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-
-// Logout
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// Dashboard Dosen
-Route::get('/dosen', [DashboardController::class, 'index'])->name('dosen.dashboard')->middleware('auth');
-
-// Dashboard Mahasiswa
-Route::get('/mahasiswa/dashboard', function () {
-    return 'Dashboard Mahasiswa';
-})->middleware('auth');
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/', 'showLoginForm')->name('login');
+    Route::post('/', 'login');
+    Route::get('/register', 'showRegisterForm')->name('register');
+    Route::post('/register', 'register');
+    Route::post('/logout', 'logout')->name('logout');
+});
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('notification');
-    Route::get('/notifications/create', [NotificationController::class, 'create'])->middleware('can:create-notification')->name('notifications.create');
-    Route::post('/notifications', [NotificationController::class, 'store'])->name('notifications.store');
-    Route::post('/notifications/read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
-    Route::get('/notifications/user', [NotificationController::class, 'getByUser'])->name('notifications.by_user');
-    Route::get('/notifications/demo', [NotificationController::class, 'demo'])->middleware('can:create-notification')->name('notifications.demo');
-});
+    
+    
+    Route::prefix('notifications')->name('notifications.')->group(function () {
+        Route::get('/', [NotificationController::class, 'index'])->name('index');
+        Route::get('/create', [NotificationController::class, 'create'])
+            ->middleware('can:create-notification')
+            ->name('create');
+        Route::post('/', [NotificationController::class, 'store'])->name('store');
+        Route::post('/read/{id}', [NotificationController::class, 'markAsRead'])->name('read');
+        Route::get('/user', [NotificationController::class, 'getByUser'])->name('by_user');
+        Route::get('/demo', [NotificationController::class, 'demo'])
+            ->middleware('can:create-notification')
+            ->name('demo');
+    });
 
+   
+    Route::prefix('mahasiswa')->name('mahasiswa.')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('mahasiswa.dashboard');
+        })->name('dashboard');
+    });
+
+   
+    Route::prefix('dosen')->name('dosen.')->middleware('role:dosen')->group(function () {
+        
+        // Dashboard
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index']); // Alias
+        
+       
+        Route::prefix('kelas')->name('kelas.')->group(function () {
+            // Dashboard view with stats
+            Route::get('/dashboard', [ClassController::class, 'dashboard'])->name('dashboard');
+            
+            // CRUD Operations
+            Route::get('/', [ClassController::class, 'index'])->name('index');
+            Route::get('/create', [ClassController::class, 'create'])->name('create');
+            Route::post('/', [ClassController::class, 'store'])->name('store');
+            Route::get('/{id}', [ClassController::class, 'show'])->name('show');
+            Route::get('/{id}/edit', [ClassController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [ClassController::class, 'update'])->name('update');
+            Route::delete('/{id}', [ClassController::class, 'destroy'])->name('destroy');
+            
+            // Additional class routes can be added here
+        });
+    });
+});
