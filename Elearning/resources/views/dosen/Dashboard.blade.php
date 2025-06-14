@@ -428,8 +428,8 @@
             <div class="logo">EduManage</div>
             <div class="profile-dropdown">
                 <button class="profile-btn" onclick="toggleDropdown()">
-                    <div class="profile-avatar"><?= strtoupper(substr($user['name'] ?? 'dosen', 0, 1)) ?></div>
-                    <span><?= htmlspecialchars($user['name'] ?? 'dosen') ?></span>
+                    <div class="profile-avatar"><?= strtoupper(substr(Auth::user()->name ?? 'User', 0, 1)) ?></div>
+                    <span><?= htmlspecialchars(Auth::user()->name ?? 'User') ?></span>
                     <span>▼</span>
                 </button>
                 <div class="dropdown-content" id="dropdownContent">
@@ -452,19 +452,26 @@
         </div>
 
         <!-- Alert Messages (Laravel Flash Messages) -->
-        <?php if(isset($_GET['success'])): ?>
+        @if(session('success'))
         <div class="alert alert-success">
-            <?= htmlspecialchars($_GET['success']) ?>
+            {{ session('success') }}
             <button class="close-alert" onclick="this.parentElement.style.display='none'">&times;</button>
         </div>
-        <?php endif; ?>
+        @endif
+
+        @if(session('error'))
+        <div class="alert alert-error">
+            {{ session('error') }}
+            <button class="close-alert" onclick="this.parentElement.style.display='none'">&times;</button>
+        </div>
+        @endif
 
         <!-- Total Kelas Stats -->
         <div class="stats-card">
             <div class="stats-content">
                 <div class="stats-icon">📚</div>
                 <div class="stats-info">
-                    <h3 id="totalKelas"><?= $totalKelas ?? 0 ?></h3>
+                    <h3 id="totalKelas">{{ $totalKelas ?? 0 }}</h3>
                     <p>Total Kelas</p>
                 </div>
             </div>
@@ -474,98 +481,52 @@
         <div class="table-container">
             <div class="table-header">
                 <h2 class="table-title">Daftar Kelas</h2>
-                <a href="/classes/create" class="add-btn">+ Tambah Kelas</a>
+                <a href="{{ route('classes.create') }}" class="add-btn">+ Tambah Kelas</a>
             </div>
 
             <table>
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama Pelajaran</th>
-                        <th>Hari</th>
-                        <th>Jam Mulai</th>
-                        <th>Jam Berakhir</th>
+                        <th>Nama Kelas</th>
+                        <th>Deskripsi</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if(empty($classes)): ?>
+                    @if($classes->isEmpty())
                     <tr>
-                        <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
-                            Belum ada data kelas
+                        <td colspan="4" style="text-align: center; padding: 2rem; color: #666;">
+                            <div style="font-size: 1.2rem; margin-bottom: 0.5rem;">📚</div>
+                            Belum ada kelas yang dibuat
                         </td>
                     </tr>
-                    <?php else: ?>
-                    <?php foreach($classes as $class): ?>
+                    @else
+                    @foreach($classes as $index => $class)
                     <tr>
-                        <td><?= $class['id'] ?></td>
-                        <td><?= htmlspecialchars($class['name']) ?></td>
-                        <td><?= htmlspecialchars($class['hari']) ?></td>
-                        <td><?= htmlspecialchars($class['jam_mulai']) ?></td>
-                        <td><?= htmlspecialchars($class['jam_selesai']) ?></td>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $class->name }}</td>
+                        <td>{{ $class->description ?? 'Tidak ada deskripsi' }}</td>
                         <td>
                             <div class="action-buttons">
-                                <a href="{{ Route('learning.show') }}" class="btn btn-show">Detail</a>
-                                <a href="/classes/<?= $class['id'] ?>/edit" class="btn btn-edit">Edit</a>
-                                <form action="{{ route('dosen.destroy', $class->id) }}" method="POST">
+                                <a href="{{ route('classes.show', $class->id) }}" class="btn btn-show">Detail</a>
+                                <a href="{{ route('classes.edit', $class->id) }}" class="btn btn-edit">Edit</a>
+                                <form action="{{ route('classes.destroy', $class->id) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-delete" type="submit">Hapus</button>
+                                    <button class="btn btn-delete" type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus kelas {{ $class->name }}?')">Hapus</button>
                                 </form>
                             </div>
                         </td>
                     </tr>
-                    <?php endforeach; ?>
-                    <?php endif; ?>
+                    @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Delete Form (Hidden) -->
-    <form id="deleteForm" method="POST" style="display: none;">
-        <input type="hidden" name="_method" value="DELETE">
-        <input type="hidden" name="_token" value="<?= csrf_token() ?? '' ?>">
-    </form>
-
     <script>
-        // Populate table if no server data
-        if (document.querySelector('tbody').children.length === 1 &&
-            document.querySelector('tbody').textContent.includes('Belum ada data kelas')) {
-            populateTable(sampleClasses);
-            document.getElementById('totalKelas').textContent = sampleClasses.length;
-        }
-
-        function populateTable(classes) {
-            const tbody = document.querySelector('tbody');
-            tbody.innerHTML = '';
-
-            classes.forEach(classData => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${classData.no}</td>
-                    <td>${classData.name}</td>
-                    <td>
-                        ${classData.subject_id ?
-                            `<a href="/classes/${classData.id}/subjects" class="subject-link">${classData.subject}</a>` :
-                            `<span style="color: #999;">${classData.subject}</span>`
-                        }
-                    </td>
-                    <td>${classData.teacher}</td>
-                    <td>${classData.schedule}</td>
-                    <td><span class="status-badge">${classData.status}</span></td>
-                    <td>
-                        <div class="action-buttons">
-                            <a href="/classes/${classData.id}" class="btn btn-show">Detail</a>
-                            <a href="/classes/${classData.id}/edit" class="btn btn-edit">Edit</a>
-                            <button class="btn btn-delete" onclick="deleteClass(${classData.id}, '${classData.name}')">Hapus</button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
         // Toggle dropdown menu
         function toggleDropdown() {
             const dropdown = document.getElementById('dropdownContent');
@@ -582,22 +543,16 @@
             }
         }
 
-        // Delete class function
-        function deleteClass(classId, className) {
-            if (confirm(`Apakah Anda yakin ingin menghapus kelas "${className}"?`)) {
-                const form = document.getElementById('deleteForm');
-                form.action = `/dosen`;
-                form.submit();
-            }
-        }
-
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             // Auto hide alerts after 5 seconds
             const alerts = document.querySelectorAll('.alert');
             alerts.forEach(alert => {
                 setTimeout(() => {
-                    alert.style.display = 'none';
+                    alert.style.opacity = '0';
+                    setTimeout(() => {
+                        alert.style.display = 'none';
+                    }, 300);
                 }, 5000);
             });
         });

@@ -15,12 +15,12 @@ return new class extends Migration
         $table->id(); // id (PK)
         $table->string('title'); // Judul tugas
         $table->text('description'); // Deskripsi tugas
-        $table->unsignedBigInteger('subject_id'); // FK ke subjects
+        $table->unsignedBigInteger('class_id'); // FK ke subjects
         $table->dateTime('due_date'); // Batas akhir
         $table->timestamps();
 
         // Foreign key
-        $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+        $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
     });
 }
 

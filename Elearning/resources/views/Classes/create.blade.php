@@ -95,6 +95,10 @@
             border-color: #dee2e6;
             color: #6c757d;
         }
+
+        .required {
+            color: #dc3545;
+        }
     </style>
 </head>
 
@@ -134,9 +138,9 @@
                                 Nama Kelas <span class="required">*</span>
                             </label>
                             <input type="text" class="form-control" id="name" name="name"
-                                placeholder="Contoh: X IPA 1, XI IPS 2" maxlength="50"  required>
+                                placeholder="Contoh: X IPA 1, XI IPS 2" maxlength="255" required>
                             <div class="invalid-feedback">
-                                Nama kelas wajib diisi (maksimal 50 karakter)
+                                Nama kelas wajib diisi (maksimal 255 karakter)
                             </div>
                         </div>
 
@@ -156,81 +160,51 @@
                         </div>
                     </div>
 
-                    <!-- Hari -->
-                    <div class="col-md-4 mb-3">
-                        <label for="hari" class="form-label">
-                            Hari <span class="required">*</span>
+                    <!-- Deskripsi Kelas -->
+                    <div class="mb-3">
+                        <label for="description" class="form-label">
+                            Deskripsi Kelas
                         </label>
-                        <select class="form-select" id="hari" name="hari" required>
-                            <option value="">Pilih Hari</option>
-                            <option value="Senin">Senin</option>
-                            <option value="Selasa">Selasa</option>
-                            <option value="Rabu">Rabu</option>
-                            <option value="Kamis">Kamis</option>
-                            <option value="Jumat">Jumat</option>
-                            <option value="Sabtu">Sabtu</option>
-                            <option value="Minggu">Minggu</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Pilih hari
-                        </div>
+                        <textarea class="form-control" id="description" name="description" rows="3"
+                            placeholder="Deskripsi singkat tentang kelas ini (opsional)"></textarea>
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Field ini bersifat opsional
+                        </small>
                     </div>
 
-                    <!-- Jam Mulai -->
-                    <div class="col-md-4 mb-3">
-                        <label for="jam_mulai" class="form-label">
-                            Jam Mulai <span class="required">*</span>
-                        </label>
-                        <input type="time" class="form-control" id="jam_mulai" name="jam_mulai" required>
-                        <div class="invalid-feedback">
-                            Jam mulai wajib diisi
-                        </div>
+                    <!-- Informasi Tambahan -->
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Informasi:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>Semua field yang bertanda <span class="required">*</span> wajib diisi</li>
+                            <li>Nama kelas maksimal 255 karakter</li>
+                            <li>Deskripsi kelas bersifat opsional</li>
+                            <li>Guru pengajar otomatis terisi sesuai akun yang sedang login</li>
+                        </ul>
                     </div>
 
-                    <!-- Jam Selesai -->
-                    <div class="col-md-4 mb-3">
-                        <label for="jam_selesai" class="form-label">
-                            Jam Selesai <span class="required">*</span>
-                        </label>
-                        <input type="time" class="form-control" id="jam_selesai" name="jam_selesai" required>
-                        <div class="invalid-feedback">
-                            Jam selesai harus lebih besar dari jam mulai
+                    <!-- Tombol Aksi -->
+                    <div class="d-flex justify-content-between pt-3">
+                        <a href="/dosen" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Kembali
+                        </a>
+                        <div>
+                            <button type="reset" class="btn btn-outline-secondary me-2">
+                                <i class="fas fa-undo me-2"></i>
+                                Reset
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>
+                                Simpan Kelas
+                            </button>
                         </div>
                     </div>
+                </form>
             </div>
-
-            <!-- Informasi Tambahan -->
-            <div class="alert alert-info">
-                <i class="fas fa-info-circle me-2"></i>
-                <strong>Informasi:</strong>
-                <ul class="mb-0 mt-2">
-                    <li>Semua field yang bertanda <span class="required">*</span> wajib diisi</li>
-                    <li>Nama kelas maksimal 50 karakter</li>
-                    <li>Jam selesai harus lebih besar dari jam mulai</li>
-                    <li>Guru pengajar otomatis terisi sesuai akun yang sedang login</li>
-                </ul>
-            </div>
-
-            <!-- Tombol Aksi -->
-            <div class="d-flex justify-content-between pt-3">
-                <a href="/classes" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left me-2"></i>
-                    Kembali
-                </a>
-                <div>
-                    <button type="reset" class="btn btn-outline-secondary me-2">
-                        <i class="fas fa-undo me-2"></i>
-                        Reset
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save me-2"></i>
-                        Simpan Kelas
-                    </button>
-                </div>
-            </div>
-            </form>
         </div>
-    </div>
     </div>
 
     <!-- Bootstrap JS -->
@@ -238,24 +212,23 @@
 
     <script>
         // Validasi form
-document.getElementById('createClassForm').addEventListener('submit', function(e) {
-    const form = this;
-    const jamMulai = document.getElementById('jam_mulai').value;
-    const jamSelesai = document.getElementById('jam_selesai').value;
+        document.getElementById('createClassForm').addEventListener('submit', function(e) {
+            const form = this;
 
-    form.classList.remove('was-validated');
-    document.getElementById('errorAlert').classList.add('d-none');
+            form.classList.remove('was-validated');
+            document.getElementById('errorAlert').classList.add('d-none');
 
-    if (jamMulai && jamSelesai && jamSelesai <= jamMulai) {
-        e.preventDefault();
-        showError('Jam selesai harus lebih besar dari jam mulai');
-        document.getElementById('jam_selesai').classList.add('is-invalid');
-        return;
-    }
+            // Validasi nama kelas tidak boleh kosong
+            const nameInput = document.getElementById('name');
+            if (!nameInput.value.trim()) {
+                e.preventDefault();
+                showError('Nama kelas wajib diisi');
+                nameInput.classList.add('is-invalid');
+                return;
+            }
 
-    // Lolos validasi, form akan disubmit ke Laravel
-    // Tidak perlu e.preventDefault()
-});
+            // Form akan disubmit ke Laravel controller
+        });
 
         // Fungsi untuk menampilkan error
         function showError(message) {
@@ -267,15 +240,8 @@ document.getElementById('createClassForm').addEventListener('submit', function(e
             });
         }
 
-        // Fungsi simulasi berhasil (untuk demo)
-        function showSuccess() {
-            alert('Kelas berhasil ditambahkan! (Demo)');
-            // Dalam implementasi nyata, form akan di-submit ke Laravel
-            // document.getElementById('createClassForm').submit();
-        }
-
         // Auto-hide error saat input berubah
-        document.querySelectorAll('input, select').forEach(input => {
+        document.querySelectorAll('input, select, textarea').forEach(input => {
             input.addEventListener('input', function() {
                 this.classList.remove('is-invalid');
                 if (!document.querySelector('.is-invalid')) {

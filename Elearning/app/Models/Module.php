@@ -10,14 +10,14 @@ class Module extends Model
     use HasFactory;
 
     // Field yang boleh diisi mass-assignment
-    protected $fillable = ['title', 'content', 'subject_id', 'created_by'];
+    protected $fillable = ['title', 'content', 'class_id', 'created_by'];
 
     /**
      * Relasi ke Subject
      */
-    public function subject()
+    public function Classes()
     {
-        return $this->belongsTo(Subject::class);
+        return $this->belongsTo(Classes::class);
     }
 
     /**

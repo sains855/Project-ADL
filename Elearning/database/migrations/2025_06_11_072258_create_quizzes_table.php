@@ -14,14 +14,14 @@ return new class extends Migration
     Schema::create('quizzes', function (Blueprint $table) {
         $table->id(); // id (PK)
         $table->string('title'); // Judul
-        $table->unsignedBigInteger('subject_id'); // FK ke subjects
+        $table->unsignedBigInteger('class_id'); // FK ke subjects
         $table->dateTime('start_time'); // Mulai
         $table->dateTime('end_time'); // Selesai
         $table->integer('duration'); // Durasi (menit)
         $table->timestamps();
 
         // Foreign key
-        $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+        $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
     });
 }
     /**

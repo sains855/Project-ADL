@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +17,7 @@
         .card {
             border: none;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.95);
         }
@@ -28,14 +29,16 @@
             padding: 1.5rem;
         }
 
-        .form-control, .form-select {
+        .form-control,
+        .form-select {
             border-radius: 10px;
             border: 2px solid #e3f2fd;
             padding: 12px 15px;
             transition: all 0.3s ease;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control:focus,
+        .form-select:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
         }
@@ -92,32 +95,22 @@
             color: #764ba2;
         }
 
-        .time-input-group {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .time-separator {
-            font-weight: bold;
-            color: #667eea;
-        }
-
         .form-floating {
             margin-bottom: 1rem;
         }
 
-        .form-floating > .form-control,
-        .form-floating > .form-select {
+        .form-floating>.form-control,
+        .form-floating>.form-select {
             height: calc(3.5rem + 2px);
             line-height: 1.25;
         }
 
-        .form-floating > label {
+        .form-floating>label {
             padding: 1rem 0.75rem;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <!-- Breadcrumb -->
@@ -167,14 +160,9 @@
 
                             <!-- Nama Kelas -->
                             <div class="form-floating mb-3">
-                                <input type="text"
-                                       class="form-control @error('name') is-invalid @enderror"
-                                       id="name"
-                                       name="name"
-                                       value="{{ old('name', $class->name) }}"
-                                       placeholder="Nama Kelas"
-                                       maxlength="50"
-                                       required>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                    id="name" name="name" value="{{ old('name', $class->name) }}"
+                                    placeholder="Nama Kelas" maxlength="255" required>
                                 <label for="name">
                                     <i class="fas fa-chalkboard-teacher me-2"></i>
                                     Nama Kelas
@@ -184,79 +172,26 @@
                                 @enderror
                             </div>
 
-                            <!-- Hari -->
+                            <!-- Deskripsi Kelas -->
                             <div class="form-floating mb-3">
-                                <select class="form-select @error('hari') is-invalid @enderror"
-                                        id="hari"
-                                        name="hari"
-                                        required>
-                                    <option value="">Pilih Hari</option>
-                                    @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'] as $day)
-                                        <option value="{{ $day }}"
-                                                {{ old('hari', $class->hari) == $day ? 'selected' : '' }}>
-                                            {{ $day }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="hari">
-                                    <i class="fas fa-calendar-day me-2"></i>
-                                    Hari
+                                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description"
+                                    placeholder="Deskripsi Kelas" style="height: 100px">{{ old('description', $class->description) }}</textarea>
+                                <label for="description">
+                                    <i class="fas fa-align-left me-2"></i>
+                                    Deskripsi Kelas (Opsional)
                                 </label>
-                                @error('hari')
+                                @error('description')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <!-- Waktu Kelas -->
-                            <div class="row mb-3">
-                                <div class="col-md-5">
-                                    <div class="form-floating">
-                                        <input type="time"
-                                               class="form-control @error('jam_mulai') is-invalid @enderror"
-                                               id="jam_mulai"
-                                               name="jam_mulai"
-                                               value="{{ old('jam_mulai',  \Carbon\Carbon::createFromFormat('H:i:s', $class->jam_mulai)->format('H:i')) }}"
-                                               required>
-                                        <label for="jam_mulai">
-                                            <i class="fas fa-clock me-2"></i>
-                                            Jam Mulai
-                                        </label>
-                                        @error('jam_mulai')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="col-md-2 d-flex align-items-center justify-content-center">
-                                    <span class="time-separator fs-4">-</span>
-                                </div>
-
-                                <div class="col-md-5">
-                                    <div class="form-floating">
-                                        <input type="time"
-                                               class="form-control @error('jam_selesai') is-invalid @enderror"
-                                               id="jam_selesai"
-                                               name="jam_selesai"
-                                               value="{{ old('jam_selesai',  \Carbon\Carbon::createFromFormat('H:i:s', $class->jam_selesai)->format('H:i')) }}"
-                                               required>
-                                        <label for="jam_selesai">
-                                            <i class="fas fa-clock me-2"></i>
-                                            Jam Selesai
-                                        </label>
-                                        @error('jam_selesai')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Info Guru -->
-                            <div class="alert alert-info">
-                                <i class="fas fa-info-circle me-2"></i>
-                                <strong>Pengajar:</strong> {{ Auth::user()->name }}
-                                <small class="d-block mt-1">
-                                    Guru yang mengajar kelas ini akan otomatis diatur sesuai dengan akun yang sedang login.
-                                </small>
+                            <!-- Pengajar/Guru -->
+                            <div class="col-md-6 mb-3">
+                                <input type="hidden" class="form-control" id="teacher_name"
+                                    value="{{ auth()->user()->name }}" readonly>
+                                <!-- Hidden input untuk teacher_id -->
+                                <input type="hidden" name="teacher_id" value="{{ auth()->user()->id }}"
+                                    id="teacher_id">
                             </div>
 
                             <!-- Tombol Aksi -->
@@ -280,28 +215,12 @@
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Validasi Waktu JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const jamMulai = document.getElementById('jam_mulai');
-            const jamSelesai = document.getElementById('jam_selesai');
-
-            function validateTime() {
-                if (jamMulai.value && jamSelesai.value) {
-                    if (jamSelesai.value <= jamMulai.value) {
-                        jamSelesai.setCustomValidity('Jam selesai harus lebih besar dari jam mulai');
-                    } else {
-                        jamSelesai.setCustomValidity('');
-                    }
-                }
-            }
-
-            jamMulai.addEventListener('change', validateTime);
-            jamSelesai.addEventListener('change', validateTime);
-
             // Auto focus pada field pertama
             document.getElementById('name').focus();
         });
     </script>
 </body>
+
 </html>

@@ -20,9 +20,9 @@ class Quiz extends Model
     /**
      * Relasi ke subject (mata pelajaran)
      */
-    public function subject()
+    public function Classes()
     {
-        return $this->belongsTo(Subject::class);
+        return $this->belongsTo(Classes::class);
     }
 
     /**

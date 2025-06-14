@@ -33,8 +33,8 @@ Route::get('/mahasiswa/modul', function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/classes', [ClassController::class, 'index'])->name('dosen.daftar');
-    Route::get('/classes/create', [ClassController::class, 'create'])->name('dosen.create');
+    Route::get('/classes', [ClassController::class, 'index'])->name('classes.show');
+    Route::get('/classes/create', [ClassController::class, 'create'])->name('classes.create');
     Route::post('/classes', [ClassController::class, 'store'])->name('classes.store');
     Route::get('/classes/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
     Route::put('/classes/{class}', [ClassController::class, 'update'])->name('classes.update');
