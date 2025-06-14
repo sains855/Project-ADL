@@ -464,7 +464,7 @@
             <div class="stats-content">
                 <div class="stats-icon">📚</div>
                 <div class="stats-info">
-                    <h3 id="totalKelas"><?= $totalClasses ?? 0 ?></h3>
+                    <h3 id="totalKelas"><?= $totalKelas ?? 0 ?></h3>
                     <p>Total Kelas</p>
                 </div>
             </div>
@@ -505,7 +505,7 @@
                         <td><?= htmlspecialchars($class['jam_selesai']) ?></td>
                         <td>
                             <div class="action-buttons">
-                                <a href="/classes/<?= $class['id'] ?>" class="btn btn-show">Detail</a>
+                                <a href="{{ Route('learning.show') }}" class="btn btn-show">Detail</a>
                                 <a href="/classes/<?= $class['id'] ?>/edit" class="btn btn-edit">Edit</a>
                                 <form action="{{ route('dosen.destroy', $class->id) }}" method="POST">
                                     @csrf
