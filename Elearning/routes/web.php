@@ -9,8 +9,8 @@ use App\Http\Controllers\NotificationController;
 
 
 // Halaman login
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/', [AuthController::class, 'login']);
 
 // Halaman registrasi
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
