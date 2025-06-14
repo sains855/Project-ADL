@@ -107,11 +107,25 @@
             color: #333;
             text-decoration: none;
             transition: background-color 0.2s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-size: inherit;
+            font-family: inherit;
+            cursor: pointer;
         }
 
         .dropdown-item:hover {
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
+        }
+
+        /* Form inside dropdown should not affect styling */
+        .dropdown-content form {
+            margin: 0;
+            padding: 0;
+            display: block;
         }
 
         /* Main Content */

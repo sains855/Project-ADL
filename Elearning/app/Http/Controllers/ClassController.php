@@ -83,7 +83,7 @@ class ClassController extends Controller
     {
         $class->load(['teacher', 'subjects', 'students']);
 
-        return view('classes.show', compact('class'));
+        return view('learning.detail', compact('class'));
     }
 
     /**
