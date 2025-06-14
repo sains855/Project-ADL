@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\LearningController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\NotificationController;
+
 
 
 // Halaman login
@@ -41,12 +41,36 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/classes/{id}', [ClassController::class, 'destroy'])->name('classes.destroy');
 });
 
-Route::group(['middleware' => 'auth'], function() {
-    Route::get('/learning/{subject}', [LearningController::class, 'show'])->name('learning.show');
-    Route::post('/learning/{subject}/module', [LearningController::class, 'storeModule'])->name('learning.module.store');
-    Route::put('/learning/module/{module}', [LearningController::class, 'updateModule'])->name('learning.module.update');
-    Route::delete('/learning/module/{module}', [LearningController::class, 'destroyModule'])->name('learning.module.destroy');
-    Route::post('/learning/{subject}/assignment', [LearningController::class, 'storeAssignment'])->name('learning.assignment.store');
-    Route::put('/learning/assignment/{assignment}', [LearningController::class, 'updateAssignment'])->name('learning.assignment.update');
-    Route::delete('/learning/assignment/{assignment}', [LearningController::class, 'destroyAssignment'])->name('learning.assignment.destroy');
+Route::middleware(['auth'])->group(function () {
+
+    // Route untuk learning detail
+    Route::get('/learning/{classId}', [LearningController::class, 'show'])
+        ->name('learning.detail');
+
+    // Resource routes untuk modules dengan custom parameter
+    Route::prefix('learning/{classId}')->group(function () {
+        Route::post('/modules', [LearningController::class, 'storeModule'])
+            ->name('learning.modules.store');
+    });
+
+    Route::prefix('learning/modules')->group(function () {
+        Route::put('/{moduleId}', [LearningController::class, 'updateModule'])
+            ->name('learning.modules.update');
+        Route::delete('/{moduleId}', [LearningController::class, 'destroyModule'])
+            ->name('learning.modules.destroy');
+    });
+
+    // Resource routes untuk assignments
+    Route::prefix('learning/{classId}')->group(function () {
+        Route::post('/assignments', [LearningController::class, 'storeAssignment'])
+            ->name('learning.assignments.store');
+    });
+
+    Route::prefix('learning/assignments')->group(function () {
+        Route::put('/{assignmentId}', [LearningController::class, 'updateAssignment'])
+            ->name('learning.assignments.update');
+        Route::delete('/{assignmentId}', [LearningController::class, 'destroyAssignment'])
+            ->name('learning.assignments.destroy');
+    });
+
 });

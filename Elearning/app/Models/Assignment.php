@@ -9,14 +9,19 @@ class Assignment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'subject_id', 'due_date'];
+    protected $fillable = ['title', 'description', 'module_id','class_id', 'due_date'];
 
     /**
      * Relasi ke subject
      */
-    public function subject()
+    public function Module()
     {
-        return $this->belongsTo(Subject::class);
+        return $this->belongsTo(Module::class);
+    }
+
+        public function Classes()
+    {
+        return $this->belongsTo(Classes::class);
     }
 
     /**

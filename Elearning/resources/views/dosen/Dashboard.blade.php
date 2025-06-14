@@ -509,7 +509,7 @@
                         <td>{{ $class->description ?? 'Tidak ada deskripsi' }}</td>
                         <td>
                             <div class="action-buttons">
-                                <a href="{{ route('classes.show', $class->id) }}" class="btn btn-show">Detail</a>
+                                <a href="{{ route('learning.detail', $class->id) }}" class="btn btn-show">Detail</a>
                                 <a href="{{ route('classes.edit', $class->id) }}" class="btn btn-edit">Edit</a>
                                 <form action="{{ route('classes.destroy', $class->id) }}" method="POST" style="display: inline-block;">
                                     @csrf

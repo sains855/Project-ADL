@@ -10,16 +10,15 @@ class Module extends Model
     use HasFactory;
 
     // Field yang boleh diisi mass-assignment
-    protected $fillable = ['title', 'content', 'class_id', 'created_by'];
+    protected $fillable = ['title', 'content','file_path', 'created_by'];
 
     /**
      * Relasi ke Subject
      */
-    public function Classes()
+    public function assignments()
     {
-        return $this->belongsTo(Classes::class);
+        return $this->hasMany(Assignment::class);
     }
-
     /**
      * Relasi ke User (guru pembuat modul)
      */
