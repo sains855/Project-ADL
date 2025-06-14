@@ -27,6 +27,10 @@ Route::get('/mahasiswa/dashboard', function () {
     return 'Dashboard Mahasiswa';
 })->middleware('auth');
 
+Route::get('/mahasiswa/modul', function () {
+    return view('modul.dashboard');
+})->middleware('auth');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/classes', [ClassController::class, 'index'])->name('dosen.daftar');
