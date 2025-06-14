@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/classes/create', [ClassController::class, 'create'])->name('dosen.create');
     Route::post('/classes', [ClassController::class, 'store'])->name('classes.store');
     Route::get('/classes/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
-    Route::put('/classes/{id}', [ClassController::class, 'update'])->name('classes.update');
+    Route::put('/classes/{class}', [ClassController::class, 'update'])->name('classes.update');
     Route::delete('/classes/{id}', [ClassController::class, 'destroy'])->name('classes.destroy');
 });
 

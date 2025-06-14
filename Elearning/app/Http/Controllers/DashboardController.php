@@ -19,10 +19,7 @@ class DashboardController extends Controller
             ->get();
 
         $totalKelas = $classes->count();
-        $kelasAktif = $classes->where('status', 'Aktif')->count();
-        $kelasSelesai = $classes->where('status', 'Selesai')->count();
-        $totalMahasiswa = $classes->sum('student_count');
 
-        return view('dosen.dashboard', compact('classes', 'totalKelas', 'kelasAktif', 'kelasSelesai', 'totalMahasiswa'));
+        return view('dosen.dashboard', compact('classes', 'totalKelas'));
     }
 }

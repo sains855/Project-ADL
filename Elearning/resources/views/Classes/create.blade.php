@@ -134,7 +134,7 @@
                                 Nama Kelas <span class="required">*</span>
                             </label>
                             <input type="text" class="form-control" id="name" name="name"
-                                placeholder="Contoh: X IPA 1, XI IPS 2" maxlength="50" required>
+                                placeholder="Contoh: X IPA 1, XI IPS 2" maxlength="50"  required>
                             <div class="invalid-feedback">
                                 Nama kelas wajib diisi (maksimal 50 karakter)
                             </div>

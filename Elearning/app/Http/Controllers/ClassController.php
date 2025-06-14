@@ -89,9 +89,10 @@ class ClassController extends Controller
     /**
      * Menampilkan form edit kelas
      */
-    public function edit(Classes $class)
+    public function edit($id)
     {
         $teachers = User::where('role', 'teacher')->get();
+        $class = Classes::findOrFail($id);
 
         return view('classes.edit', compact('class', 'teachers'));
     }
@@ -111,7 +112,7 @@ class ClassController extends Controller
         $validated['teacher_id'] = Auth::user()->id;
         $class->update($validated);
 
-        return redirect()->route('classes.index')
+        return redirect()->route('dosen.dashboard')
             ->with('success', 'Data kelas ' . $class->name . ' berhasil diperbarui');
     }
 
