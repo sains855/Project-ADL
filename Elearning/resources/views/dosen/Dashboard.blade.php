@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>EduManage - Dashboard Dosen</title>
+    <title>Dashboard Kelas</title>
     <style>
-        /* Reset dan Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -15,997 +13,581 @@
         }
 
         body {
-            background: linear-gradient(135deg, #4A6FA5 0%, #2E4A75 100%);
-            min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
 
-        /* Header Navigation */
-        .header {
-            background: rgba(255, 255, 255, 0.1);
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            padding: 15px 0;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .navbar-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            color: white;
-            font-size: 18px;
+            font-size: 1.5rem;
             font-weight: bold;
+            color: #333;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .logo span {
-            margin-right: 5px;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        .nav-menu a {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-
-        .nav-menu a:hover,
-        .nav-menu a.active {
-            color: white;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            color: white;
-            gap: 10px;
+        .profile-dropdown {
             position: relative;
         }
 
-        .notification {
-            background: #ff4757;
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-
-        .avatar {
-            width: 35px;
-            height: 35px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #4A6FA5;
-            font-weight: bold;
+            border: none;
+            border-radius: 25px;
             cursor: pointer;
-            transition: all 0.3s;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
         }
 
-        .avatar:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        .profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
-        /* Profile Dropdown */
-        .profile-dropdown {
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .dropdown-content {
             position: absolute;
             top: 100%;
             right: 0;
-            margin-top: 10px;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            padding: 8px 0;
-            min-width: 200px;
+            min-width: 160px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 0.5rem 0;
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             z-index: 1000;
-            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
-        .profile-dropdown.show {
+        .dropdown-content.show {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
         }
 
-        .profile-dropdown::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            right: 20px;
-            width: 12px;
-            height: 12px;
-            background: white;
-            transform: rotate(45deg);
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            border-left: 1px solid rgba(0, 0, 0, 0.1);
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
         }
 
-        .dropdown-header {
-            padding: 12px 16px;
-            border-bottom: 1px solid #e5e7eb;
-            margin-bottom: 4px;
+        .dropdown-item:hover {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
         }
 
-        .dropdown-user-info {
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Stats Cards */
+        .stats-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-content {
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 1rem;
         }
 
-        .dropdown-avatar {
-            width: 32px;
-            height: 32px;
-            background: #4A6FA5;
-            border-radius: 50%;
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: bold;
-            font-size: 12px;
+            font-size: 1.5rem;
         }
 
-        .dropdown-user-details {
-            flex: 1;
+        .stats-info h3 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.25rem;
         }
 
-        .dropdown-user-name {
+        .stats-info p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Table Styles */
+        .table-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .table-title {
+            font-size: 1.5rem;
+            color: #333;
             font-weight: 600;
-            color: #1f2937;
-            font-size: 14px;
-            margin-bottom: 2px;
         }
 
-        .dropdown-user-role {
-            color: #6b7280;
-            font-size: 12px;
-        }
-
-        .dropdown-menu {
-            list-style: none;
-        }
-
-        .dropdown-item {
-            margin: 0;
-        }
-
-        .dropdown-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
-            color: #374151;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.2s;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-            cursor: pointer;
-        }
-
-        .dropdown-link:hover {
-            background: #f3f4f6;
-            color: #1f2937;
-        }
-
-        .dropdown-link.logout {
-            color: #ef4444;
-            border-top: 1px solid #e5e7eb;
-            margin-top: 4px;
-        }
-
-        .dropdown-link.logout:hover {
-            background: #fef2f2;
-            color: #dc2626;
-        }
-
-        .dropdown-icon {
-            font-size: 16px;
-            width: 16px;
-            text-align: center;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-
-        /* Page Header */
-        .page-header {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .page-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #2E4A75;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .page-subtitle {
-            color: #6B7280;
-            font-size: 14px;
-        }
-
-        /* Tab Navigation */
-        .tab-nav {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 20px 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .tab-buttons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .tab-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            background: transparent;
-            color: #6B7280;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .tab-btn.active {
-            background: #4A6FA5;
+        .add-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
-        }
-
-        /* Hidden sections */
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .stat-number {
-            font-size: 36px;
-            font-weight: bold;
-            color: #4A6FA5;
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            color: #6B7280;
-            font-size: 14px;
-        }
-
-        /* Classes Section */
-        .classes-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #2E4A75;
-            margin-bottom: 20px;
-        }
-
-        .classes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-        }
-
-        .class-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .class-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        }
-
-        .class-header {
-            margin-bottom: 15px;
-        }
-
-        .class-name {
-            font-size: 16px;
-            font-weight: bold;
-            color: #2E4A75;
-            margin-bottom: 5px;
-        }
-
-        .class-code {
-            color: #6B7280;
-            font-size: 12px;
-            background: #f3f4f6;
-            padding: 2px 8px;
-            border-radius: 4px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
             display: inline-block;
         }
 
-        .class-details {
-            list-style: none;
-            margin-bottom: 15px;
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
-        .class-details li {
-            color: #4B5563;
-            font-size: 13px;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
         }
 
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
 
+        th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
 
-        .class-actions {
+        th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+
+        tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .subject-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .subject-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .action-buttons {
             display: flex;
-            justify-content: flex-end;
-            gap: 8px;
+            gap: 0.5rem;
         }
 
         .btn {
-            padding: 6px 12px;
+            padding: 0.5rem 1rem;
             border: none;
-            border-radius: 6px;
-            font-size: 12px;
+            border-radius: 15px;
             cursor: pointer;
-            transition: all 0.3s;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
         }
 
+        .btn-show {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .btn-show:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+        }
+
         .btn-edit {
-            background: #3B82F6;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
             color: white;
         }
 
         .btn-edit:hover {
-            background: #2563EB;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
         }
 
         .btn-delete {
-            background: #EF4444;
+            background: linear-gradient(45deg, #f44336, #d32f2f);
             color: white;
         }
 
         .btn-delete:hover {
-            background: #DC2626;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
         }
 
-        .btn-view {
-            background: #10B981;
-            color: white;
-        }
-
-        .btn-view:hover {
-            background: #059669;
-        }
-
-        .btn-cancel {
-            background: #6B7280;
-            color: white;
-        }
-
-        .btn-cancel:hover {
-            background: #4B5563;
-        }
-
-        .btn-save {
-            background: #10B981;
-            color: white;
-            padding: 8px 16px;
-        }
-
-        .btn-save:hover {
-            background: #059669;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #6B7280;
-        }
-
-        .empty-state h3 {
-            margin-bottom: 10px;
-            color: #4B5563;
-        }
-
-        /* Form Styles */
-        .form-section {
-            background: rgba(255, 255, 255, 0.95);
+        .status-badge {
+            padding: 0.3rem 0.8rem;
             border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
+        /* Alert Styles */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            position: relative;
         }
 
-        .form-group {
-            margin-bottom: 20px;
+        .alert-success {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
         }
 
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #374151;
-            font-size: 14px;
+        .alert-error {
+            background: linear-gradient(45deg, #f44336, #d32f2f);
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
         }
 
-        .form-input,
-        .form-select,
-        .form-textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #E5E7EB;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            background: white;
-        }
-
-        .form-input:focus,
-        .form-select:focus,
-        .form-textarea:focus {
-            outline: none;
-            border-color: #4A6FA5;
-            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-            padding-top: 20px;
-            border-top: 1px solid #E5E7EB;
-        }
-
-        /* All Classes List Styles */
-        .classes-list {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
-        .list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .search-box {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .search-input {
-            padding: 8px 12px;
-            border: 2px solid #E5E7EB;
-            border-radius: 6px;
-            font-size: 14px;
-            width: 250px;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #4A6FA5;
+        .close-alert {
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
+            .container {
+                padding: 0 1rem;
             }
 
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .navbar {
+                padding: 1rem;
             }
 
-            .classes-grid {
-                grid-template-columns: 1fr;
+            .dashboard-title {
+                font-size: 2rem;
             }
 
-            .profile-dropdown {
-                right: -10px;
-                min-width: 180px;
+            .table-container {
+                padding: 1rem;
+                overflow-x: auto;
             }
 
-            .form-grid {
-                grid-template-columns: 1fr;
+            table {
+                min-width: 700px;
             }
 
-            .tab-buttons {
-                flex-wrap: wrap;
+            .action-buttons {
+                flex-direction: column;
+                gap: 0.3rem;
             }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stats-card,
+        .table-container {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .table-container {
+            animation-delay: 0.2s;
         }
     </style>
 </head>
 
 <body>
-    <!-- Header Navigation -->
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo">
-                <span>🎓</span>
-                EduManage
-            </div>
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="{{ route('dosen.dashboard') }}" class="active">Dashboard</a></li>
-                    <li><a href="#">Kelas</a></li>
-                    <li><a href="#">Mahasiswa</a></li>
-                    <li><a href="#">Laporan</a></li>
-                </ul>
-            </nav>
-            <div class="user-profile">
-                <div class="notification">3</div>
-                <div>
-                    <div style="font-size: 12px; opacity: 0.8;">{{ Auth::user()->name }}</div>
-                    <div style="font-size: 10px; opacity: 0.6;">Dosen</div>
-                </div>
-                <div class="avatar" onclick="toggleProfileDropdown()">
-                    {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
-                </div>
-
-                <!-- Profile Dropdown -->
-                <div class="profile-dropdown" id="profileDropdown">
-                    <div class="dropdown-header">
-                        <div class="dropdown-user-info">
-                            <div class="dropdown-avatar">
-                                {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
-                            </div>
-                            <div class="dropdown-user-details">
-                                <div class="dropdown-user-name">{{ Auth::user()->name }}</div>
-                                <div class="dropdown-user-role">Dosen</div>
-                            </div>
-                        </div>
-                    </div>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-item">
-                            <a href="#" class="dropdown-link">
-                                <span class="dropdown-icon">👤</span>
-                                <span>Profil Saya</span>
-                            </a>
-                        </li>
-                        <li class="dropdown-item">
-                            <a href="/notifications" class="dropdown-link">
-                                <span class="dropdown-icon">🔔</span>
-                                <span>Notifikasi</span>
-                            </a>
-                        </li>
-                        <li class="dropdown-item">
-                            <button class="dropdown-link logout" action="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                                <span class="dropdown-icon">🚪</span>
-                                <span>Keluar</span>
-                            </button>
-                        </li>
-                    </ul>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="logo">EduManage</div>
+            <div class="profile-dropdown">
+                <button class="profile-btn" onclick="toggleDropdown()">
+                    <div class="profile-avatar"><?= strtoupper(substr($user['name'] ?? 'dosen', 0, 1)) ?></div>
+                    <span><?= htmlspecialchars($user['name'] ?? 'dosen') ?></span>
+                    <span>▼</span>
+                </button>
+                <div class="dropdown-content" id="dropdownContent">
+                    <a href="#" class="dropdown-item">👤 Profile</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="dropdown-item">🚪 Logout</button>
+                    </form>
                 </div>
             </div>
         </div>
-    </header>
+    </nav>
 
+    <!-- Main Content -->
     <div class="container">
-        <!-- Page Header -->
-        <div class="page-header">
-            <h1 class="page-title" id="pageTitle">
-                📚 Dashboard Dosen
-            </h1>
-            <p class="page-subtitle" id="pageSubtitle">Kelola mata kuliah dan kelas dengan mudah dan efisien</p>
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Dashboard Kelas</h1>
+            <p class="dashboard-subtitle">Kelola semua kelas pembelajaran dengan mudah</p>
         </div>
 
-        <!-- Tab Navigation -->
-        <div class="tab-nav">
-            <div class="tab-buttons">
-                <button class="tab-btn active" onclick="showSection('dashboard')">Dashboard</button>
-                <button class="tab-btn" onclick="showSection('daftar-kelas')">Daftar Kelas</button>
-                <button class="tab-btn" onclick="showSection('tambah-kelas')">Tambah Kelas</button>
-            </div>
+        <!-- Alert Messages (Laravel Flash Messages) -->
+        <?php if(isset($_GET['success'])): ?>
+        <div class="alert alert-success">
+            <?= htmlspecialchars($_GET['success']) ?>
+            <button class="close-alert" onclick="this.parentElement.style.display='none'">&times;</button>
         </div>
+        <?php endif; ?>
 
-        <!-- Dashboard Section -->
-        <div id="dashboard-section" class="section active">
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">{{ $totalKelas }}</div>
-                    <div class="stat-label">Total Kelas</div>
+        <!-- Total Kelas Stats -->
+        <div class="stats-card">
+            <div class="stats-content">
+                <div class="stats-icon">📚</div>
+                <div class="stats-info">
+                    <h3 id="totalKelas"><?= $totalClasses ?? 0 ?></h3>
+                    <p>Total Kelas</p>
                 </div>
             </div>
-
-            <!-- Classes Section -->
-            <div class="classes-section">
-                <div class="section-title">Kelas Terbaru</div>
-
-                @if($totalKelas> 0)
-                    <div class="classes-grid">
-                        @foreach($totalKelas->take(6) as $class)
-                            <div class="class-card">
-                                <div class="class-header">
-                                    <div class="class-name">{{ $class->subjects->name ?? 'Mata Kuliah Tidak Tersedia' }}</div>
-                                    <span class="class-code">{{ $class->class_code }}</span>
-                                </div>
-                                <ul class="class-details">
-                                    <li>
-                                        <span>📅</span>
-                                        <span>{{ $class->schedule ?? 'Jadwal belum ditentukan' }}</span>
-                                    </li>
-                                </ul>
-                                <div class="class-actions">
-                                    <a href="#" class="btn btn-view">Lihat</a>
-                                    <button class="btn btn-edit" onclick="editClass({{ $class->id }}, '{{ $class->subjects->name ?? '' }}', '{{ $class->class_code }}', '{{ $class->schedule ?? '' }}', '{{ $class->semester ?? '' }}')">Edit</button>
-                                    <button class="btn btn-delete" onclick="confirmDelete({{ $class->id }})">Hapus</button>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @else
-                    <div class="empty-state">
-                        <h3>Belum Ada Kelas</h3>
-                        <p>Anda belum memiliki kelas yang diampu. Silakan tambah kelas baru.</p>
-                        <br>
-                        <button class="btn btn-edit" onclick="showSection('tambah-kelas')">Tambah Kelas Baru</button>
-                    </div>
-                @endif
-            </div>
         </div>
 
-        <!-- Daftar Kelas Section -->
-        <div id="daftar-kelas-section" class="section">
-            <div class="classes-list">
-                <div class="list-header">
-                    <div class="section-title">Semua Kelas</div>
-                    <div class="search-box">
-                        <input type="text" class="search-input" placeholder="Cari kelas..." id="searchInput">
-                        <button class="btn btn-edit" onclick="showSection('tambah-kelas')">Tambah Kelas</button>
-                    </div>
-                </div>
+        <!-- Daftar Kelas Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2 class="table-title">Daftar Kelas</h2>
+                <a href="/classes/create" class="add-btn">+ Tambah Kelas</a>
+            </div>
 
-                @if($totalKelas > 0)
-                    <div class="classes-grid" id="allClassesGrid">
-                        @foreach($classes as $class)
-                            <div class="class-card" data-class-name="{{ strtolower($class->subjects->name ?? '') }}" data-class-code="{{ strtolower($class->class_code) }}">
-                                <div class="class-header">
-                                    <div class="class-name">{{ $class->subjects->name ?? 'Mata Kuliah Tidak Tersedia' }}</div>
-                                    <span class="class-code">{{ $class->class_code }}</span>
-                                </div>
-                                <ul class="class-details">
-                                    <li>
-                                        <span>📅</span>
-                                        <span>{{ $class->schedule ?? 'Jadwal belum ditentukan' }}</span>
-                                    </li>
-                                </ul>
-                                <div class="class-actions">
-                                    <a href="#" class="btn btn-view">Lihat</a>
-                                    <button class="btn btn-edit" onclick="editClass({{ $class->id }}, '{{ $class->subjects->name ?? '' }}', '{{ $class->class_code }}', '{{ $class->schedule ?? '' }}')">Edit</button>
-                                    <button class="btn btn-delete" onclick="confirmDelete({{ $class->id }})">Hapus</button>
-                                </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Pelajaran</th>
+                        <th>Hari</th>
+                        <th>Jam Mulai</th>
+                        <th>Jam Berakhir</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if(empty($classes)): ?>
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+                            Belum ada data kelas
+                        </td>
+                    </tr>
+                    <?php else: ?>
+                    <?php foreach($classes as $class): ?>
+                    <tr>
+                        <td><?= $class['id'] ?></td>
+                        <td><?= htmlspecialchars($class['name']) ?></td>
+                        <td><?= htmlspecialchars($class['hari']) ?></td>
+                        <td><?= htmlspecialchars($class['jam_mulai']) ?></td>
+                        <td><?= htmlspecialchars($class['jam_selesai']) ?></td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="/classes/<?= $class['id'] ?>" class="btn btn-show">Detail</a>
+                                <a href="/classes/<?= $class['id'] ?>/edit" class="btn btn-edit">Edit</a>
+                                <form action="{{ route('dosen.destroy', $class->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-delete" type="submit">Hapus</button>
+                                </form>
                             </div>
-                        @endforeach
-                    </div>
-                @else
-                    <div class="empty-state">
-                        <h3>Belum Ada Kelas</h3>
-                        <p>Anda belum memiliki kelas yang diampu. Silakan tambah kelas baru.</p>
-                        <br>
-                        <button class="btn btn-edit" onclick="showSection('tambah-kelas')">Tambah Kelas Baru</button>
-                    </div>
-                @endif
-            </div>
-        </div>
-
-        <!-- Tambah/Edit Kelas Section -->
-        <div id="tambah-kelas-section" class="section">
-            <div class="form-section">
-                <div class="section-title" id="formTitle">Tambah Kelas Baru</div>
-
-                <form id="classForm">
-                    <input type="hidden" id="classId" name="class_id">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label" for="name">Nama Mata Kuliah</label>
-                            <input type="text" id="name" name="name" class="form-input" placeholder="Masukkan nama mata kuliah" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="hari">Hari</label>
-                            <select name="hari" id="hari" class="form-select">
-                                <option value="senin">senin</option>
-                                <option value="selasa">selasa</option>
-                                <option value="rabu">rabu</option>
-                                <option value="kamis">kamis</option>
-                                <option value="jumat">jumat</option>
-                                <option value="sabtu">sabtu</option>
-                                <option value="minggu">minggu</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="waktu_mulai">Dari Jam</label>
-                            <input type="time" id="waktu_mulai" name="waktu_mulai" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="waktu_selesai">Sampai Jam</label>
-                            <input type="time" id="waktu_selesai" name="waktu_selesai" class="form-input" required>
-                        </div>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-cancel" onclick="cancelForm()">Batal</button>
-                        <button type="submit" class="btn btn-save" id="saveBtn">Simpan Kelas</button>
-                    </div>
-                </form>
-            </div>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <script>
-        // Global variables
-        let currentEditingClassId = null;
-        let isEditMode = false;
+    <!-- Delete Form (Hidden) -->
+    <form id="deleteForm" method="POST" style="display: none;">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="<?= csrf_token() ?? '' ?>">
+    </form>
 
-        // Profile dropdown functionality
-        function toggleProfileDropdown() {
-            const dropdown = document.getElementById('profileDropdown');
+    <script>
+        // Populate table if no server data
+        if (document.querySelector('tbody').children.length === 1 &&
+            document.querySelector('tbody').textContent.includes('Belum ada data kelas')) {
+            populateTable(sampleClasses);
+            document.getElementById('totalKelas').textContent = sampleClasses.length;
+        }
+
+        function populateTable(classes) {
+            const tbody = document.querySelector('tbody');
+            tbody.innerHTML = '';
+
+            classes.forEach(classData => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${classData.no}</td>
+                    <td>${classData.name}</td>
+                    <td>
+                        ${classData.subject_id ?
+                            `<a href="/classes/${classData.id}/subjects" class="subject-link">${classData.subject}</a>` :
+                            `<span style="color: #999;">${classData.subject}</span>`
+                        }
+                    </td>
+                    <td>${classData.teacher}</td>
+                    <td>${classData.schedule}</td>
+                    <td><span class="status-badge">${classData.status}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="/classes/${classData.id}" class="btn btn-show">Detail</a>
+                            <a href="/classes/${classData.id}/edit" class="btn btn-edit">Edit</a>
+                            <button class="btn btn-delete" onclick="deleteClass(${classData.id}, '${classData.name}')">Hapus</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Toggle dropdown menu
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdownContent');
             dropdown.classList.toggle('show');
         }
 
         // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('profileDropdown');
-            const avatar = document.querySelector('.avatar');
-
-            if (!dropdown.contains(event.target) && !avatar.contains(event.target)) {
-                dropdown.classList.remove('show');
-            }
-        });
-
-        // Section switching functionality
-        function showSection(sectionName) {
-            // Hide all sections
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => section.classList.remove('active'));
-
-            // Remove active class from all tab buttons
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-
-            // Show selected section and activate corresponding tab
-            const targetSection = document.getElementById(sectionName + '-section');
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-
-            // Update page title and subtitle based on section
-            const pageTitle = document.getElementById('pageTitle');
-            const pageSubtitle = document.getElementById('pageSubtitle');
-
-            switch(sectionName) {
-                case 'dashboard':
-                    pageTitle.innerHTML = '📚 Dashboard Dosen';
-                    pageSubtitle.textContent = 'Kelola mata kuliah dan kelas dengan mudah dan efisien';
-                    document.querySelector('.tab-btn[onclick="showSection(\'dashboard\')"]').classList.add('active');
-                    break;
-                case 'daftar-kelas':
-                    pageTitle.innerHTML = '📋 Daftar Kelas';
-                    pageSubtitle.textContent = 'Lihat dan kelola semua kelas yang Anda ampu';
-                    document.querySelector('.tab-btn[onclick="showSection(\'daftar-kelas\')"]').classList.add('active');
-                    break;
-                case 'tambah-kelas':
-                    if (isEditMode) {
-                        pageTitle.innerHTML = '✏️ Edit Kelas';
-                        pageSubtitle.textContent = 'Perbarui informasi kelas yang sudah ada';
-                    } else {
-                        pageTitle.innerHTML = '➕ Tambah Kelas';
-                        pageSubtitle.textContent = 'Buat kelas baru untuk mata kuliah yang Anda ampu';
-                    }
-                    document.querySelector('.tab-btn[onclick="showSection(\'tambah-kelas\')"]').classList.add('active');
-                    break;
-            }
-
-            // Reset form if switching away from add/edit section
-            if (sectionName !== 'tambah-kelas') {
-                resetForm();
-            }
-        }
-
-        // Search functionality for class list
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const classCards = document.querySelectorAll('#allClassesGrid .class-card');
-
-            classCards.forEach(card => {
-                const className = card.getAttribute('data-class-name');
-                const classCode = card.getAttribute('data-class-code');
-
-                if (className.includes(searchTerm) || classCode.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
+        window.onclick = function(event) {
+            if (!event.target.matches('.profile-btn') && !event.target.closest('.profile-btn')) {
+                const dropdown = document.getElementById('dropdownContent');
+                if (dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
                 }
-            });
-        });
-
-        // Edit class functionality
-        function editClass(id, subjectName, classCode, schedule, room, semester) {
-            isEditMode = true;
-            currentEditingClassId = id;
-
-            // Fill form with existing data
-            document.getElementById('classId').value = id;
-            document.getElementById('subjectName').value = subjectName;
-            document.getElementById('classCode').value = classCode;
-            document.getElementById('schedule').value = schedule;
-            document.getElementById('room').value = room;
-            document.getElementById('semester').value = semester;
-
-            // Update form title and button text
-            document.getElementById('formTitle').textContent = 'Edit Kelas';
-            document.getElementById('saveBtn').textContent = 'Update Kelas';
-
-            // Show the form section
-            showSection('tambah-kelas');
-        }
-
-        // Reset form to add mode
-        function resetForm() {
-            isEditMode = false;
-            currentEditingClassId = null;
-
-            // Clear form
-            document.getElementById('classForm').reset();
-            document.getElementById('classId').value = '';
-
-            // Reset form title and button text
-            document.getElementById('formTitle').textContent = 'Tambah Kelas Baru';
-            document.getElementById('saveBtn').textContent = 'Simpan Kelas';
-        }
-
-        // Cancel form
-        function cancelForm() {
-            resetForm();
-            showSection('dashboard');
-        }
-
-        // Form submission
-        document.getElementById('classForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-            const classData = {
-                id: formData.get('class_id'),
-                subject_name: formData.get('subject_name'),
-                class_code: formData.get('class_code'),
-                schedule: formData.get('schedule'),
-                room: formData.get('room'),
-
-                semester: formData.get('semester'),
-                description: formData.get('description')
-            };
-
-            if (isEditMode) {
-                // Handle edit submission
-                console.log('Updating class:', classData);
-                alert('Kelas berhasil diperbarui! (Implementasi backend diperlukan)');
-            } else {
-                // Handle add submission
-                console.log('Adding new class:', classData);
-                alert('Kelas baru berhasil ditambahkan! (Implementasi backend diperlukan)');
-            }
-
-            // Reset form and return to dashboard
-            resetForm();
-            showSection('dashboard');
-        });
-
-        // Delete confirmation
-        function confirmDelete(classId) {
-            if (confirm('Apakah Anda yakin ingin menghapus kelas ini?')) {
-                console.log('Deleting class with ID:', classId);
-                alert('Kelas berhasil dihapus! (Implementasi backend diperlukan)');
-                // Implement actual deletion logic here
-                // window.location.href = '/dosen/classes/' + classId + '/delete';
             }
         }
 
-        // Close dropdown when pressing Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                document.getElementById('profileDropdown').classList.remove('show');
+        // Delete class function
+        function deleteClass(classId, className) {
+            if (confirm(`Apakah Anda yakin ingin menghapus kelas "${className}"?`)) {
+                const form = document.getElementById('deleteForm');
+                form.action = `/dosen`;
+                form.submit();
             }
-        });
+        }
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
-            // Set default section
-            showSection('dashboard');
+            // Auto hide alerts after 5 seconds
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.style.display = 'none';
+                }, 5000);
+            });
         });
     </script>
 </body>
+
 </html>

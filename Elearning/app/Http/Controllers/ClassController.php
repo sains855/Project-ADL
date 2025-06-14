@@ -2,129 +2,141 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Classes;
 use App\Models\Subject;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class ClassController extends Controller
 {
-    // Menampilkan semua kelas
+    /**
+     * Menampilkan dashboard kelas
+     */
     public function index()
     {
-        return view('dosen.classes.index', [
-            'classes' => Classes::with('subject')
-                                ->where('teacher_id', Auth::user()->id)
-                                ->get(),
+        // Ambil data kelas beserta relasinya
+        $classes = Classes::with(['teacher', 'subjects'])
+                    ->orderBy('name')
+                    ->get();
+
+        // Hitung total kelas
+        $totalClasses = $classes->count();
+
+        // Format data untuk tabel
+        $formattedClasses = $classes->map(function($class, $index) {
+            // Ambil mata pelajaran pertama sebagai contoh (bisa disesuaikan dengan kebutuhan)
+            $subject = $class->subjects->first();
+
+            return [
+                'no' => $index + 1,
+                'id' => $class->id,
+                'name' => $class->name,
+                'subject' => $subject ? $subject->name : 'Belum ada mapel',
+                'subject_id' => $subject ? $subject->id : null,
+                'teacher' => $class->teacher->name,
+                'schedule' => $class->hari . ', ' . $class->jam_mulai . ' - ' . $class->jam_selesai,
+                'status' => 'Aktif' // Asumsi semua kelas aktif
+            ];
+        });
+
+        return view('dashboard.class', [
+            'totalClasses' => $totalClasses,
+            'classes' => $formattedClasses
         ]);
     }
 
-    // Menyimpan kelas baru
+    /**
+     * Menampilkan form tambah kelas
+     */
+    public function create()
+    {
+        // Ambil daftar guru untuk dropdown
+        $teachers = User::where('role', 'teacher')->get();
+
+        return view('classes.create', compact('teachers'));
+    }
+
+    /**
+     * Menyimpan kelas baru
+     */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'hari' => 'required|string|max:10',
-            'waktu_mulai' => 'required|date_format:H:i',
-            'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
+        $validated = $request->validate([
+            'name' => 'required|string|max:50',
+            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
+            'jam_mulai' => 'required|date_format:H:i',
+            'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+            'teacher_id' => 'required|exists:users,id'
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                             ->withErrors($validator)
-                             ->withInput();
-        }
-
-        // Cari atau buat subject baru
-        $subject = Subject::firstOrCreate([
-            'name' => $request->name
-        ]);
-
-        // Generate kode kelas unik
-        $classCode = strtoupper(substr($request->name, 0, 3)) . '-' . rand(100, 999);
-
-        // Buat kelas baru
-        $class = Classes::create([
-            'subject_id' => $subject->id,
-            'teacher_id' => Auth::user()->id,
-            'class_code' => $classCode,
-            'schedule' => $request->hari . ', ' . $request->waktu_mulai . ' - ' . $request->waktu_selesai,
-        ]);
+        $class = Classes::create($validated);
 
         return redirect()->route('dosen.dashboard')
-                         ->with('success', 'Kelas berhasil ditambahkan!');
+            ->with('success', 'Kelas ' . $class->name . ' berhasil ditambahkan');
     }
 
-    // Menampilkan detail kelas
-    public function show($id)
+    /**
+     * Menampilkan detail kelas
+     */
+    public function show(Classes $class)
     {
-        $class = Classes::with(['subject'])
-                        ->where('teacher_id', Auth::user()->id)
-                        ->findOrFail($id);
+        $class->load(['teacher', 'subjects', 'students']);
 
-        return view('dosen.classes.show', compact('class'));
+        return view('classes.show', compact('class'));
     }
 
-    // Mengupdate kelas
-    public function update(Request $request, $id)
+    /**
+     * Menampilkan form edit kelas
+     */
+    public function edit(Classes $class)
     {
-        $class = Classes::where('teacher_id', Auth::user()->id)
-                         ->findOrFail($id);
+        $teachers = User::where('role', 'teacher')->get();
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'hari' => 'required|string|max:10',
-            'waktu_mulai' => 'required|date_format:H:i',
-            'waktu_selesai' => 'required|date_format:H:i|after:waktu_mulai',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                             ->withErrors($validator)
-                             ->withInput();
-        }
-
-        // Update subject
-        $subject = Subject::firstOrCreate([
-            'name' => $request->name
-        ]);
-
-        // Update kelas
-        $class->update([
-            'subject_id' => $subject->id,
-            'schedule' => $request->hari . ', ' . $request->waktu_mulai . ' - ' . $request->waktu_selesai,
-        ]);
-
-        return redirect()->route('dosen.dashboard')
-                         ->with('success', 'Kelas berhasil diperbarui!');
+        return view('classes.edit', compact('class', 'teachers'));
     }
 
-    // Menghapus kelas
+    /**
+     * Mengupdate data kelas
+     */
+    public function update(Request $request, Classes $class)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:50',
+            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu,Minggu',
+            'jam_mulai' => 'required|date_format:H:i',
+            'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+        ]);
+
+        $validated['teacher_id'] = Auth::user()->id;
+        $class->update($validated);
+
+        return redirect()->route('classes.index')
+            ->with('success', 'Data kelas ' . $class->name . ' berhasil diperbarui');
+    }
+
+    /**
+     * Menghapus kelas
+     */
     public function destroy($id)
     {
-        $class = Classes::where('teacher_id', Auth::user()->id)
-                         ->findOrFail($id);
-
+        $class = Classes::findOrFail($id);
         $class->delete();
 
         return redirect()->route('dosen.dashboard')
-                         ->with('success', 'Kelas berhasil dihapus!');
+            ->with('success', ' berhasil dihapus');
     }
 
-    // Helper untuk mendapatkan semester saat ini
-    private function getCurrentSemester()
+    /**
+     * Menampilkan daftar mata pelajaran untuk kelas tertentu
+     */
+    public function showSubjects(Classes $class)
     {
-        $month = date('n');
-        $year = date('Y');
+        $subjects = $class->subjects()->with('teacher')->get();
 
-        // Semester ganjil: Agustus - Januari
-        // Semester genap: Februari - Juli
-        if ($month >= 8 || $month <= 1) {
-            return 'Ganjil ' . ($month >= 8 ? $year . '/' . ($year + 1) : ($year - 1) . '/' . $year);
-        } else {
-            return 'Genap ' . $year . '/' . $year;
-        }
+        return view('classes.subjects', [
+            'class' => $class,
+            'subjects' => $subjects
+        ]);
     }
 }
