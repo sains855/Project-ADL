@@ -9,8 +9,8 @@ use App\Http\Controllers\NotificationController;
 
 
 // Halaman login
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/', [AuthController::class, 'login']);
 
 // Halaman registrasi
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/classes/create', [ClassController::class, 'create'])->name('dosen.create');
     Route::post('/classes', [ClassController::class, 'store'])->name('classes.store');
     Route::get('/classes/{id}/edit', [ClassController::class, 'edit'])->name('classes.edit');
-    Route::put('/classes/{id}', [ClassController::class, 'update'])->name('classes.update');
+    Route::put('/classes/{class}', [ClassController::class, 'update'])->name('classes.update');
     Route::delete('/classes/{id}', [ClassController::class, 'destroy'])->name('classes.destroy');
 });
 
