@@ -567,7 +567,7 @@
                         Hapus Akun
                     </button>
                     <div class="actions">
-                        <a href="{{ route('dosen.dashboard') }}" class="action-btn btn-primary">
+                        <a href="{{ route('modul.index') }}" class="action-btn btn-primary">
                             Kembali
                         </a>
                     </div>

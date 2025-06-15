@@ -28,7 +28,7 @@ Route::delete('/dosen/{id}', [ClassController::class, 'destroy'])->name('dosen.d
 // Dashboard Mahasiswa
 
 Route::get('/mahasiswa/dashboard', function () {
-    return view ('modul.index');
+    return view('modul.index');
 })->name('modul.index')->middleware('auth');
 
 
@@ -48,7 +48,7 @@ Route::get('/mahasiswa/modul/{id}', [LearningController::class, 'showMahasiswaMo
     ->name('modul.dashboard')->middleware('auth');
 
 
-Route::get('/mahasiswa/tugas', function (){
+Route::get('/mahasiswa/tugas', function () {
     return view('modul.tugas');
 })->middleware('auth');
 
@@ -94,14 +94,13 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{assignmentId}', [LearningController::class, 'destroyAssignment'])
             ->name('learning.assignments.destroy');
     });
-
 });
 
 
-    // Menampilkan daftar tugas untuk modul
+// Menampilkan daftar tugas untuk modul
 Route::get('/mahasiswa/tugas', [TugasController::class, 'index'])->name('modul.tugas');
 
-    // Menangani upload tugas
+// Menangani upload tugas
 // Ganti dengan ini:
 Route::post('/modul/{modul_id}/upload-tugas', [TugasController::class, 'uploadTugas'])->name('modul.tugas.upload');
 
@@ -116,9 +115,18 @@ Route::middleware('auth')->group(function () {
 // routes/web.php
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/verify-email', [ProfileController::class, 'verifyEmail'])->name('profile.verify-email');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/mahasiswa/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/mahasiswa/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/mahasiswa/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/mahasiswa/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::delete('/mahasiswa/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });

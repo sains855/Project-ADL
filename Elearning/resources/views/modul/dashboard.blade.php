@@ -29,7 +29,7 @@
                 <span>▼</span>
                 </button>
             <div class="dropdown-content" id="dropdownContent">
-                <a href="#" class="dropdown-item">👤 Profile</a>
+                <a href="/profile" class="dropdown-item">👤 Profile</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="dropdown-item">🚪 Logout</button>

@@ -17,7 +17,11 @@ class ProfileController extends Controller
     public function show()
     {
         $user = Auth::user();
-        return view('profile.show', compact('user'));
+        if ($user->role === 'dosen') {
+                    return view('profile.show', compact('user'));
+        } else {
+        return view('profile.index', compact('user'));
+        }
     }
 
     /**
@@ -63,9 +67,13 @@ class ProfileController extends Controller
             // Optional: Send email verification notification
             // $user->sendEmailVerificationNotification();
         }
-
-        return redirect()->route('profile.show')
+        if (Auth::user()->role === 'dosen') {
+            return redirect()->route('profile.show')
+                ->with('success', 'Profile berhasil diperbarui!');
+        } else {
+        return redirect()->route('profile.index')
             ->with('success', 'Profile berhasil diperbarui!');
+        }
     }
 
     /**
