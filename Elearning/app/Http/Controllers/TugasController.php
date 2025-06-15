@@ -86,4 +86,5 @@ class TugasController extends Controller
 
         return back()->with('success', 'Submission berhasil dihapus!');
     }
+    
 }

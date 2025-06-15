@@ -6,7 +6,7 @@
   <title>EduPlatform - Beranda</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <<link rel="stylesheet" href="{{ asset('css/modul.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/modul.css') }}">
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -17,9 +17,9 @@
         <h1>EduMas</h1>
       </div>
       <nav>
-        <a href="./dashboard" class="active"><i class="fas fa-home"></i> Beranda</a>
+        <a href="{{ route('modul.index') }}" class="active"><i class="fas fa-home"></i> Beranda</a>
         <a href="./modul"><i class="fas fa-book-open"></i> Modul</a>
-        <a href="./modul/tugas"><i class="fas fa-tasks"></i> Tugas</a>
+        <a href="{{ route('modul.tugas') }}"><i class="fas fa-tasks"></i>Tugas</a>
         <div class="profile-dropdown">
             <button class="profile-btn" onclick="toggleDropdown()">
                 <div class="profile-avatar"><?= strtoupper(substr(Auth::user()->name ?? 'User', 0, 1)) ?></div>

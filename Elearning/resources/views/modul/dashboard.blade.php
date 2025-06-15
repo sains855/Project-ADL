@@ -19,9 +19,9 @@
         <h1>EduMas</h1>
       </div>
       <nav>
-        <a href="./dashboard"><i class="fas fa-home"></i> Beranda</a>
-        <a href="./modul" class="active"><i class="fas fa-book-open"></i> Modul</a>
-        <a href="./modul/tugas"><i class="fas fa-tasks"></i> Tugas</a>
+        <a href="{{ route('modul.index') }}"><i class="fas fa-home"></i> Beranda</a>
+        <a href="../modul" class="active"><i class="fas fa-book-open"></i> Modul</a>
+        <a href="{{ route('modul.tugas') }}"><i class="fas fa-tasks"></i> Tugas</a>
         <div class="profile-dropdown">
             <button class="profile-btn" onclick="toggleDropdown()">
                 <div class="profile-avatar"><?= strtoupper(substr(Auth::user()->name ?? 'User', 0, 1)) ?></div>
@@ -68,18 +68,17 @@
         </div>
 
                         <div class="modul-grid">
-        @forelse($class->moduls as $module)
+        @forelse($class->moduls as $modul)
             <div class="modul-card">
             <div class="modul-icon">
                 <i class="fas fa-file-alt"></i>
             </div>
-
-            <h3>{{ $module->title }}</h3>
-            <p>{{ $module->content }}</p>
+            <h3>{{ $modul->judul }}</h3>
+            <p>{{ $modul->deskripsi }}</p>
             <div class="modul-meta">
-                <span><i class="fas fa-paperclip"></i> File: {{ basename($module->file_path) }}</span>
+                <span><i class="fas fa-paperclip"></i> File: {{ basename($modul->file_path) }}</span>
             </div>
-            <a href="{{ asset('storage/' . $module->file_path) }}" class="btn btn-outline" target="_blank">Lihat Materi</a>
+            <a href="{{ asset('storage/' . $modul->file_path) }}" class="btn btn-outline" target="_blank">Lihat Materi</a>
             </div>
         @empty
             <p>Tidak ada modul yang tersedia untuk kelas ini.</p>

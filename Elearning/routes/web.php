@@ -27,7 +27,7 @@ Route::delete('/dosen/{id}', [ClassController::class, 'destroy'])->name('dosen.d
 
 Route::get('/mahasiswa/dashboard', function () {
     return view ('modul.index');
-})->middleware('auth');
+})->name('modul.index')->middleware('auth');
 
 
 Route::get('/mahasiswa/modul/{id}', function ($id) {
@@ -41,14 +41,16 @@ Route::get('/mahasiswa/modul', function () {
     $classes = Classes::all(); // Menampilkan semua kelas
     return view('modul.kelas', compact('classes'));
 })->name('modul.kelas')->middleware('auth');
+
 Route::get('/mahasiswa/modul/{id}', [LearningController::class, 'showMahasiswaModul'])
     ->name('modul.dashboard')->middleware('auth');
 
 
-
-Route::get('/mahasiswa/modul/tugas', function (){
+Route::get('/mahasiswa/tugas', function (){
     return view('modul.tugas');
 })->middleware('auth');
+
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/classes', [ClassController::class, 'index'])->name('classes.show');
@@ -93,7 +95,7 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-Route::post('/mahasiswa/modul/tugas',[TugasController::class, 'store'])->name('modul.tugas');
+Route::post('/mahasiswa/tugas',[TugasController::class, 'store'])->name('modul.tugas');
 
 // routes/web.php
 Route::middleware('auth')->group(function () {
