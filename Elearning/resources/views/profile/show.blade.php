@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -75,7 +75,7 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -102,13 +102,13 @@
         }
 
         .role-dosen {
-            background: #e3f2fd;
-            color: #1976d2;
+            background: #e6f2ff;
+            color: #0066cc;
         }
 
         .role-mahasiswa {
-            background: #f3e5f5;
-            color: #7b1fa2;
+            background: #e6f2ff;
+            color: #0066cc;
         }
 
         .info-section {
@@ -145,7 +145,7 @@
             align-items: center;
             justify-content: center;
             margin-right: 15px;
-            color: #6c757d;
+            color: #4d88ff;
         }
 
         .info-content {
@@ -202,24 +202,24 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: white;
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, #5a6fd8, #6a4190);
+            background: linear-gradient(135deg, #1a3361, #22478a);
             transform: translateY(-2px);
         }
 
         .btn-secondary {
             background: #f8f9fa;
-            color: #6c757d;
+            color: #4d88ff;
             border: 2px solid #e9ecef;
         }
 
         .btn-secondary:hover {
             background: #e9ecef;
-            color: #495057;
+            color: #3a6fd5;
         }
 
         .btn-warning {
@@ -291,7 +291,7 @@
         .stat-icon {
             font-size: 2.5rem;
             margin-bottom: 10px;
-            color: #667eea;
+            color: #1e3c72;
         }
 
         .stat-value {
@@ -353,7 +353,7 @@
         }
 
         .modal-header h3 {
-            color: #dc3545;
+            color: #1e3c72;
             margin-bottom: 10px;
         }
 
@@ -397,7 +397,7 @@
 
         .form-input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #1e3c72;
         }
 
         .error-message {
