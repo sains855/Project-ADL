@@ -86,12 +86,4 @@ Route::middleware('auth')->group(function () {
         return view('message.index');
     })->name('message.index');
 });
-// routes/api.php
-Route::middleware('auth')->group(function () {
-    Route::get('/messages', [MessageController::class, 'index']);
-    Route::get('/messages/{userId}', [MessageController::class, 'index']);
-    Route::post('/messages', [MessageController::class, 'store']);
-    Route::get('message/users', [MessageController::class, 'getUsers']);
-    Route::post('/messages/{userId}/mark-read', [MessageController::class, 'markAsRead']);
-    Route::get('/messages/unread-count', [MessageController::class, 'getUnreadCount']);
-});
+
