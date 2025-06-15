@@ -19,6 +19,9 @@ return new class extends Migration
                 $table->unsignedBigInteger('class_id'); // FK ke subjects
         $table->dateTime('due_date'); // Batas akhir
         $table->timestamps();
+        $table->unsignedBigInteger('user_id'); // FK ke users (dosen)
+        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
 
         // Foreign key
         $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');

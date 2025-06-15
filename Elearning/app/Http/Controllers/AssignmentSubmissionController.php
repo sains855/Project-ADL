@@ -4,37 +4,44 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Assignment;
 use App\Models\AssignmentSubmission;
 use App\Models\User;
 
 class AssignmentSubmissionController extends Controller
 {
-    /**
-     * Menampilkan semua tugas yang dikumpulkan untuk assignment tertentu
-     *
-     * @param int $assignmentId
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\View\View
-     */
+    private function checkDosenAccessToAssignment($assignmentId)
+    {
+        $assignment = Assignment::with('module.kelas')->find($assignmentId);
+        if (!$assignment) {
+            return [false, null];
+        }
+
+        $dosenId = Auth::user()->id;
+        if ($assignment->modul->kelas->user_id !== $dosenId) {
+            return [false, null];
+        }
+
+        return [true, $assignment];
+    }
+
     public function getSubmissionsByAssignment($assignmentId)
     {
         try {
-            // Validasi apakah assignment exists
-            $assignment = Assignment::find($assignmentId);
-            if (!$assignment) {
+            [$authorized, $assignment] = $this->checkDosenAccessToAssignment($assignmentId);
+            if (!$authorized) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Assignment tidak ditemukan'
-                ], 404);
+                    'message' => 'Anda tidak memiliki akses ke assignment ini.'
+                ], 403);
             }
 
-            // Ambil data submissions dengan relasi ke user (mahasiswa)
             $submissions = AssignmentSubmission::with(['user:id,name,email', 'assignment:id,title'])
                 ->where('assignment_id', $assignmentId)
                 ->orderBy('submitted_at', 'desc')
                 ->get();
 
-            // Format data untuk response
             $submissionsData = $submissions->map(function ($submission) {
                 return [
                     'id' => $submission->id,
@@ -66,16 +73,10 @@ class AssignmentSubmissionController extends Controller
         }
     }
 
-    /**
-     * Menampilkan detail submission tertentu
-     *
-     * @param int $submissionId
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function getSubmissionDetail($submissionId)
     {
         try {
-            $submission = AssignmentSubmission::with(['user:id,name,email,nim', 'assignment:id,title,description'])
+            $submission = AssignmentSubmission::with(['user:id,name,email,nim', 'assignment:id,title,description,modul_id'])
                 ->find($submissionId);
 
             if (!$submission) {
@@ -83,6 +84,14 @@ class AssignmentSubmissionController extends Controller
                     'success' => false,
                     'message' => 'Submission tidak ditemukan'
                 ], 404);
+            }
+
+            [$authorized, $assignment] = $this->checkDosenAccessToAssignment($submission->assignment_id);
+            if (!$authorized) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Anda tidak memiliki akses ke submission ini.'
+                ], 403);
             }
 
             return response()->json([
@@ -115,28 +124,19 @@ class AssignmentSubmissionController extends Controller
         }
     }
 
-    /**
-     * Menampilkan statistik submission untuk assignment tertentu
-     *
-     * @param int $assignmentId
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function getSubmissionStats($assignmentId)
     {
         try {
-            // Validasi assignment
-            $assignment = Assignment::find($assignmentId);
-            if (!$assignment) {
+            [$authorized, $assignment] = $this->checkDosenAccessToAssignment($assignmentId);
+            if (!$authorized) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Assignment tidak ditemukan'
-                ], 404);
+                    'message' => 'Anda tidak memiliki akses ke assignment ini.'
+                ], 403);
             }
 
-            // Hitung total submissions
             $totalSubmissions = AssignmentSubmission::where('assignment_id', $assignmentId)->count();
 
-            // Ambil submissions terbaru (5 terakhir)
             $recentSubmissions = AssignmentSubmission::with('user:id,name')
                 ->where('assignment_id', $assignmentId)
                 ->orderBy('submitted_at', 'desc')
@@ -149,7 +149,6 @@ class AssignmentSubmissionController extends Controller
                     ];
                 });
 
-            // Hitung submissions per hari (7 hari terakhir)
             $submissionsPerDay = DB::table('assignment_submissions')
                 ->select(DB::raw('DATE(submitted_at) as date'), DB::raw('COUNT(*) as count'))
                 ->where('assignment_id', $assignmentId)
@@ -176,17 +175,10 @@ class AssignmentSubmissionController extends Controller
         }
     }
 
-    /**
-     * Download file submission
-     *
-     * @param int $submissionId
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\JsonResponse
-     */
     public function downloadSubmission($submissionId)
     {
         try {
-            $submission = AssignmentSubmission::with('user:id,name')
-                ->find($submissionId);
+            $submission = AssignmentSubmission::with(['user:id,name', 'assignment'])->find($submissionId);
 
             if (!$submission) {
                 return response()->json([
@@ -195,7 +187,14 @@ class AssignmentSubmissionController extends Controller
                 ], 404);
             }
 
-            // Asumsi file_url berisi path relatif dari storage
+            [$authorized, $assignment] = $this->checkDosenAccessToAssignment($submission->assignment_id);
+            if (!$authorized) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Anda tidak memiliki akses untuk download file ini.'
+                ], 403);
+            }
+
             $filePath = storage_path('app/' . $submission->file_url);
 
             if (!file_exists($filePath)) {
@@ -205,7 +204,6 @@ class AssignmentSubmissionController extends Controller
                 ], 404);
             }
 
-            // Generate nama file untuk download
             $fileName = $submission->user->name . '_' . basename($submission->file_url);
 
             return response()->download($filePath, $fileName);
@@ -218,16 +216,17 @@ class AssignmentSubmissionController extends Controller
         }
     }
 
-    /**
-     * Mencari submissions berdasarkan nama mahasiswa
-     *
-     * @param Request $request
-     * @param int $assignmentId
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function searchSubmissions(Request $request, $assignmentId)
     {
         try {
+            [$authorized, $assignment] = $this->checkDosenAccessToAssignment($assignmentId);
+            if (!$authorized) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Anda tidak memiliki akses untuk melihat data ini.'
+                ], 403);
+            }
+
             $searchTerm = $request->get('search', '');
 
             $submissions = AssignmentSubmission::with(['user:id,name,email', 'assignment:id,title'])

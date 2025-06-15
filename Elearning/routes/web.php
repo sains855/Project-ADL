@@ -10,6 +10,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LearningController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssignmentSubmissionController;
+use App\Models\Assignment;
+use Illuminate\Support\Facades\Auth;
 
 // Halaman login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -148,3 +150,18 @@ Route::middleware(['auth'])->group(function () {
             ->name('submissions.search');
     });
 });
+
+// Halaman Blade untuk melihat daftar submission dosen
+Route::middleware(['auth'])->get('/assignments/{assignmentId}/submissions/view', function ($assignmentId) {
+    return view('assignments.submissions.index', compact('assignmentId'));
+})->name('assignments.submissions.view');
+
+
+Route::middleware(['auth'])->get('/assignments', function () {
+    $assignments = Assignment::with('class')
+        ->where('user_id', Auth::id()) // hanya assignment milik dosen yang login
+        ->orderByDesc('created_at')
+        ->get();
+
+    return view('assignments.index', compact('assignments'));
+})->name('assignments.index');
