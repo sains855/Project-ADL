@@ -32,10 +32,10 @@ Route::get('/mahasiswa/dashboard', function () {
 })->name('modul.index')->middleware('auth');
 
 
-Route::get('/mahasiswa/modul/{id}', function ($id) {
-    $class = Classes::with('modules')->findOrFail($id);
-    return view('modul.dashboard', compact('class'));
-})->name('modul.dashboard')->middleware('auth');
+// Route::get('/mahasiswa/modul/{id}', function ($id) {
+//     $class = Classes::with('modules')->findOrFail($id);
+//     return view('modul.dashboard', compact('class'));
+// })->name('modul.dashboard')->middleware('auth');
 
 
 
