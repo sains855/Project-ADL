@@ -121,9 +121,6 @@
                         <i class="fas fa-home"></i> Dashboard
                     </a>
                 </li>
-                <li class="breadcrumb-item">
-                    <a href="{{ route('dosen.dashboard') }}">Kelola Kelas</a>
-                </li>
                 <li class="breadcrumb-item active" aria-current="page">Edit Kelas</li>
             </ol>
         </nav>
