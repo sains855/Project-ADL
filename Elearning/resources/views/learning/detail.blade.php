@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Pembelajaran - {{ $class->name ?? 'RPS PBP' }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -514,17 +516,43 @@
                 justify-content: flex-end;
             }
         }
+
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+        }
+
+        .breadcrumb-item a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .breadcrumb-item a:hover {
+            color: #764ba2;
+        }
     </style>
 </head>
 
 <body>
-<div class="container">
+    <div class="container">
         <div class="header">
             <h1>{{ $class->name ?? 'RPS PBP' }}</h1>
             <div class="course-info">
                 {{ $class->description ?? 'Rencana Pembelajaran Semester - Pemrograman Berbasis Platform' }}</div>
         </div>
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('dosen.dashboard') }}">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Modul Kelas</li>
+            </ol>
+        </nav>
         <!-- Flash Messages -->
         @if (session('success'))
             <div class="alert alert-success">
@@ -578,24 +606,25 @@
                     <div class="module-card">
                         <div class="module-header">
                             <div class="module-title">{{ $module->title }}</div>
-                            @if($module->created_by === Auth::user()->id)
-                            <div class="module-actions">
-                                <button class="btn btn-edit btn-small"
-                                    onclick="editModule({{ $module->id }}, '{{ $module->title }}', '{{ addslashes($module->content) }}', '{{ $module->file_path ?? '' }}')">
-                                    <svg class="icon" viewBox="0 0 24 24">
-                                        <path
-                                            d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                                    </svg>
-                                    Edit
-                                </button>
-                                <button class="btn btn-delete btn-small" onclick="deleteModule({{ $module->id }})">
-                                    <svg class="icon" viewBox="0 0 24 24">
-                                        <path
-                                            d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                                    </svg>
-                                    Hapus
-                                </button>
-                            </div>
+                            @if ($module->created_by === Auth::user()->id)
+                                <div class="module-actions">
+                                    <button class="btn btn-edit btn-small"
+                                        onclick="editModule({{ $module->id }}, '{{ $module->title }}', '{{ addslashes($module->content) }}', '{{ $module->file_path ?? '' }}')">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <path
+                                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                                        </svg>
+                                        Edit
+                                    </button>
+                                    <button class="btn btn-delete btn-small"
+                                        onclick="deleteModule({{ $module->id }})">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <path
+                                                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                                        </svg>
+                                        Hapus
+                                    </button>
+                                </div>
                             @endif
                         </div>
 
@@ -614,8 +643,9 @@
                                         </svg>
                                         Download Materi: {{ basename($module->file_path) }}
                                     </a>
-                                    @if($module->created_by === Auth::user()->id)
-                                        <button onclick="removeModuleFile({{ $module->id }})" class="btn btn-small" style="background: #ff6b6b; color: white; margin-left: 10px;">
+                                    @if ($module->created_by === Auth::user()->id)
+                                        <button onclick="removeModuleFile({{ $module->id }})" class="btn btn-small"
+                                            style="background: #ff6b6b; color: white; margin-left: 10px;">
                                             Hapus File
                                         </button>
                                     @endif
@@ -1114,4 +1144,5 @@
         });
     </script>
 </body>
+
 </html>
