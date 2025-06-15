@@ -6,8 +6,7 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\LearningController;
 use App\Http\Controllers\DashboardController;
-
-
+use App\Http\Controllers\TugasController;
 
 // Halaman login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -79,6 +78,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
 });
+
+Route::post('/mahasiswa/modul/tugas',[TugasController::class, 'store'])->name('modul.tugas');
 
 // routes/web.php
 Route::middleware('auth')->group(function () {
