@@ -19,10 +19,9 @@
         <h1>EduPlatform</h1>
       </div>
       <nav>
-        <a href="index.html"><i class="fas fa-home"></i> Beranda</a>
+        <a href="./dashboard"><i class="fas fa-home"></i> Beranda</a>
         <a href="modul.html" class="active"><i class="fas fa-book-open"></i> Modul</a>
         <a href="tugas.html"><i class="fas fa-tasks"></i> Tugas</a>
-        <a href="login.html" class="btn-login"><i class="fas fa-user"></i> Masuk</a>
       </nav>
       <button class="menu-toggle"><i class="fas fa-bars"></i></button>
     </div>

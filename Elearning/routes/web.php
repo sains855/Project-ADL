@@ -31,6 +31,9 @@ Route::get('/mahasiswa/modul', function () {
     return view('modul.dashboard');
 })->middleware('auth');
 
+Route::get('/mahasiswa/modul/tugas', function (){
+    return view('modul.tugas');
+})->middleware('auth');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/classes', [ClassController::class, 'index'])->name('classes.show');
