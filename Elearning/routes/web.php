@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\LearningController;
 use App\Http\Controllers\DashboardController;
 
@@ -76,4 +77,20 @@ Route::middleware(['auth'])->group(function () {
             ->name('learning.assignments.destroy');
     });
 
+});
+
+// routes/web.php
+Route::middleware('auth')->group(function () {
+    Route::get('/message', function () {
+        return view('message.index');
+    })->name('message.index');
+});
+// routes/api.php
+Route::middleware('auth')->group(function () {
+    Route::get('/messages', [MessageController::class, 'index']);
+    Route::get('/messages/{userId}', [MessageController::class, 'index']);
+    Route::post('/messages', [MessageController::class, 'store']);
+    Route::get('message/users', [MessageController::class, 'getUsers']);
+    Route::post('/messages/{userId}/mark-read', [MessageController::class, 'markAsRead']);
+    Route::get('/messages/unread-count', [MessageController::class, 'getUnreadCount']);
 });
