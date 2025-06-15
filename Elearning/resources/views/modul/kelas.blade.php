@@ -17,9 +17,9 @@
         <h1>EduMas</h1>
       </div>
       <nav>
-        <a href="/mahasiswa/dashboard"><i class="fas fa-home"></i> Beranda</a>
-        <a href="/mahasiswa/modul" class="active"><i class="fas fa-book-open"></i> Modul</a>
-        <a href="/mahasiswa/modul/tugas"><i class="fas fa-tasks"></i> Tugas</a>
+        <a href="{{ route('modul.index') }}"><i class="fas fa-home"></i> Beranda</a>
+        <a href="" class="active"><i class="fas fa-book-open"></i> Modul</a>
+        <a href="{{ route('modul.tugas') }}"><i class="fas fa-tasks"></i> Tugas</a>
         <div class="profile-dropdown">
           <button class="profile-btn" onclick="toggleDropdown()">
             <div class="profile-avatar">{{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}</div>
