@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduPlatform - Tugas & Pengumpulan</title>
+  <title>EduMas - Tugas & Pengumpulan</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="{{ asset('css/modul.css') }}">
@@ -15,12 +15,26 @@
     <div class="container">
       <div class="logo">
         <i class="fas fa-graduation-cap"></i>
-        <h1>EduPlatform</h1>
+        <h1>EduMas</h1>
       </div>
       <nav>
-        <a href=".../mahasiswa"><i class="fas fa-home"></i> Beranda</a>
+        <a href="../../mahasiswa/dashboard"><i class="fas fa-home"></i> Beranda</a>
         <a href="../modul"><i class="fas fa-book-open"></i> Modul</a>
         <a href="./tugas" class="active"><i class="fas fa-tasks"></i> Tugas</a>
+        <div class="profile-dropdown">
+            <button class="profile-btn" onclick="toggleDropdown()">
+                <div class="profile-avatar"><?= strtoupper(substr(Auth::user()->name ?? 'User', 0, 1)) ?></div>
+                <span><?= htmlspecialchars(Auth::user()->name ?? 'User') ?></span>
+                <span>▼</span>
+                </button>
+            <div class="dropdown-content" id="dropdownContent">
+                <a href="#" class="dropdown-item">👤 Profile</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="dropdown-item">🚪 Logout</button>
+                </form>
+            </div>
+        </div>
       </nav>
       <button class="menu-toggle"><i class="fas fa-bars"></i></button>
     </div>
@@ -171,7 +185,7 @@
       </div>
     </div>
   </footer>
-  <script src="{{ mix('js/app.js') }}"></script>
+  <script src="{{ asset('js/modul.js') }}"></script>
 </body>
 
 </html>

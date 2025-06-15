@@ -16,12 +16,26 @@
     <div class="container">
       <div class="logo">
         <i class="fas fa-graduation-cap"></i>
-        <h1>EduPlatform</h1>
+        <h1>EduMas</h1>
       </div>
       <nav>
         <a href="./dashboard"><i class="fas fa-home"></i> Beranda</a>
         <a href="./modul" class="active"><i class="fas fa-book-open"></i> Modul</a>
         <a href="./modul/tugas"><i class="fas fa-tasks"></i> Tugas</a>
+        <div class="profile-dropdown">
+            <button class="profile-btn" onclick="toggleDropdown()">
+                <div class="profile-avatar"><?= strtoupper(substr(Auth::user()->name ?? 'User', 0, 1)) ?></div>
+                <span><?= htmlspecialchars(Auth::user()->name ?? 'User') ?></span>
+                <span>▼</span>
+                </button>
+            <div class="dropdown-content" id="dropdownContent">
+                <a href="#" class="dropdown-item">👤 Profile</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="dropdown-item">🚪 Logout</button>
+                </form>
+            </div>
+        </div>
       </nav>
       <button class="menu-toggle"><i class="fas fa-bars"></i></button>
     </div>
@@ -161,7 +175,7 @@
     </div>
   </footer>
 
-  <script src="js/script.js"></script>
+  <script src="{{ asset('js/modul.js') }}"></script>
   <script>
     // Fungsi pencarian
     const searchInput = document.getElementById('searchInput');
@@ -181,5 +195,6 @@
       nav.classList.toggle('active');
     });
   </script>
+
 </body>
 </html>

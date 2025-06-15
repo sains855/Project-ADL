@@ -23,8 +23,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dosen', [DashboardController::class, 'dashboard'])->name('dosen.dashboard')->middleware('auth');
 Route::delete('/dosen/{id}', [ClassController::class, 'destroy'])->name('dosen.destroy');
 // Dashboard Mahasiswa
+
 Route::get('/mahasiswa/dashboard', function () {
-    return 'Dashboard Mahasiswa';
+    return view ('modul.index');
 })->middleware('auth');
 
 Route::get('/mahasiswa/modul', function () {
