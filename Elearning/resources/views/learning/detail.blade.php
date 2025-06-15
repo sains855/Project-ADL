@@ -771,36 +771,48 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal('taskModal')">&times;</span>
             <h2 id="taskModalTitle">Tambah Tugas Baru</h2>
-            <form id="taskForm" method="POST">
-                @csrf
-                <input type="hidden" name="_method" id="taskMethod" value="POST">
-                <input type="hidden" id="taskModuleId" name="module_id">
-                <div class="form-group">
-                    <label for="taskTitle">Judul Tugas:</label>
-                    <input type="text" id="taskTitle" name="title" required>
-                </div>
-                <div class="form-group">
-                    <label for="taskDescription">Deskripsi Tugas:</label>
-                    <textarea id="taskDescription" name="description" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="taskDeadline">Deadline:</label>
-                    <input type="date" id="taskDeadline" name="due_date" required>
-                </div>
-                <div class="form-group">
-                    <label for="taskStatus">Status:</label>
-                    <select id="taskStatus" name="status">
-                        <option value="Aktif">Aktif</option>
-                        <option value="Draft">Draft</option>
-                        <option value="Selesai">Selesai</option>
-                    </select>
-                </div>
-                <div style="display: flex; gap: 15px; justify-content: flex-end;">
-                    <button type="button" class="btn" onclick="closeModal('taskModal')"
-                        style="background: #ccc; color: #333;">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
+
+<form id="taskForm" method="POST" action="{{ route('assignments.store') }}">
+    @csrf
+
+    <input type="hidden" name="_method" id="taskMethod" value="POST">
+
+    {{-- Hidden module_id dan class_id --}}
+    <input type="hidden" id="taskModuleId" name="module_id">
+
+   <input type="hidden" id="taskClassId" name="class_id" value="{{ $class->id }}">
+
+
+    <div class="form-group">
+        <label for="taskTitle">Judul Tugas:</label>
+        <input type="text" id="taskTitle" name="title" required>
+    </div>
+
+    <div class="form-group">
+        <label for="taskDescription">Deskripsi Tugas:</label>
+        <textarea id="taskDescription" name="description" required></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="taskDeadline">Deadline:</label>
+        <input type="date" id="taskDeadline" name="due_date" required>
+    </div>
+
+    <div class="form-group">
+        <label for="taskStatus">Status:</label>
+        <select id="taskStatus" name="status">
+            <option value="Aktif">Aktif</option>
+            <option value="Draft">Draft</option>
+            <option value="Selesai">Selesai</option>
+        </select>
+    </div>
+
+    <div style="display: flex; gap: 15px; justify-content: flex-end;">
+        <button type="button" class="btn" onclick="closeModal('taskModal')" style="background: #ccc; color: #333;">Batal</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </div>
+</form>
+
         </div>
     </div>
 
@@ -986,7 +998,10 @@
             document.getElementById('taskMethod').value = 'POST';
             document.getElementById('taskModuleId').value = moduleId;
 
-            // Reset form
+            // Tambahkan class_id jika belum ada
+            document.getElementById('taskClassId').value = classId;
+
+            // Reset field
             document.getElementById('taskTitle').value = '';
             document.getElementById('taskDescription').value = '';
             document.getElementById('taskDeadline').value = '';
@@ -994,6 +1009,8 @@
 
             document.getElementById('taskModal').style.display = 'block';
         }
+
+
 
         function editTask(id, title, description, dueDate, status) {
             editingTaskId = id;

@@ -11,20 +11,29 @@ use App\Models\User;
 
 class AssignmentSubmissionController extends Controller
 {
+    public function showSubmissionsPage($assignmentId) {
+    // Optional: periksa -> jadi panggil getSubmissionsByAssignment dulu
+    return view('assignments.submissions.index', compact('assignmentId'));
+}
+
     private function checkDosenAccessToAssignment($assignmentId)
-    {
-        $assignment = Assignment::with('module.kelas')->find($assignmentId);
-        if (!$assignment) {
-            return [false, null];
-        }
+{
+    // Pastikan relasi module -> class -> user (dosen) sudah tersedia
+    $assignment = Assignment::with('module.classes')->find($assignmentId);
 
-        $dosenId = Auth::user()->id;
-        if ($assignment->modul->kelas->user_id !== $dosenId) {
-            return [false, null];
-        }
-
-        return [true, $assignment];
+    if (!$assignment) {
+        return [false, null];
     }
+
+    $dosenId = Auth::user()->id;
+
+    // Cek apakah user yang login adalah dosen dari kelas tersebut
+    if ($assignment->module->classes->user_id !== $dosenId) {
+        return [false, null];
+    }
+
+    return [true, $assignment];
+}
 
     public function getSubmissionsByAssignment($assignmentId)
     {

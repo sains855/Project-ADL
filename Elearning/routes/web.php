@@ -12,6 +12,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AssignmentSubmissionController;
 use App\Models\Assignment;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AssignmentController;
+
 
 // Halaman login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -165,3 +167,16 @@ Route::middleware(['auth'])->get('/assignments', function () {
 
     return view('assignments.index', compact('assignments'));
 })->name('assignments.index');
+
+// Halaman untuk dosen melihat daftar submission
+Route::middleware(['auth'])->get('/assignments/{assignmentId}/submissions', [AssignmentSubmissionController::class, 'showSubmissionsPage'])
+    ->name('assignments.submissions.view');
+
+// API routes (tetap seperti sebelumnya)
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/assignments', [AssignmentController::class, 'index'])->name('assignments.index');
+    Route::get('/assignments/create', [AssignmentController::class, 'create'])->name('assignments.create');
+    Route::post('/assignments', [AssignmentController::class, 'store'])->name('assignments.store');
+});
+
