@@ -18,10 +18,9 @@
         <h1>EduPlatform</h1>
       </div>
       <nav>
-        <a href="index.html"><i class="fas fa-home"></i> Beranda</a>
-        <a href="modul.html"><i class="fas fa-book-open"></i> Modul</a>
-        <a href="tugas.html" class="active"><i class="fas fa-tasks"></i> Tugas</a>
-        <a href="#" class="btn-login"><i class="fas fa-user"></i> Masuk</a>
+        <a href=".../mahasiswa"><i class="fas fa-home"></i> Beranda</a>
+        <a href="../modul"><i class="fas fa-book-open"></i> Modul</a>
+        <a href="./tugas" class="active"><i class="fas fa-tasks"></i> Tugas</a>
       </nav>
       <button class="menu-toggle"><i class="fas fa-bars"></i></button>
     </div>
@@ -37,16 +36,6 @@
 
     <section class="tugas-section">
       <div class="container">
-        <div class="progress-card">
-          <div class="progress-info">
-            <h3>Progress Tugas</h3>
-            <p>Anda telah menyelesaikan 2 dari 5 tugas</p>
-          </div>
-          <div class="progress-bar">
-            <div class="progress" style="width: 40%"></div>
-          </div>
-          <div class="progress-percent">40%</div>
-        </div>
 
         <div class="tugas-filter">
           <div class="filter-group">
