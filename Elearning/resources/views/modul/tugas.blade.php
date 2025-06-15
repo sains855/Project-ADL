@@ -58,7 +58,7 @@
       </div>
       <nav>
         <a href="{{ route('modul.index') }}"><i class="fas fa-home"></i> Beranda</a>
-        <a href="{{ route('modul.index') }}"><i class="fas fa-book-open"></i> Modul</a>
+        <a href="./modul"><i class="fas fa-book-open"></i> Modul</a>
         <a href="#" class="active"><i class="fas fa-tasks"></i> Tugas</a>
         <div class="profile-dropdown">
           <button class="profile-btn" onclick="toggleDropdown()">
@@ -67,7 +67,7 @@
             <span>▼</span>
           </button>
           <div class="dropdown-content" id="dropdownContent">
-            <a href="#" class="dropdown-item">👤 Profile</a>
+            <a href="{{ route('profile.show') }}" class="dropdown-item">👤 Profile</a>
             <form method="POST" action="{{ route('logout') }}">
               @csrf
               <button type="submit" class="dropdown-item">🚪 Logout</button>
