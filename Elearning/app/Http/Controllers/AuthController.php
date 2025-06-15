@@ -84,7 +84,7 @@ class AuthController extends Controller
 
         // Redirect sesuai role
         if ($user->role === 'dosen') {
-            return redirect('/dosen/dashboard')->with('success', 'Selamat datang, Dosen!');
+            return redirect('/dosen')->with('success', 'Selamat datang, Dosen!');
         } else {
             return redirect('/mahasiswa/dashboard')->with('success', 'Selamat datang, Mahasiswa!');
         }
