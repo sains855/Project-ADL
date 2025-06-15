@@ -1676,8 +1676,8 @@ footer::before {
     .search-box input,
     .filter-select,
     .sort-select {
-        background-color: rgba(30, 30, 30, 0.8);
-        color: var(--dark);
+        background-color: rgba(255, 255, 255, 0.8);
+        /* color: var(--dark); */
         border-color: #333333;
     }
 
