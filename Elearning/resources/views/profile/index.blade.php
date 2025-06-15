@@ -522,29 +522,6 @@
                             <div class="info-value">{{ ucfirst($user->role) }}</div>
                         </div>
                     </div>
-
-                    <div class="info-item">
-                        <div class="info-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <div class="info-content">
-                            <div class="info-label">Status Verifikasi Email</div>
-                            <div class="verification-status">
-                                @if ($user->hasVerifiedEmail())
-                                    <span class="verified">
-                                        <i class="fas fa-check-circle"></i>
-                                        Terverifikasi
-                                    </span>
-                                @else
-                                    <span class="unverified">
-                                        <i class="fas fa-times-circle"></i>
-                                        Belum Terverifikasi
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="info-item">
                         <div class="info-icon">
                             <i class="fas fa-calendar-alt"></i>
