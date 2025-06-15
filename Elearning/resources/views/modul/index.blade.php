@@ -51,7 +51,7 @@
           </div>
         </div>
         <div class="hero-image">
-          <img src="https://illustrations.popsy.co/amber/student-sitting-at-desk.svg" alt="Belajar Interaktif">
+          <img src="{{ asset('img/belajar_interaktif.png') }}" alt="Belajar Interaktif" style="width: 70%; border-radius: 30px;">
         </div>
       </div>
     </section>
