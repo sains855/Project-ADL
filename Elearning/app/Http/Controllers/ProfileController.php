@@ -1,0 +1,132 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
+
+class ProfileController extends Controller
+{
+    /**
+     * Display the user's profile form.
+     */
+    public function show()
+    {
+        $user = Auth::user();
+        return view('profile.show', compact('user'));
+    }
+
+    /**
+     * Show the form for editing the user's profile.
+     */
+    public function edit()
+    {
+        $user = Auth::user();
+        return view('profile.edit', compact('user'));
+    }
+
+    /**
+     * Update the user's profile information.
+     */
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users')->ignore($user->id)
+            ],
+            'role' => ['required', Rule::in(['dosen', 'mahasiswa'])],
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
+        ]);
+
+        // Reset email verification if email changed
+        if ($user->wasChanged('email')) {
+            $user->email_verified_at = null;
+            $user->save();
+
+            // Optional: Send email verification notification
+            // $user->sendEmailVerificationNotification();
+        }
+
+        return redirect()->route('profile.show')
+            ->with('success', 'Profile berhasil diperbarui!');
+    }
+
+    /**
+     * Update the user's password.
+     */
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'current_password.current_password' => 'Password saat ini tidak benar.',
+            'password.min' => 'Password baru minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+        ]);
+
+        $user = Auth::user();
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('profile.show')
+            ->with('success', 'Password berhasil diperbarui!');
+    }
+
+    /**
+     * Delete the user's account.
+     */
+    public function destroy(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'current_password'],
+        ], [
+            'password.current_password' => 'Password tidak benar.',
+        ]);
+
+        $user = Auth::user();
+
+        Auth::logout();
+
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('success', 'Akun berhasil dihapus.');
+    }
+
+    /**
+     * Verify email address.
+     */
+    public function verifyEmail()
+    {
+        $user = Auth::user();
+
+        if ($user->hasVerifiedEmail()) {
+            return redirect()->route('profile.show')
+                ->with('info', 'Email sudah terverifikasi.');
+        }
+
+        $user->sendEmailVerificationNotification();
+
+        return redirect()->route('profile.show')
+            ->with('success', 'Link verifikasi email telah dikirim!');
+    }
+}
