@@ -14,17 +14,16 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f8fafc;
             min-height: 100vh;
         }
 
         /* Navbar Styles */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: #ffffff;
             padding: 1rem 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid #e2e8f0;
         }
 
         .navbar-content {
@@ -38,11 +37,7 @@
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #333;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #1e40af;
         }
 
         .profile-dropdown {
@@ -54,7 +49,7 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.5rem 1rem;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: #1e40af;
             color: white;
             border: none;
             border-radius: 25px;
@@ -65,7 +60,7 @@
 
         .profile-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.2);
         }
 
         .profile-avatar {
@@ -85,7 +80,7 @@
             right: 0;
             background: white;
             min-width: 160px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             padding: 0.5rem 0;
             opacity: 0;
@@ -93,6 +88,7 @@
             transform: translateY(-10px);
             transition: all 0.3s ease;
             z-index: 1000;
+            border: 1px solid #e2e8f0;
         }
 
         .dropdown-content.show {
@@ -104,7 +100,7 @@
         .dropdown-item {
             display: block;
             padding: 0.75rem 1rem;
-            color: #333;
+            color: #1e293b;
             text-decoration: none;
             transition: background-color 0.2s ease;
             border: none;
@@ -117,8 +113,8 @@
         }
 
         .dropdown-item:hover {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
+            background: #f1f5f9;
+            color: #1e40af;
         }
 
         /* Form inside dropdown should not affect styling */
@@ -142,25 +138,23 @@
 
         .dashboard-title {
             font-size: 2.5rem;
-            color: white;
+            color: #1e40af;
             margin-bottom: 0.5rem;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .dashboard-subtitle {
             font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: #64748b;
         }
 
         /* Stats Cards */
         .stats-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: #ffffff;
             border-radius: 20px;
             padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
         }
 
         .stats-content {
@@ -173,7 +167,7 @@
         .stats-icon {
             width: 60px;
             height: 60px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: #1e40af;
             border-radius: 15px;
             display: flex;
             align-items: center;
@@ -184,23 +178,22 @@
 
         .stats-info h3 {
             font-size: 2rem;
-            color: #333;
+            color: #1e293b;
             margin-bottom: 0.25rem;
         }
 
         .stats-info p {
-            color: #666;
+            color: #64748b;
             font-size: 1.1rem;
         }
 
         /* Table Styles */
         .table-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: #ffffff;
             border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
             overflow: hidden;
         }
 
@@ -213,13 +206,13 @@
 
         .table-title {
             font-size: 1.5rem;
-            color: #333;
+            color: #1e293b;
             font-weight: 600;
         }
 
         .add-btn {
             padding: 0.75rem 1.5rem;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: #1e40af;
             color: white;
             border: none;
             border-radius: 25px;
@@ -232,7 +225,7 @@
 
         .add-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.2);
         }
 
         table {
@@ -245,11 +238,11 @@
         td {
             padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #e2e8f0;
         }
 
         th {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: #1e40af;
             color: white;
             font-weight: 600;
             text-transform: uppercase;
@@ -266,11 +259,11 @@
         }
 
         tr:hover {
-            background: rgba(102, 126, 234, 0.05);
+            background: #f8fafc;
         }
 
         .subject-link {
-            color: #667eea;
+            color: #1e40af;
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;
@@ -278,7 +271,7 @@
         }
 
         .subject-link:hover {
-            color: #764ba2;
+            color: #3b82f6;
             text-decoration: underline;
         }
 
@@ -299,33 +292,33 @@
         }
 
         .btn-show {
-            background: linear-gradient(45deg, #2196F3, #1976D2);
+            background: #1e40af;
             color: white;
         }
 
         .btn-show:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+            box-shadow: 0 4px 10px rgba(30, 64, 175, 0.2);
         }
 
         .btn-edit {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
+            background: #1e40af;
             color: white;
         }
 
         .btn-edit:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            box-shadow: 0 4px 10px rgba(30, 64, 175, 0.2);
         }
 
         .btn-delete {
-            background: linear-gradient(45deg, #f44336, #d32f2f);
+            background: #64748b;
             color: white;
         }
 
         .btn-delete:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
+            box-shadow: 0 4px 10px rgba(100, 116, 139, 0.2);
         }
 
         .status-badge {
@@ -333,7 +326,7 @@
             border-radius: 15px;
             font-size: 0.8rem;
             font-weight: 500;
-            background: linear-gradient(45deg, #4CAF50, #45a049);
+            background: #1e40af;
             color: white;
         }
 
@@ -346,15 +339,15 @@
         }
 
         .alert-success {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
+            background: #1e40af;
             color: white;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 4px 10px rgba(30, 64, 175, 0.2);
         }
 
         .alert-error {
-            background: linear-gradient(45deg, #f44336, #d32f2f);
+            background: #64748b;
             color: white;
-            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+            box-shadow: 0 4px 10px rgba(100, 116, 139, 0.2);
         }
 
         .close-alert {
@@ -496,7 +489,7 @@
                 <tbody>
                     @if($classes->isEmpty())
                     <tr>
-                        <td colspan="4" style="text-align: center; padding: 2rem; color: #666;">
+                        <td colspan="4" style="text-align: center; padding: 2rem; color: #64748b;">
                             <div style="font-size: 1.2rem; margin-bottom: 0.5rem;">📚</div>
                             Belum ada kelas yang dibuat
                         </td>

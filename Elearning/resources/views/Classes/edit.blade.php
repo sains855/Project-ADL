@@ -9,7 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -23,7 +23,7 @@
         }
 
         .card-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
             color: white;
             border-radius: 15px 15px 0 0 !important;
             padding: 1.5rem;
@@ -39,12 +39,12 @@
 
         .form-control:focus,
         .form-select:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            border-color: #1976d2;
+            box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
             border: none;
             border-radius: 10px;
             padding: 12px 30px;
@@ -54,13 +54,19 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(25, 118, 210, 0.4);
         }
 
         .btn-secondary {
             border-radius: 10px;
             padding: 12px 30px;
             font-weight: 600;
+            background-color: #757575;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #616161;
         }
 
         .form-label {
@@ -87,12 +93,12 @@
         }
 
         .breadcrumb-item a {
-            color: #667eea;
+            color: #1976d2;
             text-decoration: none;
         }
 
         .breadcrumb-item a:hover {
-            color: #764ba2;
+            color: #0d47a1;
         }
 
         .form-floating {

@@ -17,7 +17,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #e6f2ff 0%, #cce0ff 100%);
             min-height: 100vh;
         }
 
@@ -41,7 +41,7 @@
             color: #333;
             font-size: 2.5rem;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0066cc, #004080);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -60,15 +60,15 @@
         }
 
         .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background-color: #e6f7ff;
+            color: #0066cc;
+            border: 1px solid #b3e0ff;
         }
 
         .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background-color: #ffe6e6;
+            color: #cc0000;
+            border: 1px solid #ffb3b3;
         }
 
         .action-buttons {
@@ -93,36 +93,36 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #0066cc, #004080);
             color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.6);
         }
 
         .btn-secondary {
-            background: linear-gradient(135deg, #11998e, #38ef7d);
+            background: linear-gradient(135deg, #0099cc, #006699);
             color: white;
-            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 153, 204, 0.4);
         }
 
         .btn-secondary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.6);
+            box-shadow: 0 6px 20px rgba(0, 153, 204, 0.6);
         }
 
         .btn-forum {
-            background: linear-gradient(135deg, #fa709a, #fee140);
+            background: linear-gradient(135deg, #3399ff, #0066cc);
             color: white;
-            box-shadow: 0 4px 15px rgba(250, 112, 154, 0.4);
+            box-shadow: 0 4px 15px rgba(51, 153, 255, 0.4);
         }
 
         .btn-forum:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(250, 112, 154, 0.6);
+            box-shadow: 0 6px 20px rgba(51, 153, 255, 0.6);
         }
 
         .modules-section {
@@ -163,12 +163,12 @@
         }
 
         .modal-content::-webkit-scrollbar-thumb {
-            background: #667eea;
+            background: #0066cc;
             border-radius: 10px;
         }
 
         .modal-content::-webkit-scrollbar-thumb:hover {
-            background: #5a67d8;
+            background: #004d99;
         }
 
         .module-card {
@@ -214,14 +214,14 @@
         }
 
         .btn-edit {
-            background: linear-gradient(135deg, #ffecd2, #fcb69f);
-            color: #8B4513;
+            background: linear-gradient(135deg, #e6f2ff, #b3d9ff);
+            color: #004080;
             border: none;
         }
 
         .btn-delete {
-            background: linear-gradient(135deg, #ff9a9e, #fecfef);
-            color: #DC143C;
+            background: linear-gradient(135deg, #ffe6e6, #ffb3b3);
+            color: #cc0000;
             border: none;
         }
 
@@ -232,8 +232,8 @@
         }
 
         .file-download {
-            background: rgba(102, 126, 234, 0.1);
-            border: 2px dashed rgba(102, 126, 234, 0.3);
+            background: rgba(0, 102, 204, 0.1);
+            border: 2px dashed rgba(0, 102, 204, 0.3);
             border-radius: 8px;
             padding: 15px;
             margin-top: 15px;
@@ -244,12 +244,12 @@
         }
 
         .file-download:hover {
-            background: rgba(102, 126, 234, 0.15);
-            border-color: rgba(102, 126, 234, 0.5);
+            background: rgba(0, 102, 204, 0.15);
+            border-color: rgba(0, 102, 204, 0.5);
         }
 
         .file-download a {
-            color: #667eea;
+            color: #0066cc;
             text-decoration: none;
             font-weight: 600;
             display: flex;
@@ -258,13 +258,13 @@
         }
 
         .file-download a:hover {
-            color: #5a67d8;
+            color: #004d99;
         }
 
         .tasks-section {
             margin-top: 25px;
             padding-top: 25px;
-            border-top: 2px solid rgba(102, 126, 234, 0.2);
+            border-top: 2px solid rgba(0, 102, 204, 0.2);
         }
 
         .tasks-header {
@@ -283,7 +283,7 @@
         }
 
         .task-item {
-            background: rgba(102, 126, 234, 0.05);
+            background: rgba(0, 102, 204, 0.05);
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 12px;
@@ -291,11 +291,11 @@
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s ease;
-            border: 1px solid rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(0, 102, 204, 0.1);
         }
 
         .task-item:hover {
-            background: rgba(102, 126, 234, 0.1);
+            background: rgba(0, 102, 204, 0.1);
             transform: translateX(5px);
         }
 
@@ -328,8 +328,8 @@
         }
 
         .status-aktif {
-            background: #d4edda;
-            color: #155724;
+            background: #e6f7ff;
+            color: #0066cc;
         }
 
         .status-draft {
@@ -338,8 +338,8 @@
         }
 
         .status-selesai {
-            background: #cce5ff;
-            color: #004085;
+            background: #e6ffe6;
+            color: #006600;
         }
 
         .modal {
@@ -416,8 +416,8 @@
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
         }
 
         .form-group textarea {
@@ -436,13 +436,13 @@
         }
 
         .file-upload-area:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
+            border-color: #0066cc;
+            background: #f0f7ff;
         }
 
         .file-upload-area.dragover {
-            border-color: #667eea;
-            background: #e8f2ff;
+            border-color: #0066cc;
+            background: #e6f2ff;
         }
 
         .file-upload-input {
@@ -455,7 +455,7 @@
         }
 
         .file-upload-button {
-            background: #667eea;
+            background: #0066cc;
             color: white;
             padding: 8px 16px;
             border: none;
@@ -467,9 +467,9 @@
         .selected-file {
             margin-top: 10px;
             padding: 10px;
-            background: #e8f5e8;
+            background: #e6f7ff;
             border-radius: 4px;
-            color: #2d5a2d;
+            color: #0066cc;
             font-size: 0.9rem;
         }
 
@@ -525,12 +525,12 @@
         }
 
         .breadcrumb-item a {
-            color: #667eea;
+            color: #0066cc;
             text-decoration: none;
         }
 
         .breadcrumb-item a:hover {
-            color: #764ba2;
+            color: #004080;
         }
     </style>
 </head>
@@ -633,7 +633,7 @@
 
                             @if ($module->file_path)
                                 <div class="file-download">
-                                    <svg class="icon" viewBox="0 0 24 24" style="color: #667eea;">
+                                    <svg class="icon" viewBox="0 0 24 24" style="color: #0066cc;">
                                         <path
                                             d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
                                     </svg>

@@ -9,7 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
@@ -20,14 +20,14 @@
         }
 
         .card-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             color: white;
             border-radius: 15px 15px 0 0 !important;
             padding: 1.5rem;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             border: none;
             border-radius: 10px;
             padding: 12px 30px;
@@ -37,32 +37,35 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
         }
 
         .btn-secondary {
             border-radius: 10px;
             padding: 12px 30px;
             font-weight: 600;
+            background-color: #e5e7eb;
+            color: #1e3a8a;
+            border: none;
         }
 
         .form-control,
         .form-select {
             border-radius: 10px;
-            border: 2px solid #e9ecef;
+            border: 2px solid #e5e7eb;
             padding: 12px 15px;
             transition: all 0.3s ease;
         }
 
         .form-control:focus,
         .form-select:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
         }
 
         .form-label {
             font-weight: 600;
-            color: #495057;
+            color: #1e3a8a;
             margin-bottom: 8px;
         }
 
@@ -77,12 +80,12 @@
         }
 
         .breadcrumb-item a {
-            color: #667eea;
+            color: #3b82f6;
             text-decoration: none;
         }
 
         .breadcrumb-item a:hover {
-            color: #764ba2;
+            color: #1e3a8a;
         }
 
         .alert {
@@ -91,13 +94,19 @@
         }
 
         .form-control[readonly] {
-            background-color: #f8f9fa;
-            border-color: #dee2e6;
-            color: #6c757d;
+            background-color: #f8fafc;
+            border-color: #e5e7eb;
+            color: #64748b;
         }
 
         .required {
             color: #dc3545;
+        }
+
+        .alert-info {
+            background-color: #dbeafe;
+            color: #1e3a8a;
+            border-left: 4px solid #3b82f6;
         }
     </style>
 </head>
