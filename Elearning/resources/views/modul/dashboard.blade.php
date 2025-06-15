@@ -68,17 +68,18 @@
         </div>
 
                         <div class="modul-grid">
-        @forelse($class->moduls as $modul)
+        @forelse($class->moduls as $module)
             <div class="modul-card">
             <div class="modul-icon">
                 <i class="fas fa-file-alt"></i>
             </div>
-            <h3>{{ $modul->judul }}</h3>
-            <p>{{ $modul->deskripsi }}</p>
+
+            <h3>{{ $module->title }}</h3>
+            <p>{{ $module->content }}</p>
             <div class="modul-meta">
-                <span><i class="fas fa-paperclip"></i> File: {{ basename($modul->file_path) }}</span>
+                <span><i class="fas fa-paperclip"></i> File: {{ basename($module->file_path) }}</span>
             </div>
-            <a href="{{ asset('storage/' . $modul->file_path) }}" class="btn btn-outline" target="_blank">Lihat Materi</a>
+            <a href="{{ asset('storage/' . $module->file_path) }}" class="btn btn-outline" target="_blank">Lihat Materi</a>
             </div>
         @empty
             <p>Tidak ada modul yang tersedia untuk kelas ini.</p>

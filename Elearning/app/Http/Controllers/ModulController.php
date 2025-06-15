@@ -3,23 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Modul;
+use App\Models\Module;
 
 class ModulController extends Controller
 {
     public function store(Request $request)
 {
     $validated = $request->validate([
-        'judul' => 'required',
-        'deskripsi' => 'nullable',
-        'file' => 'required|mimes:pdf,docx,zip,rar|max:10000',
+        'title' => 'required',
+        'content' => 'nullable',
+        'file_path' => 'required|mimes:pdf,docx,zip,rar|max:10000',
         'class_id' => 'required|exists:classes,id'
     ]);
 
     // Simpan file ke storage
-    $path = $request->file('file')->store('moduls', 'public');
+    $path = $request->file('file')->store('modules', 'public');
 
-    Modul::create([
+    Module::create([
         'judul' => $validated['judul'],
         'deskripsi' => $validated['deskripsi'],
         'file_path' => $path,

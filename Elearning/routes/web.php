@@ -31,7 +31,7 @@ Route::get('/mahasiswa/dashboard', function () {
 
 
 Route::get('/mahasiswa/modul/{id}', function ($id) {
-    $class = Classes::with('moduls')->findOrFail($id);
+    $class = Classes::with('modules')->findOrFail($id);
     return view('modul.dashboard', compact('class'));
 })->name('modul.dashboard')->middleware('auth');
 

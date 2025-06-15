@@ -10,7 +10,7 @@ class Module extends Model
     use HasFactory;
 
     // Field yang boleh diisi mass-assignment
-    protected $fillable = ['title', 'content','file_path', 'created_by'];
+    protected $fillable = ['title', 'content','file_path', 'class_id', 'created_by'];
 
     /**
      * Relasi ke Subject
