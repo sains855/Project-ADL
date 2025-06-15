@@ -443,12 +443,6 @@
             </div>
         @endif
 
-        @if (!$user->hasVerifiedEmail())
-            <div class="alert alert-warning">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span>Email Anda belum diverifikasi. Silakan cek email Anda atau kirim ulang link verifikasi.</span>
-            </div>
-        @endif
 
         <div class="profile-container">
             <!-- Profile Card -->
@@ -544,7 +538,7 @@
                         Hapus Akun
                     </button>
                     <div class="actions">
-                        <a href="{{ route('modul.dashboard') }}" class="action-btn btn-primary">
+                        <a href="{{ route('modul.index') }}" class="action-btn btn-primary">
                             Kembali
                         </a>
                     </div>
