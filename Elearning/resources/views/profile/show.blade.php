@@ -552,21 +552,6 @@
                         Edit Profil
                     </a>
 
-                    <button class="action-btn btn-secondary" onclick="showPasswordModal()">
-                        <i class="fas fa-key"></i>
-                        Ubah Password
-                    </button>
-
-                    @if(!$user->hasVerifiedEmail())
-                    <form action="{{ route('profile.verify-email') }}" method="POST" style="display: contents;">
-                        @csrf
-                        <button type="submit" class="action-btn btn-warning">
-                            <i class="fas fa-envelope-open"></i>
-                            Verifikasi Email
-                        </button>
-                    </form>
-                    @endif
-
                     <button class="action-btn btn-danger" onclick="showDeleteModal()">
                         <i class="fas fa-trash-alt"></i>
                         Hapus Akun

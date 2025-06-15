@@ -317,24 +317,6 @@
                 </form>
             </div>
 
-            <!-- Email Verification Section -->
-            <div class="form-section">
-                <h2 class="section-title">Verifikasi Email</h2>
-                <p style="margin-bottom: 20px; color: #666;">
-                    Status verifikasi email:
-                    <span style="font-weight: bold; color: {{ $user->hasVerifiedEmail() ? '#28a745' : '#dc3545' }}">
-                        {{ $user->hasVerifiedEmail() ? 'Terverifikasi' : 'Belum Terverifikasi' }}
-                    </span>
-                </p>
-
-                @if (!$user->hasVerifiedEmail())
-                <form action="/profile/verify-email" method="POST">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <button type="submit" class="btn btn-warning">Kirim Link Verifikasi</button>
-                </form>
-                @endif
-            </div>
-
             <!-- Delete Account Section -->
             <div class="form-section delete-section">
                 <h2 class="section-title">Hapus Akun</h2>
