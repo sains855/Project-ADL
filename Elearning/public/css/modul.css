@@ -718,6 +718,8 @@ nav a.active::after {
 .dropdown-item:hover {
     color: white;
     transform: translateX(5px);
+    width : 90%;
+    border-radius: 5px;
 }
 
 .dropdown-content form {
