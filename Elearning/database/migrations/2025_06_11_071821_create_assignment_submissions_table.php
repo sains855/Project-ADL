@@ -17,8 +17,6 @@ return new class extends Migration
         $table->unsignedBigInteger('user_id'); // FK ke users (siswa)
         $table->dateTime('submitted_at'); // Tanggal pengumpulan
         $table->text('file_url'); // Link file tugas
-        $table->decimal('grade', 5, 2)->nullable(); // Nilai (opsional)
-        $table->text('feedback')->nullable(); // Komentar dari guru
         $table->timestamps();
 
         // Foreign keys
