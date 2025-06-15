@@ -9,6 +9,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LearningController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AssignmentSubmissionController;
 
 // Halaman login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -115,18 +116,35 @@ Route::middleware('auth')->group(function () {
 // routes/web.php
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/verify-email', [ProfileController::class, 'verifyEmail'])->name('profile.verify-email');
 });
+// Di routes/api.php atau routes/web.php
+Route::middleware(['auth'])->group(function () {
+    // Route untuk dosen melihat submissions
+    Route::prefix('assignments')->name('assignments.')->group(function () {
 
-Route::middleware('auth')->group(function () {
-    Route::get('/mahasiswa/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::get('/mahasiswa/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/mahasiswa/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::patch('/mahasiswa/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
-    Route::delete('/mahasiswa/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        // Melihat semua submissions untuk assignment tertentu
+        Route::get('{assignmentId}/submissions', [AssignmentSubmissionController::class, 'getSubmissionsByAssignment'])
+            ->name('submissions.index');
+
+        // Melihat detail submission tertentu
+        Route::get('submissions/{submissionId}', [AssignmentSubmissionController::class, 'getSubmissionDetail'])
+            ->name('submissions.show');
+
+        // Melihat statistik submissions
+        Route::get('{assignmentId}/submissions/stats', [AssignmentSubmissionController::class, 'getSubmissionStats'])
+            ->name('submissions.stats');
+
+        // Download file submission
+        Route::get('submissions/{submissionId}/download', [AssignmentSubmissionController::class, 'downloadSubmission'])
+            ->name('submissions.download');
+
+        // Pencarian submissions
+        Route::get('{assignmentId}/submissions/search', [AssignmentSubmissionController::class, 'searchSubmissions'])
+            ->name('submissions.search');
+    });
 });
