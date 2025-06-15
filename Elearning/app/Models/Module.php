@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Classes;
+
 
 class Module extends Model
 {
@@ -26,4 +29,10 @@ class Module extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function class()
+    {
+        return $this->belongsTo(Classes::class, 'class_id');
+    }
+
 }

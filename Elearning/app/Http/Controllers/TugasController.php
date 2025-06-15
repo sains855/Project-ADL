@@ -13,8 +13,8 @@ class TugasController extends Controller
 {
     public function index()
     {
-        $moduls = Module::all();
         $userId = Auth::id();
+        $moduls = Module::with('class')->get();
 
         // Cek untuk setiap modul apakah mahasiswa sudah mengumpulkan tugas
         $uploadedTugas = [];

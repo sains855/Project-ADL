@@ -62,7 +62,7 @@
         <a href="#" class="active"><i class="fas fa-tasks"></i> Tugas</a>
         <div class="profile-dropdown">
           <button class="profile-btn" onclick="toggleDropdown()">
-            <div class="profile-avatar">{{ strtoupper(substr(Auth::user()->name ?? 'User', 0, 1)) }}</div>
+            <div class="profile-avatar">{{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}</div>
             <span>{{ Auth::user()->name ?? 'User' }}</span>
             <span>▼</span>
           </button>
@@ -90,26 +90,19 @@
     <section class="tugas-section">
       <div class="container">
         <div class="tugas-grid">
-        @if (session('error'))
-            <div class="alert alert-danger" style="color:red; margin-bottom:15px;">
-                {{ session('error') }}
-            </div>
-            @endif
-            @if (session('success'))
-            <div class="alert alert-success" style="color:green; margin-bottom:15px;">
-                {{ session('success') }}
-            </div>
-        @endif
-
           @foreach ($moduls as $modul)
             <div class="tugas-card {{ $uploadedTugas[$modul->id] ? 'completed' : 'urgent' }}">
               <div class="tugas-header">
-                <h3><i class="fas fa-book"></i> {{ $modul->judul }}</h3>
+                <h3>
+                  <i class="fas fa-book"></i>
+                  {{ $modul->class->name ?? 'Kelas Tidak Diketahui' }} - {{ $modul->title }}
+                </h3>
                 <span class="priority {{ $uploadedTugas[$modul->id] ? 'completed' : 'urgent' }}">
                   <i class="fas {{ $uploadedTugas[$modul->id] ? 'fa-check-circle' : 'fa-exclamation-circle' }}"></i>
                   {{ $uploadedTugas[$modul->id] ? 'Terkumpul' : 'Belum Terkumpul' }}
                 </span>
               </div>
+
               <p>{{ $modul->deskripsi }}</p>
               <div class="tugas-meta">
                 <div class="meta-item">
@@ -121,7 +114,7 @@
               <div class="tugas-footer">
                 @if ($uploadedTugas[$modul->id])
                   <div class="upload-container">
-                    <p class="success-message">Tugas telah diupload</p>
+                    <p class="success-message">✅ Tugas telah diupload. Anda tidak dapat mengunggah ulang.</p>
                   </div>
                 @else
                   <div class="upload-container">
