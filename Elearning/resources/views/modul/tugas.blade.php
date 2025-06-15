@@ -90,6 +90,17 @@
     <section class="tugas-section">
       <div class="container">
         <div class="tugas-grid">
+        @if (session('error'))
+            <div class="alert alert-danger" style="color:red; margin-bottom:15px;">
+                {{ session('error') }}
+            </div>
+            @endif
+            @if (session('success'))
+            <div class="alert alert-success" style="color:green; margin-bottom:15px;">
+                {{ session('success') }}
+            </div>
+        @endif
+
           @foreach ($moduls as $modul)
             <div class="tugas-card {{ $uploadedTugas[$modul->id] ? 'completed' : 'urgent' }}">
               <div class="tugas-header">

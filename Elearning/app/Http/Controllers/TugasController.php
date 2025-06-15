@@ -27,24 +27,30 @@ class TugasController extends Controller
         return view('modul.tugas', compact('moduls', 'uploadedTugas'));
     }
     public function uploadTugas(Request $request, $modul_id)
-{
-    // Validasi file yang diupload
-    $request->validate([
-        'file_tugas' => 'required|file|mimes:pdf,docx,zip|max:20480', // contoh validasi
-    ]);
+    {
+            // Validasi file yang diupload
+        $sudahUpload = TugasMahasiswa::where('modul_id', $modul_id)
+        ->where('mahasiswa_id', Auth::id())
+        ->exists();
 
-    // Simpan file
-    $path = $request->file('file_tugas')->store('tugas_mahasiswa');
+        if ($sudahUpload) {
+            return back()->with('error', 'Kamu sudah mengumpulkan tugas ini. Tidak bisa upload ulang.');
+        }
 
-    // Simpan ke database
-    TugasMahasiswa::create([
-        'modul_id' => $modul_id,
-        'mahasiswa_id' => Auth::id(),
-        'file_path' => $path,
-        'submitted_at' => now(),
-    ]);
+        $request->validate([
+            'file' => 'required|file|mimes:pdf,docx,zip|max:20480',
+        ]);
 
-    return back()->with('success', 'Tugas berhasil diunggah!');
-}
+        $path = $request->file('file')->store('tugas_mahasiswa');
+
+        TugasMahasiswa::create([
+            'modul_id' => $modul_id,
+            'mahasiswa_id' => Auth::id(),
+            'file_path' => $path,
+            'submitted_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Tugas berhasil diupload.');
+    }
 
 }
