@@ -12,16 +12,17 @@ class ModulController extends Controller
     $validated = $request->validate([
         'title' => 'required',
         'content' => 'nullable',
-        'file_path' => 'required|mimes:pdf,docx,zip,rar|max:10000',
-        'class_id' => 'required|exists:classes,id'
+        'file' => 'required|mimes:pdf,docx,zip,rar|max:10000',
+        'class_id' => 'required|exists:classes,id',
+        
     ]);
 
     // Simpan file ke storage
     $path = $request->file('file')->store('modules', 'public');
 
     Module::create([
-        'judul' => $validated['judul'],
-        'deskripsi' => $validated['deskripsi'],
+        'title' => $validated['title'],
+        'content' => $validated['content'],
         'file_path' => $path,
         'class_id' => $validated['class_id']
     ]);

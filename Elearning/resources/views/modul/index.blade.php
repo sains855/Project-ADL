@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduPlatform - Beranda</title>
+  <title>EduMas - Beranda</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('css/modul.css') }}">
@@ -47,7 +47,7 @@
           <p>Tingkatkan keterampilan Anda dengan modul pembelajaran berkualitas dan sistem penugasan yang terintegrasi.</p>
           <div class="hero-actions">
             <a href="./modul" class="btn btn-primary">Mulai Belajar</a>
-            <a href="./modul/tugas" class="btn btn-outline">Lihat Tugas</a>
+            <a href="{{route('modul.tugas')}}" class="btn btn-outline">Lihat Tugas</a>
           </div>
         </div>
         <div class="hero-image">
@@ -92,30 +92,32 @@
         <div class="footer-about">
           <div class="logo">
             <i class="fas fa-graduation-cap"></i>
-            <h3>EduPlatform</h3>
+            <h3>EduMas</h3>
           </div>
           <p>Platform pembelajaran online interaktif untuk membantu Anda mencapai tujuan akademik.</p>
         </div>
         <div class="footer-links">
-          <h4>Tautan Cepat</h4>
+          <h4>Created By Kelompok 3</h4>
           <ul>
-            <li><a href="./dashboard">Beranda</a></li>
-            <li><a href=./modul">Modul</a></li>
-            <li><a href=".modul/tugas">Tugas</a></li>
-            <li><a href="#">Kontak</a></li>
+            <li>ABRAR WUJEDAAN</li>
+            <li>ISRANOFRIANTI</li>
+            <li>TRASMA ARRASMA AR</li>
+            <li>MUH. SYAHRUL MUBARAK/a></li>
+            <li>MUZHAR MAULANA</li>
+            <li>ZAKKIYA FITRA RAHMA DINA</li>
           </ul>
         </div>
         <div class="footer-contact">
           <h4>Hubungi Kami</h4>
           <ul>
-            <li><i class="fas fa-envelope"></i> hello@eduplatform.id</li>
+            <li><i class="fas fa-envelope"></i> hello@edumas.id</li>
             <li><i class="fas fa-phone"></i> +62 123 4567 890</li>
-            <li><i class="fas fa-map-marker-alt"></i> Jakarta, Indonesia</li>
+            <li><i class="fas fa-map-marker-alt"></i> Kendari, Indonesia</li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2023 EduPlatform. All rights reserved.</p>
+        <p>&copy; 2025 EduMas. All rights reserved.</p>
         <div class="social-links">
           <a href="#"><i class="fab fa-instagram"></i></a>
           <a href="#"><i class="fab fa-twitter"></i></a>

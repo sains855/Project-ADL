@@ -75,17 +75,19 @@
         <div class="footer-about">
           <div class="logo">
             <i class="fas fa-graduation-cap"></i>
-            <h3>EduPlatform</h3>
+            <h3>EduMas</h3>
           </div>
           <p>Platform pembelajaran online interaktif untuk membantu Anda mencapai tujuan akademik.</p>
         </div>
         <div class="footer-links">
-          <h4>Tautan Cepat</h4>
+          <h4>Created By Kelompok 3</h4>
           <ul>
-            <li><a href="/mahasiswa/dashboard">Beranda</a></li>
-            <li><a href="/mahasiswa/modul">Modul</a></li>
-            <li><a href="/mahasiswa/modul/tugas">Tugas</a></li>
-            <li><a href="#">Kontak</a></li>
+            <li>ABRAR WUJEDAAN</li>
+            <li>ISRANOFRIANTI</li>
+            <li>TRASMA ARRASMA AR</li>
+            <li>MUH. SYAHRUL MUBARAK/a></li>
+            <li>MUZHAR MAULANA</li>
+            <li>ZAKKIYA FITRA RAHMA DINA</li>
           </ul>
         </div>
         <div class="footer-contact">
@@ -93,12 +95,12 @@
           <ul>
             <li><i class="fas fa-envelope"></i> hello@eduplatform.id</li>
             <li><i class="fas fa-phone"></i> +62 123 4567 890</li>
-            <li><i class="fas fa-map-marker-alt"></i> Jakarta, Indonesia</li>
+            <li><i class="fas fa-map-marker-alt"></i> Kendari, Indonesia</li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2023 EduPlatform. All rights reserved.</p>
+        <p>&copy; 2025 EduMas. All rights reserved.</p>
         <div class="social-links">
           <a href="#"><i class="fab fa-instagram"></i></a>
           <a href="#"><i class="fab fa-twitter"></i></a>

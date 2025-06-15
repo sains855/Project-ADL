@@ -67,14 +67,14 @@
           </div>
         </div>
 
-                        <div class="modul-grid">
-        @forelse($class->moduls as $modul)
+        <div class="modul-grid">
+       @forelse($class->moduls as $modul)
             <div class="modul-card">
             <div class="modul-icon">
                 <i class="fas fa-file-alt"></i>
             </div>
-            <h3>{{ $modul->judul }}</h3>
-            <p>{{ $modul->deskripsi }}</p>
+            <h3>{{ $modul->title }}</h3> {{-- Ganti dari $modul->judul --}}
+            <p>{{ $modul->content ?? 'Tidak ada deskripsi.' }}</p> {{-- Ganti dari $modul->deskripsi --}}
             <div class="modul-meta">
                 <span><i class="fas fa-paperclip"></i> File: {{ basename($modul->file_path) }}</span>
             </div>
@@ -98,30 +98,32 @@
         <div class="footer-about">
           <div class="logo">
             <i class="fas fa-graduation-cap"></i>
-            <h3>EduPlatform</h3>
+            <h3>EduMas</h3>
           </div>
           <p>Platform pembelajaran online interaktif untuk membantu Anda mencapai tujuan akademik.</p>
         </div>
         <div class="footer-links">
-          <h4>Tautan Cepat</h4>
+          <h4>Created By Kelompok 3</h4>
           <ul>
-            <li><a href="index.html">Beranda</a></li>
-            <li><a href="modul.html">Modul</a></li>
-            <li><a href="tugas.html">Tugas</a></li>
-            <li><a href="#">Kontak</a></li>
+            <li>ABRAR WUJEDAAN</li>
+            <li>ISRANOFRIANTI</li>
+            <li>TRASMA ARRASMA AR</li>
+            <li>MUH. SYAHRUL MUBARAK</li>
+            <li>MUZHAR MAULANA</li>
+            <li>ZAKKIYA FITRA RAHMA DINA</li>
           </ul>
         </div>
         <div class="footer-contact">
           <h4>Hubungi Kami</h4>
           <ul>
-            <li><i class="fas fa-envelope"></i> hello@eduplatform.id</li>
+            <li><i class="fas fa-envelope"></i> hello@edumas.id</li>
             <li><i class="fas fa-phone"></i> +62 123 4567 890</li>
             <li><i class="fas fa-map-marker-alt"></i> Jakarta, Indonesia</li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2023 EduPlatform. All rights reserved.</p>
+        <p>&copy; 2025 EduMas. All rights reserved.</p>
         <div class="social-links">
           <a href="#"><i class="fab fa-instagram"></i></a>
           <a href="#"><i class="fab fa-twitter"></i></a>
