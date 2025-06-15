@@ -17,6 +17,7 @@ Route::post('/', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
+
 // Logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -95,7 +96,14 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-Route::post('/mahasiswa/tugas',[TugasController::class, 'store'])->name('modul.tugas');
+
+    // Menampilkan daftar tugas untuk modul
+Route::get('/mahasiswa/tugas', [TugasController::class, 'index'])->name('modul.tugas');
+
+    // Menangani upload tugas
+// Ganti dengan ini:
+Route::post('/modul/{modul_id}/upload-tugas', [TugasController::class, 'uploadTugas'])->name('modul.tugas.upload');
+
 
 // routes/web.php
 Route::middleware('auth')->group(function () {
