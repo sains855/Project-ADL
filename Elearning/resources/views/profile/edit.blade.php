@@ -294,7 +294,7 @@
                 <h2 class="section-title">Ubah Password</h2>
                 <form action="/profile/password" method="POST" id="password-form">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="_method" value="PUT">
+                    <input type="hidden" name="_method" value="PATCH">
 
                     <div class="form-group">
                         <label for="current_password">Password Saat Ini</label>
