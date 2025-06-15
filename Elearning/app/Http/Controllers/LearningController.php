@@ -220,4 +220,13 @@ class LearningController extends Controller
 
         return redirect()->back()->with('success', 'Tugas berhasil dihapus');
     }
+
+    public function showMahasiswaModul($classId)
+    {
+        $class = Classes::findOrFail($classId);
+        $modules = $class->modules; // Asumsi relasi sudah ada
+
+        return view('modul.dashboard', compact('class', 'modules'));
+    }
+
 }

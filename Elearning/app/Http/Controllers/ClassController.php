@@ -61,9 +61,11 @@ class ClassController extends Controller
      */
     public function show(Classes $class)
     {
-        $class->load(['teacher','students']);
-        return view('learning.detail', compact('class'));
+        $class->load(['teacher', 'students', 'moduls']);
+        return view('modul.dashboard', compact('class')); // ← ini penting
     }
+
+
     /**
      * Menampilkan form edit kelas
      */

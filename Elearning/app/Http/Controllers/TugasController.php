@@ -42,7 +42,8 @@ class TugasController extends Controller
             'file_url' => $fileUrl,
         ]);
 
-        return back()->with('success', 'Tugas berhasil dikumpulkan!');
+        return redirect()->back()->with('success', 'Upload berhasil!');
+
     }
 
     public function index()

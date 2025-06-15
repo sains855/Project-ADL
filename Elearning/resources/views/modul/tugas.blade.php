@@ -200,20 +200,20 @@
               </div>
               <div class="upload-container">
     <h2>Kirim Tugas</h2>
-    <form action="{{ route('modul.tugas') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <label for="file" class="upload-label">Pilih File Tugas:</label>
-        <input type="file" name="file" id="file" class="upload-input">
+            <form action="{{ route('modul.tugas') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <label for="file" class="upload-label">Pilih File Tugas:</label>
+                <input type="file" name="file" id="file" class="upload-input">
 
-        <button type="submit" class="upload-button">Upload</button>
+                <button type="submit" class="upload-button">Upload</button>
 
-        @if(session('success'))
-            <div class="success-message">
-                {{ session('success') }}
-            </div>
-        @endif
-    </form>
-</div>
+                @if(session('success'))
+                    <div class="success-message">
+                        {{ session('success') }}
+                    </div>
+                @endif
+            </form>
+        </div>
 
             </div>
           </div>

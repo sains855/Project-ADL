@@ -7,6 +7,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\LearningController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TugasController;
+use App\Models\Classes;
 
 // Halaman login
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
@@ -28,9 +29,22 @@ Route::get('/mahasiswa/dashboard', function () {
     return view ('modul.index');
 })->middleware('auth');
 
+
+Route::get('/mahasiswa/modul/{id}', function ($id) {
+    $class = Classes::with('moduls')->findOrFail($id);
+    return view('modul.dashboard', compact('class'));
+})->name('modul.dashboard')->middleware('auth');
+
+
+
 Route::get('/mahasiswa/modul', function () {
-    return view('modul.dashboard');
-})->middleware('auth');
+    $classes = Classes::all(); // Menampilkan semua kelas
+    return view('modul.kelas', compact('classes'));
+})->name('modul.kelas')->middleware('auth');
+Route::get('/mahasiswa/modul/{id}', [LearningController::class, 'showMahasiswaModul'])
+    ->name('modul.dashboard')->middleware('auth');
+
+
 
 Route::get('/mahasiswa/modul/tugas', function (){
     return view('modul.tugas');

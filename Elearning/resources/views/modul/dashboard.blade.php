@@ -67,70 +67,26 @@
           </div>
         </div>
 
-        <div class="modul-grid">
-          <div class="modul-card completed">
-            <div class="modul-badge completed">
-              <i class="fas fa-check"></i> Selesai
-            </div>
+                        <div class="modul-grid">
+        @forelse($class->moduls as $modul)
+            <div class="modul-card">
             <div class="modul-icon">
-              <i class="fas fa-laptop-code"></i>
+                <i class="fas fa-file-alt"></i>
             </div>
-            <h3>Pengenalan HTML & CSS</h3>
-            <p>Pelajari dasar-dasar pembuatan website dengan HTML dan CSS.</p>
+            <h3>{{ $modul->judul }}</h3>
+            <p>{{ $modul->deskripsi }}</p>
             <div class="modul-meta">
-              <span><i class="fas fa-book"></i> 12 Materi</span>
-              <span><i class="fas fa-clock"></i> 4 Jam</span>
+                <span><i class="fas fa-paperclip"></i> File: {{ basename($modul->file_path) }}</span>
             </div>
-            <a href="#" class="btn btn-outline">Lihat Materi</a>
-          </div>
+            <a href="{{ asset('storage/' . $modul->file_path) }}" class="btn btn-outline" target="_blank">Lihat Materi</a>
+            </div>
+        @empty
+            <p>Tidak ada modul yang tersedia untuk kelas ini.</p>
+        @endforelse
+        </div>
 
-          <div class="modul-card active">
-            <div class="modul-badge active">
-              <i class="fas fa-spinner"></i> Dalam Proses
-            </div>
-            <div class="modul-icon">
-              <i class="fas fa-mobile-alt"></i>
-            </div>
-            <h3>Desain UI/UX Mobile</h3>
-            <p>Prinsip desain antarmuka pengguna untuk aplikasi mobile.</p>
-            <div class="modul-meta">
-              <span><i class="fas fa-book"></i> 8 Materi</span>
-              <span><i class="fas fa-clock"></i> 3 Jam</span>
-            </div>
-            <a href="#" class="btn btn-primary">Lanjutkan</a>
-          </div>
 
-          <div class="modul-card">
-            <div class="modul-badge">
-              <i class="fas fa-lock"></i> Terkunci
-            </div>
-            <div class="modul-icon">
-              <i class="fas fa-database"></i>
-            </div>
-            <h3>Database Fundamental</h3>
-            <p>Konsep dasar database dan SQL untuk pemula.</p>
-            <div class="modul-meta">
-              <span><i class="fas fa-book"></i> 10 Materi</span>
-              <span><i class="fas fa-clock"></i> 5 Jam</span>
-            </div>
-            <a href="#" class="btn btn-disabled">Mulai Belajar</a>
-          </div>
 
-          <div class="modul-card">
-            <div class="modul-badge">
-              <i class="fas fa-lock"></i> Terkunci
-            </div>
-            <div class="modul-icon">
-              <i class="fas fa-chart-line"></i>
-            </div>
-            <h3>Analisis Data</h3>
-            <p>Teknik analisis data menggunakan tools modern.</p>
-            <div class="modul-meta">
-              <span><i class="fas fa-book"></i> 15 Materi</span>
-              <span><i class="fas fa-clock"></i> 6 Jam</span>
-            </div>
-            <a href="#" class="btn btn-disabled">Mulai Belajar</a>
-          </div>
         </div>
       </div>
     </section>

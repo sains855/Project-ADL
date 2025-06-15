@@ -15,4 +15,16 @@ class Classes extends Model
     {
         return $this->belongsTo(User::class, 'teacher_id');
     }
+
+    public function moduls()
+    {
+        return $this->hasMany(Modul::class, 'class_id');
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'class_user', 'class_id', 'user_id')
+                    ->where('role', 'student');
+    }
+
 }
