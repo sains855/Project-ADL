@@ -261,7 +261,7 @@
                 <h2 class="section-title">Informasi Profil</h2>
                 <form action="/profile" method="POST" id="profile-form">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="_method" value="PUT">
+                    <input type="hidden" name="_method" value="PATCH">
 
                     <div class="form-group">
                         <label for="name">Nama Lengkap</label>

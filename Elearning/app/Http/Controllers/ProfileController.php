@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -47,14 +48,15 @@ class ProfileController extends Controller
             'role' => ['required', Rule::in(['dosen', 'mahasiswa'])],
         ]);
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role' => $request->role,
-        ]);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = $request->role;
+        if ($user instanceof \App\Models\User) {
+            $user->save();
+        }
 
         // Reset email verification if email changed
-        if ($user->wasChanged('email')) {
+        if ($user instanceof \App\Models\User && $user->wasChanged('email')) {
             $user->email_verified_at = null;
             $user->save();
 
@@ -80,10 +82,9 @@ class ProfileController extends Controller
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
-        $user = Auth::user();
-        $user->update([
-            'password' => Hash::make($request->password),
-        ]);
+        $user = User::find(Auth::id());
+        $user->password = Hash::make($request->password);
+        $user->save();
 
         return redirect()->route('profile.show')
             ->with('success', 'Password berhasil diperbarui!');
@@ -100,7 +101,7 @@ class ProfileController extends Controller
             'password.current_password' => 'Password tidak benar.',
         ]);
 
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
         Auth::logout();
 
@@ -115,18 +116,4 @@ class ProfileController extends Controller
     /**
      * Verify email address.
      */
-    public function verifyEmail()
-    {
-        $user = Auth::user();
-
-        if ($user->hasVerifiedEmail()) {
-            return redirect()->route('profile.show')
-                ->with('info', 'Email sudah terverifikasi.');
-        }
-
-        $user->sendEmailVerificationNotification();
-
-        return redirect()->route('profile.show')
-            ->with('success', 'Link verifikasi email telah dikirim!');
-    }
 }
