@@ -107,7 +107,7 @@ Route::get('/mahasiswa/tugas', [TugasController::class, 'index'])->name('modul.t
 
 // Menangani upload tugas
 // Ganti dengan ini:
-Route::post('/modul/{modul_id}/upload-tugas', [TugasController::class, 'uploadTugas'])->name('modul.tugas.upload');
+Route::post('/modul/{modul_id}/upload-tugas', [TugasController::class, 'uploadTugas'])->name('tugas.upload');
 
 
 // routes/web.php

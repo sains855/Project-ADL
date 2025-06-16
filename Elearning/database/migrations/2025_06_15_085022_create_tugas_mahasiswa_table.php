@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tugas_mahasiswas', function (Blueprint $table) {
-    $table->id();
-    $table->unsignedBigInteger('modul_id'); // Pastikan kolom ini ada
-    $table->unsignedBigInteger('mahasiswa_id');
-    $table->text('jawaban')->nullable();
-    $table->string('file_path')->nullable();
-    $table->timestamps();
+        Schema::create('tugas_mahasiswa', function (Blueprint $table) {
+        $table->id();
+        $table->unsignedBigInteger('modul_id'); // Pastikan kolom ini ada
+        $table->unsignedBigInteger('mahasiswa_id');
+        $table->text('jawaban')->nullable();
+        $table->string('file_path')->nullable();
+        $table->timestamps();
 
-    // Foreign keys
-    $table->foreign('modul_id')->references('id')->on('modules')->onDelete('cascade');
-    $table->foreign('mahasiswa_id')->references('id')->on('users')->onDelete('cascade');
+        // Foreign keys
+        $table->foreign('modul_id')->references('id')->on('modules')->onDelete('cascade');
+        $table->foreign('mahasiswa_id')->references('id')->on('users')->onDelete('cascade');
 });
 
 }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tugas_mahasiswas');
+        Schema::dropIfExists('tugas_mahasiswa');
     }
 };
