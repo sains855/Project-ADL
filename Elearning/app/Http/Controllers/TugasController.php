@@ -6,6 +6,8 @@ use App\Models\AssignmentSubmission;
 use App\Models\Assignment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Classes;
+use App\Models\Module;
 
 class TugasController extends Controller
 {
@@ -15,7 +17,6 @@ class TugasController extends Controller
 
         // Ambil semua assignment
         $assignments = Assignment::all();
-
         // Cek untuk setiap assignment apakah user sudah mengumpulkan tugas
         $uploadedTugas = [];
         foreach ($assignments as $assignment) {

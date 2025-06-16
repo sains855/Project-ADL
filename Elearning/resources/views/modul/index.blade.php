@@ -102,7 +102,7 @@
             <li>ABRAR WUJEDAAN</li>
             <li>ISRANOFRIANTI</li>
             <li>TRASMA ARRASMA AR</li>
-            <li>MUH. SYAHRUL MUBARAK/a></li>
+            <li>MUH. SYAHRUL MUBARAK</li>
             <li>MUZHAR MAULANA</li>
             <li>ZAKKIYA FITRA RAHMA DINA</li>
           </ul>

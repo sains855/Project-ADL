@@ -95,7 +95,7 @@
               <div class="tugas-header">
                 <h3>
                   <i class="fas fa-book"></i>
-                  {{ $assignment->modul->name ?? 'Kelas Tidak Diketahui' }} - {{ $assignment->title }}
+                  {{ $assignment->module->title ?? 'Kelas Tidak Diketahui' }} - {{ $assignment->title }}
                 </h3>
                 <span class="priority {{ $uploadedTugas[$assignment->id] ? 'completed' : 'urgent' }}">
                   <i class="fas {{ $uploadedTugas[$assignment->id] ? 'fa-check-circle' : 'fa-exclamation-circle' }}"></i>
