@@ -85,7 +85,7 @@ class AssignmentSubmissionController extends Controller
     public function getSubmissionDetail($submissionId)
     {
         try {
-            $submission = AssignmentSubmission::with(['user:id,name,email,nim', 'assignment:id,title,description,modul_id'])
+            $submission = AssignmentSubmission::with(['user:id,name,email', 'assignment:id,title,description,modul_id'])
                 ->find($submissionId);
 
             if (!$submission) {

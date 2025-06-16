@@ -90,39 +90,48 @@
     <section class="tugas-section">
       <div class="container">
         <div class="tugas-grid">
-          @foreach ($moduls as $modul)
-            <div class="tugas-card {{ $uploadedTugas[$modul->id] ? 'completed' : 'urgent' }}">
+          @foreach ($assignments as $assignment)
+            <div class="tugas-card {{ $uploadedTugas[$assignment->id] ? 'completed' : 'urgent' }}">
               <div class="tugas-header">
                 <h3>
                   <i class="fas fa-book"></i>
-                  {{ $modul->class->name ?? 'Kelas Tidak Diketahui' }} - {{ $modul->title }}
+                  {{ $assignment->modul->name ?? 'Kelas Tidak Diketahui' }} - {{ $assignment->title }}
                 </h3>
-                <span class="priority {{ $uploadedTugas[$modul->id] ? 'completed' : 'urgent' }}">
-                  <i class="fas {{ $uploadedTugas[$modul->id] ? 'fa-check-circle' : 'fa-exclamation-circle' }}"></i>
-                  {{ $uploadedTugas[$modul->id] ? 'Terkumpul' : 'Belum Terkumpul' }}
+                <span class="priority {{ $uploadedTugas[$assignment->id] ? 'completed' : 'urgent' }}">
+                  <i class="fas {{ $uploadedTugas[$assignment->id] ? 'fa-check-circle' : 'fa-exclamation-circle' }}"></i>
+                  {{ $uploadedTugas[$assignment->id] ? 'Terkumpul' : 'Belum Terkumpul' }}
                 </span>
               </div>
 
-              <p>{{ $modul->deskripsi }}</p>
+              <p>{{ $assignment->deskripsi }}</p>
               <div class="tugas-meta">
                 <div class="meta-item">
                   <i class="fas fa-calendar-alt"></i>
-                  <span>Deadline: {{ \Carbon\Carbon::parse($modul->deadline)->format('d M Y') }}</span>
+                  <span>Deadline: {{ \Carbon\Carbon::parse($assignment->deadline)->format('d M Y') }}</span>
                 </div>
               </div>
 
               <div class="tugas-footer">
-                @if ($uploadedTugas[$modul->id])
+                @if ($uploadedTugas[$assignment->id])
                   <div class="upload-container">
                     <p class="success-message">✅ Tugas telah diupload. Anda tidak dapat mengunggah ulang.</p>
+                    <a href="{{ route('tugas.submission.show', $assignment->id) }}" class="upload-button" style="display: inline-block; text-align: center; text-decoration: none; margin-top: 10px;">
+                      <i class="fas fa-eye"></i> Lihat Detail Submission
+                    </a>
                   </div>
                 @else
                   <div class="upload-container">
-                    <form action="{{ route('modul.tugas.upload', ['modul_id' => $modul->id]) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('tugas.upload', $assignment->id) }}" method="POST" enctype="multipart/form-data">
                       @csrf
-                      <label class="upload-label" for="file_{{ $modul->id }}">Upload Tugas:</label>
-                      <input type="file" name="file" id="file_{{ $modul->id }}" class="upload-input" required>
-                      <button type="submit" class="upload-button">Upload</button>
+                      <label class="upload-label" for="file_{{ $assignment->id }}">Upload Tugas:</label>
+                      <input type="file" name="file" id="file_{{ $assignment->id }}" class="upload-input" accept=".pdf,.docx,.zip" required>
+                      <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
+                        Format yang diizinkan: PDF, DOCX, ZIP (Maks. 20MB)
+                      </small>
+                      <input type="hidden" name="assignment_id" value="{{ $assignment->id }}">
+                      <button type="submit" class="upload-button">
+                        <i class="fas fa-upload"></i> Upload Tugas
+                      </button>
                     </form>
                   </div>
                 @endif
@@ -175,10 +184,33 @@
     </div>
   </footer>
 
+  <!-- Success/Error Messages -->
+  @if(session('success'))
+    <div style="position: fixed; top: 20px; right: 20px; background: #4CAF50; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
+      {{ session('success') }}
+    </div>
+  @endif
+
+  @if(session('error'))
+    <div style="position: fixed; top: 20px; right: 20px; background: #f44336; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
+      {{ session('error') }}
+    </div>
+  @endif
+
   <script>
     function toggleDropdown() {
       document.getElementById("dropdownContent").classList.toggle("show");
     }
+
+    // Auto hide messages after 5 seconds
+    setTimeout(function() {
+      const messages = document.querySelectorAll('[style*="position: fixed"]');
+      messages.forEach(function(message) {
+        if (message.style.position === 'fixed') {
+          message.style.display = 'none';
+        }
+      });
+    }, 5000);
   </script>
 </body>
 </html>

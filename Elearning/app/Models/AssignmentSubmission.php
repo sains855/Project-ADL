@@ -14,8 +14,6 @@ class AssignmentSubmission extends Model
         'user_id',
         'submitted_at',
         'file_url',
-        'grade',
-        'feedback'
     ];
 
     /**
