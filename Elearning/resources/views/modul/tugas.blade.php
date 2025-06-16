@@ -12,7 +12,7 @@
         max-width: 400px;
         margin-top: 20px;
         padding: 20px;
-        background: #ffffff;
+        background: #8598caeb;
         border-radius: 15px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
@@ -67,7 +67,7 @@
             <span>▼</span>
           </button>
           <div class="dropdown-content" id="dropdownContent">
-            <a href="{{ route('profile.show') }}" class="dropdown-item">👤 Profile</a>
+            <a href="{{ route('profile.index') }}" class="dropdown-item">👤 Profile</a>
             <form method="POST" action="{{ route('logout') }}">
               @csrf
               <button type="submit" class="dropdown-item">🚪 Logout</button>

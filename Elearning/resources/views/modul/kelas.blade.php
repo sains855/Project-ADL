@@ -27,7 +27,7 @@
             <span>▼</span>
           </button>
           <div class="dropdown-content" id="dropdownContent">
-            <a href="{{ route('profile.show') }}" class="dropdown-item">👤 Profile</a>
+            <a href="{{ route('profile.index') }}" class="dropdown-item">👤 Profile</a>
             <form method="POST" action="{{ route('logout') }}">
               @csrf
               <button type="submit" class="dropdown-item">🚪 Logout</button>

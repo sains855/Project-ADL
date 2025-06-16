@@ -125,7 +125,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/verify-email', [ProfileController::class, 'verifyEmail'])->name('profile.verify-email');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.index');
+
 });
+
+
 // Di routes/api.php atau routes/web.php
 Route::middleware(['auth'])->group(function () {
     // Route untuk dosen melihat submissions
