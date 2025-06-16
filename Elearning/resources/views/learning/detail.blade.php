@@ -656,6 +656,7 @@
                         <div class="tasks-section">
                             <div class="tasks-header">
                                 <div class="tasks-title">Tugas</div>
+                                                            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" id="user_id">
                                 <button class="btn btn-secondary btn-small"
                                     onclick="openAddTaskModal({{ $module->id }})">
                                     <svg class="icon" viewBox="0 0 24 24">
