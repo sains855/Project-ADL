@@ -115,9 +115,6 @@
                 @if ($uploadedTugas[$assignment->id])
                   <div class="upload-container">
                     <p class="success-message">✅ Tugas telah diupload. Anda tidak dapat mengunggah ulang.</p>
-                    <a href="{{ route('tugas.submission.show', $assignment->id) }}" class="upload-button" style="display: inline-block; text-align: center; text-decoration: none; margin-top: 10px;">
-                      <i class="fas fa-eye"></i> Lihat Detail Submission
-                    </a>
                   </div>
                 @else
                   <div class="upload-container">
