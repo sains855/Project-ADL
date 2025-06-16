@@ -188,7 +188,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function() {
     // Route untuk halaman view submissions
     Route::get('/assignments/{assignmentId}/submissions', [AssignmentSubmissionController::class, 'showSubmissionsPage'])
-        ->name('assignments.submissions.index');
+        ->name('tugas.submission.show');
 
     // Route untuk API endpoints
     Route::prefix('api')->group(function() {
