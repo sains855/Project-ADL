@@ -185,31 +185,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::middleware(['auth'])->group(function() {
-    // Route untuk halaman view submissions
-    Route::get('/assignments/{assignmentId}/submissions', [AssignmentSubmissionController::class, 'showSubmissionsPage'])
-        ->name('tugas.submission.show');
-
-    // Route untuk API endpoints
-    Route::prefix('api')->group(function() {
-        // Get all submissions for an assignment
-        Route::get('/assignments/{assignmentId}/submissions', [AssignmentSubmissionController::class, 'getSubmissionsByAssignment'])
-            ->name('api.assignments.submissions');
-
-        // Get submission statistics
-        Route::get('/assignments/{assignmentId}/submissions/stats', [AssignmentSubmissionController::class, 'getSubmissionStats'])
-            ->name('api.assignments.submissions.stats');
-
-        // Search submissions
-        Route::get('/assignments/{assignmentId}/submissions/search', [AssignmentSubmissionController::class, 'searchSubmissions'])
-            ->name('api.assignments.submissions.search');
-
-        // Get submission detail
-        Route::get('/submissions/{submissionId}/detail', [AssignmentSubmissionController::class, 'getSubmissionDetail'])
-            ->name('api.submissions.detail');
-
-        // Download submission file
-        Route::get('/submissions/{submissionId}/download', [AssignmentSubmissionController::class, 'downloadSubmission'])
-            ->name('api.submissions.download');
-    });
-});
+Route::get('/assignment-submissions/module/{moduleId}', [AssignmentSubmissionController::class, 'byModule'])
+    ->name('assignment-submissions.byModule');

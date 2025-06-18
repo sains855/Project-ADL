@@ -1,56 +1,46 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Assignment</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Assignment Submissions by Module</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="mb-4">📚 Daftar Assignment Anda</h2>
+<div class="container mt-5">
+    <h2>Daftar Pengumpulan Tugas untuk Modul: {{ $moduleName }}</h2>
 
-        @if ($assignments->isEmpty())
-            <div class="alert alert-warning">
-                Belum ada assignment yang Anda buat.
-            </div>
-        @else
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>#</th>
-                            <th>Judul</th>
-                            <th>Kelas</th>
-                            <th>Modul</th>
-                            <th>Batas Waktu</th>
-                            <th>Dibuat</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($assignments as $index => $assignment)
-                            <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $assignment->title }}</td>
-                                <td>{{ $assignment->class->name ?? '-' }}</td>
-                                <td>{{ $assignment->module->title ?? '-' }}</td>
-                                <td>{{ \Carbon\Carbon::parse($assignment->due_date)->format('d M Y H:i') }}</td>
-                                <td>{{ $assignment->created_at->diffForHumans() }}</td>
-                                <td>
-                                    <a href="{{ route('assignments.submissions.view', $assignment->id) }}" class="btn btn-primary btn-sm">
-                                        📄 Submission
-                                    </a>
-                                    <a href="{{ route('assignments.submissions.stats', $assignment->id) }}" class="btn btn-secondary btn-sm">
-                                        📊 Statistik
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endif
-    </div>
+    @if ($submissions->isEmpty())
+        <div class="alert alert-warning mt-4">
+            Belum ada pengumpulan tugas untuk modul ini.
+        </div>
+    @else
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nama Siswa</th>
+                    <th>Judul Tugas</th>
+                    <th>Tanggal Pengumpulan</th>
+                    <th>File</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($submissions as $submission)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $submission->user->name }}</td>
+                        <td>{{ $submission->assignment->title ?? '-' }}</td>
+                        <td>{{ \Carbon\Carbon::parse($submission->submitted_at)->format('d M Y H:i') }}</td>
+                        <td>
+                            <a href="{{ asset('storage/ '. $submission->file_url) }}" target="_blank" class="btn btn-sm btn-primary">
+                                Lihat File
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+</div>
 </body>
 </html>

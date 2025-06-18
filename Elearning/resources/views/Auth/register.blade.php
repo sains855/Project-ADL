@@ -21,7 +21,7 @@
                     <div class="w-8 h-8 bg-yellow-400 rounded-lg flex items-center justify-center mr-3">
                         <span class="text-blue-800 font-bold">📚</span>
                     </div>
-                    <h1 class="text-2xl font-bold">EduLearn</h1>
+                    <h1 class="text-2xl font-bold">EduMas</h1>
                 </div>
                 <p class="text-blue-100">
                     Bergabunglah dengan ribuan pelajar lainnya dan mulai perjalanan pembelajaran digital Anda bersama kami. Akses ke ratusan kursus berkualitas tinggi menanti Anda.

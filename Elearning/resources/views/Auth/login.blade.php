@@ -272,7 +272,7 @@
             <div class="row g-0">
                 <div class="col-lg-6">
                     <div class="left-panel">
-                        <div class="welcome-title">SELAMAT DATANG DI SIPANDU</div>
+                        <div class="welcome-title">SELAMAT DATANG DI EduMas</div>
                         <div class="welcome-subtitle">Website Pelabuhan untuk Pembelajaran Dosen dan Mahasiswa</div>
 
                         <div class="illustration">
