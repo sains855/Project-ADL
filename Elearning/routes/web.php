@@ -184,6 +184,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/assignments', [AssignmentController::class, 'store'])->name('assignments.store');
 });
 
-
+Route::middleware(['auth'])->group(function () {
 Route::get('/assignment/{assignmentId}/submissions', [AssignmentSubmissionController::class, 'indexByAssignment'])
     ->name('assignment.submissions.index');
+});
