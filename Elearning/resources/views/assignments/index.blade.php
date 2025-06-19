@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Daftar Pengumpulan Tugas</title>
@@ -7,75 +8,76 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 46, 109, 0.1);
             padding: 2rem;
             margin-top: 2rem;
             margin-bottom: 2rem;
+            border: 1px solid rgba(0, 82, 204, 0.1);
         }
 
         .page-header {
-            background: linear-gradient(135deg, #2196F3, #1976D2);
+            background: linear-gradient(135deg, #0052cc, #0066ff);
             color: white;
             padding: 2rem;
             border-radius: 15px;
             margin-bottom: 2rem;
-            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 82, 204, 0.2);
         }
 
         .page-header h2 {
             margin: 0;
             font-weight: 600;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .assignment-info {
-            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            background: #f0f7ff;
             border: none;
             border-radius: 12px;
             padding: 1rem;
             margin-bottom: 1.5rem;
-            border-left: 4px solid #2196F3;
+            border-left: 4px solid #0052cc;
+            color: #002b5c;
         }
 
         .btn-back {
-            background: linear-gradient(135deg, #2196F3, #1976D2);
+            background: linear-gradient(135deg, #0052cc, #0066ff);
             border: none;
             border-radius: 25px;
             padding: 0.75rem 1.5rem;
             color: white;
             font-weight: 500;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 82, 204, 0.2);
             text-decoration: none;
             display: inline-block;
         }
 
         .btn-back:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 82, 204, 0.3);
             color: white;
+            background: linear-gradient(135deg, #0066ff, #0052cc);
             text-decoration: none;
         }
 
         .table {
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border: none;
+            box-shadow: 0 10px 30px rgba(0, 46, 109, 0.05);
+            border: 1px solid #e6f0ff;
         }
 
         .table thead th {
-            background: linear-gradient(135deg, #2196F3, #1976D2);
+            background: linear-gradient(135deg, #0052cc, #0066ff);
             color: white;
             font-weight: 600;
             border: none;
@@ -85,21 +87,26 @@
 
         .table tbody tr {
             transition: all 0.3s ease;
+            border-bottom: 1px solid #e6f0ff;
+        }
+
+        .table tbody tr:last-child {
+            border-bottom: none;
         }
 
         .table tbody tr:hover {
-            background-color: #E3F2FD;
+            background-color: #f5faff;
             transform: scale(1.01);
         }
 
         .table tbody td {
             padding: 1rem;
-            border-color: #E3F2FD;
+            border-color: #e6f0ff;
             vertical-align: middle;
         }
 
         .file-link {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
+            background: linear-gradient(135deg, #0052cc, #0066ff);
             color: white;
             text-decoration: none;
             padding: 0.5rem 1rem;
@@ -108,52 +115,68 @@
             font-weight: 500;
             transition: all 0.3s ease;
             display: inline-block;
+            border: none;
         }
 
         .file-link:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 82, 204, 0.3);
             color: white;
             text-decoration: none;
+            background: linear-gradient(135deg, #0066ff, #0052cc);
         }
 
         .alert-custom {
-            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+            background: #fff8e6;
             border: none;
             border-radius: 12px;
-            border-left: 4px solid #FF9800;
-            color: #E65100;
+            border-left: 4px solid #ffc400;
+            color: #664d00;
             font-weight: 500;
         }
 
         .table-stats {
-            background: linear-gradient(135deg, #E8F5E8, #C8E6C9);
+            background: #f0f7ff;
             border-radius: 10px;
             padding: 1rem;
             margin-bottom: 1rem;
-            border-left: 4px solid #4CAF50;
+            border-left: 4px solid #0052cc;
         }
 
         .stat-number {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #2E7D32;
+            color: #0052cc;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .fade-in {
             animation: fadeIn 0.6s ease-out;
         }
+
+        .badge {
+            background-color: #e6f0ff;
+            color: #0052cc;
+            font-weight: 600;
+        }
     </style>
 </head>
+
 <body>
     <div class="container fade-in">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="/dosen" class="btn-back">
+            <a href="{{ route('learning.detail', ['classId' => $assignment->class_id]) }}" class="btn-back">
                 <i class="fas fa-arrow-left me-2"></i>Kembali
             </a>
         </div>
@@ -163,10 +186,11 @@
         </div>
 
         <div class="assignment-info">
-            <p class="mb-0"><strong><i class="fas fa-id-card me-2"></i>Assignment ID:</strong> {{ $assignment->id }}</p>
+            <p class="mb-0"><strong><i class="fas fa-id-card me-2"></i>Assignment ID:</strong> {{ $assignment->id }}
+            </p>
         </div>
 
-        @if($submissions->isEmpty())
+        @if ($submissions->isEmpty())
             <div class="alert alert-custom mt-3">
                 <i class="fas fa-exclamation-triangle me-2"></i>
                 Belum ada pengumpulan tugas.
@@ -174,7 +198,7 @@
         @else
             <div class="table-stats">
                 <div class="d-flex align-items-center">
-                    <i class="fas fa-users me-3 text-success" style="font-size: 1.5rem;"></i>
+                    <i class="fas fa-users me-3" style="font-size: 1.5rem; color: #0052cc;"></i>
                     <div>
                         <div class="stat-number">{{ count($submissions) }}</div>
                         <small class="text-muted">Total Pengumpulan</small>
@@ -193,13 +217,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($submissions as $index => $submission)
+                        @foreach ($submissions as $index => $submission)
                             <tr>
                                 <td class="text-center">
-                                    <span class="badge bg-primary rounded-pill">{{ $index + 1 }}</span>
+                                    <span class="badge rounded-pill">{{ $index + 1 }}</span>
                                 </td>
                                 <td>
-                                    <i class="fas fa-user-circle me-2 text-primary"></i>
+                                    <i class="fas fa-user-circle me-2" style="color: #0052cc;"></i>
                                     {{ $submission->user->name ?? 'Tidak Diketahui' }}
                                 </td>
                                 <td>
@@ -207,7 +231,8 @@
                                     {{ $submission->submitted_at }}
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ asset('storage/' . $submission->file_url) }}" target="_blank" class="file-link">
+                                    <a href="{{ asset('storage/' . $submission->file_url) }}" target="_blank"
+                                        class="file-link">
                                         <i class="fas fa-download me-2"></i>Lihat File
                                     </a>
                                 </td>
@@ -219,4 +244,5 @@
         @endif
     </div>
 </body>
+
 </html>

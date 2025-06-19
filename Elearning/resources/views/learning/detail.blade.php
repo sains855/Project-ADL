@@ -656,7 +656,7 @@
                         <div class="tasks-section">
                             <div class="tasks-header">
                                 <div class="tasks-title">Tugas</div>
-                                                            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" id="user_id">
+                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}" id="user_id">
                                 <button class="btn btn-secondary btn-small"
                                     onclick="openAddTaskModal({{ $module->id }})">
                                     <svg class="icon" viewBox="0 0 24 24">
@@ -685,6 +685,14 @@
                                                 </div>
                                             </div>
                                             <div class="task-actions">
+                                                <a href="{{ route('assignment.submissions.index', ['assignmentId' => $assignment->id]) }}"
+                                                    class="btn btn-small" style="background: #4CAF50; color: white;">
+                                                    <svg class="icon" viewBox="0 0 24 24">
+                                                        <path
+                                                            d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                                                    </svg>
+                                                    Lihat Submisi
+                                                </a>
                                                 <button class="btn btn-edit btn-small"
                                                     onclick="editTask({{ $assignment->id }}, '{{ $assignment->title }}', '{{ addslashes($assignment->description) }}', '{{ $assignment->due_date }}', '{{ $assignment->status ?? 'Aktif' }}')">
                                                     <svg class="icon" viewBox="0 0 24 24">
@@ -773,46 +781,47 @@
             <span class="close" onclick="closeModal('taskModal')">&times;</span>
             <h2 id="taskModalTitle">Tambah Tugas Baru</h2>
 
-<form id="taskForm" method="POST" action="{{ route('assignments.store') }}">
-    @csrf
+            <form id="taskForm" method="POST" action="{{ route('assignments.store') }}">
+                @csrf
 
-    <input type="hidden" name="_method" id="taskMethod" value="POST">
+                <input type="hidden" name="_method" id="taskMethod" value="POST">
 
-    {{-- Hidden module_id dan class_id --}}
-    <input type="hidden" id="taskModuleId" name="module_id">
+                {{-- Hidden module_id dan class_id --}}
+                <input type="hidden" id="taskModuleId" name="module_id">
 
-   <input type="hidden" id="taskClassId" name="class_id" value="{{ $class->id }}">
+                <input type="hidden" id="taskClassId" name="class_id" value="{{ $class->id }}">
 
 
-    <div class="form-group">
-        <label for="taskTitle">Judul Tugas:</label>
-        <input type="text" id="taskTitle" name="title" required>
-    </div>
+                <div class="form-group">
+                    <label for="taskTitle">Judul Tugas:</label>
+                    <input type="text" id="taskTitle" name="title" required>
+                </div>
 
-    <div class="form-group">
-        <label for="taskDescription">Deskripsi Tugas:</label>
-        <textarea id="taskDescription" name="description" required></textarea>
-    </div>
+                <div class="form-group">
+                    <label for="taskDescription">Deskripsi Tugas:</label>
+                    <textarea id="taskDescription" name="description" required></textarea>
+                </div>
 
-    <div class="form-group">
-        <label for="taskDeadline">Deadline:</label>
-        <input type="date" id="taskDeadline" name="due_date" required>
-    </div>
+                <div class="form-group">
+                    <label for="taskDeadline">Deadline:</label>
+                    <input type="date" id="taskDeadline" name="due_date" required>
+                </div>
 
-    <div class="form-group">
-        <label for="taskStatus">Status:</label>
-        <select id="taskStatus" name="status">
-            <option value="Aktif">Aktif</option>
-            <option value="Draft">Draft</option>
-            <option value="Selesai">Selesai</option>
-        </select>
-    </div>
+                <div class="form-group">
+                    <label for="taskStatus">Status:</label>
+                    <select id="taskStatus" name="status">
+                        <option value="Aktif">Aktif</option>
+                        <option value="Draft">Draft</option>
+                        <option value="Selesai">Selesai</option>
+                    </select>
+                </div>
 
-    <div style="display: flex; gap: 15px; justify-content: flex-end;">
-        <button type="button" class="btn" onclick="closeModal('taskModal')" style="background: #ccc; color: #333;">Batal</button>
-        <button type="submit" class="btn btn-primary">Simpan</button>
-    </div>
-</form>
+                <div style="display: flex; gap: 15px; justify-content: flex-end;">
+                    <button type="button" class="btn" onclick="closeModal('taskModal')"
+                        style="background: #ccc; color: #333;">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
 
         </div>
     </div>
