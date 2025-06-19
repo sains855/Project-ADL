@@ -2,30 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AssignmentSubmission;
 use App\Models\Assignment;
-use App\Models\Module;
 use Illuminate\Http\Request;
 
 class AssignmentSubmissionController extends Controller
 {
     /**
-     * Tampilkan data pengumpulan tugas berdasarkan modul.
+     * Tampilkan daftar submission berdasarkan assignment_id.
      *
-     * @param int $moduleId
-     * @return \Illuminate\Http\Response
+     * @param  int  $assignmentId
+     * @return \Illuminate\View\View
      */
-
-    public function byModule($moduleId)
+    public function indexByAssignment($assignmentId)
     {
-        $submissions = AssignmentSubmission::with(['assignment', 'user', 'assignment.module'])
-            ->whereHas('assignment', function ($query) use ($moduleId) {
-                $query->where('module_id', $moduleId);
-            })
-            ->get();
+        // Ambil data assignment berdasarkan ID
+        $assignment = Assignment::findOrFail($assignmentId);
+        $assignment = Assignment::with('classes')->findOrFail($assignmentId);
 
-        $moduleName = Module::find($moduleId)?->name ?? 'Modul Tidak Diketahui';
+        // Ambil semua submission untuk assignment ini, beserta data user
+        $submissions = $assignment->submissions()->with('user')->get();
 
-        return view('assignments.index', compact('submissions', 'moduleName'));
+        // Kirim data ke view
+        return view('assignments.index', [
+            'assignment' => $assignment,
+            'classes' => $assignment->Classes,
+            'submissions' => $submissions,
+        ]);
     }
 }

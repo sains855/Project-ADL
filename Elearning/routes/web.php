@@ -185,5 +185,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::get('/assignment-submissions/module/{moduleId}', [AssignmentSubmissionController::class, 'byModule'])
-    ->name('assignment-submissions.byModule');
+Route::get('/assignment/{assignmentId}/submissions', [AssignmentSubmissionController::class, 'indexByAssignment'])
+    ->name('assignment.submissions.index');

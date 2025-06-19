@@ -19,7 +19,7 @@ class Assignment extends Model
         return $this->belongsTo(Module::class);
     }
 
-        public function Classes()
+        public function classes()
     {
         return $this->belongsTo(Classes::class);
     }

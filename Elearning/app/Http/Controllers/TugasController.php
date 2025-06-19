@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -45,7 +46,9 @@ class TugasController extends Controller
         ]);
 
         // Simpan file
-        $path = $request->file('file')->store('tugas_mahasiswa');
+        $file = $request->file('file');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $path = $file->storeAs('uploads', $fileName, 'public');
 
         // Buat record baru di AssignmentSubmission
         AssignmentSubmission::create([
