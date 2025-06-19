@@ -75,13 +75,6 @@
             <h3>Fleksibel</h3>
             <p>Belajar kapan saja dan di mana saja sesuai dengan waktu luang Anda.</p>
           </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-chart-line"></i>
-            </div>
-            <h3>Progress Tracking</h3>
-            <p>Pantau perkembangan belajar Anda dengan sistem pelacakan yang komprehensif.</p>
-          </div>
         </div>
       </div>
     </section>
