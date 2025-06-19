@@ -60,7 +60,7 @@
               </div>
               <h3>{{ $class->name }}</h3>
               <p>{{ $class->description ?? 'Tidak ada deskripsi.' }}</p>
-              <a href="{{ route('modul.dashboard', $class->id) }}" class="btn btn-primary">Lihat Modul</a>
+              <a href="{{ route('modul.dashboard', $class->id) }}" class="btn btn-primary">Lihat Kelas</a>
             </div>
           @empty
             <p>Tidak ada kelas yang tersedia saat ini.</p>
