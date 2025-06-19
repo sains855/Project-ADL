@@ -32,6 +32,7 @@
               @csrf
               <button type="submit" class="dropdown-item">🚪 Logout</button>
             </form>
+            <a href="../chatify" class="dropdown-item">💬 Chat</a>
           </div>
         </div>
       </nav>
